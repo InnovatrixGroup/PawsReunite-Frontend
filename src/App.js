@@ -1,10 +1,10 @@
 import "./App.css";
 import { Routes, Route, Outlet } from "react-router-dom";
+import Navbar from "./components/Navbar";
 import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
-import LostPetsPage from "./pages/pets/LostPetsPage";
-import FoundPetsPage from "./pages//pets/FoundPetsPage";
+import PetPostsPage from "./pages/pets/PetPostsPage";
 import SinglePostPage from "./pages/pets/SinglePostPage";
 import ContactPage from "./pages/ContactPage";
 import PetResourcePage from "./pages/PetResourcePage";
@@ -15,15 +15,15 @@ import CreatePostPage from "./pages/personalDetail/CreatePostPage";
 function App() {
   return (
     <div className="App">
+      <Navbar />
       <Routes>
-        {/* admin page? */}
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/pets" element={<Outlet />}>
-          <Route path="lostPets" element={<LostPetsPage />} />
-          <Route path="foundPets" element={<FoundPetsPage />} />
+          <Route index element={<PetPostsPage />} />
           <Route path=":id" element={<SinglePostPage />} />
+          <Route path=":id/edit" element={<EditProfilePage />} />
         </Route>
         <Route path="/petResource" element={<PetResourcePage />} />
         <Route path="/contact" element={<ContactPage />} />
