@@ -11,11 +11,13 @@ import PetResourcePage from "./pages/PetResourcePage";
 import PersonalDetailPage from "./pages/personalDetail/PersonalDetailPage";
 import EditProfilePage from "./pages/personalDetail/EditProfilePage";
 import CreatePostPage from "./pages/personalDetail/CreatePostPage";
+import NavbarNew from "./components/NavbarNew";
 
 function App() {
   return (
-    <div className="App">
-      <Navbar />
+    <div className="App max-w-7xl mx-auto">
+      {/* <Navbar /> */}
+      <NavbarNew />
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<LoginPage />} />
