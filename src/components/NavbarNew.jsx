@@ -7,6 +7,8 @@ import logo from '../pics/logo.png'
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import Dropdown from './Dropdown';
+import { NavLink } from "react-router-dom";
+
 
 export default function NavbarNew() {
 
@@ -32,40 +34,51 @@ export default function NavbarNew() {
   };
 
   return (
-    <div>
+  <div>
     <div className={`dark-filter ${isDarkFilterVisible ? 'active' : ''}`} onClick={toggleMenu}></div>
-    <div className='navbar flex justify-between items-center bg-gray-200 py-2 px-6 h-16'>
-      <div className='navbar__logo'>
-        <img src={logo} alt='logo' className='w-10' />
-      </div>
-      <div className='navbar__icons flex gap-4'>
-        <div className="hidden justify-between items-center gap-6 md:flex lg:flex">
-          <div>Home</div>
-          <div className='pet__menu relative' onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-          Pets
-          {isSubmenuOpen && (
-            <Dropdown />
-          )}
-          </div>
+    <ul className='navbar flex justify-between items-center bg-gray-200 py-2 px-6 h-16'>
+      <li>
+        <NavLink className='navbar__logo' to="/">
+          <img src={logo} alt='logo' className='w-10' />
+        </NavLink>
+      </li>
 
-          <div>Pet Resources</div>
-          <div>Contact</div>
-        </div>
-        <div className='navbar__icon cursor-pointer'>
-          <PersonIcon />
-        </div>
-        <div className='navbar__icon cursor-pointer'>
-          <NotificationsOutlinedIcon />
-        </div>
-        <div className={`navbar__menu-icon ${isOpen ? 'open' : ''} cursor-pointer w-5 flex flex-col justify-center md:hidden lg:hidden`} onClick={toggleMenu}>
+      <ul className='navbar__icons flex gap-4'>
+        <ul className="hidden justify-between items-center gap-6 md:flex lg:flex">
+          <li>
+            <NavLink to="/">Home</NavLink>
+          </li>
+          <li className='pet__menu relative' onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+            Pets
+            {isSubmenuOpen && (<Dropdown />)}
+          </li>
+          <li>
+            <NavLink to="/petResource">Pet Resources</NavLink>
+          </li>
+          <li>
+            <NavLink to="/contact">Contact</NavLink>
+          </li>
+        </ul>
+        <li>
+          <NavLink className='navbar__icon cursor-pointer' to="/personalDetail">
+            <PersonIcon />
+          </NavLink>
+        </li>
+        <li>
+          <NavLink className='navbar__icon cursor-pointer'>
+            <NotificationsOutlinedIcon />
+          </NavLink>
+        </li>
+
+        <li className={`navbar__menu-icon ${isOpen ? 'open' : ''} cursor-pointer w-5 flex flex-col justify-center md:hidden lg:hidden`} onClick={toggleMenu}>
           <span className="navbar__menu-icon-bar" />
           <span className="navbar__menu-icon-bar" />
           <span className="navbar__menu-icon-bar" />
-        </div>
-      </div>
+        </li>
+      </ul>
       <div className={`navbar__menu ${isOpen ? 'active' : ''} text-base`}>
         {console.log('isOpen', isOpen)}
-        <div className='navbar__menu-link'>Home</div>
+        <NavLink className='navbar__menu-link' to="/" onClick={toggleMenu}>Home</NavLink>
         <div className='navbar__menu-link flex' onClick={toglleSubmenu}>
           <div className='submenu-button mr-12'>
            {isSubmenuOpen ? <RemoveIcon style={{fontSize: "22px"}}/> : <AddIcon style={{fontSize: "22px"}}/>}
@@ -76,16 +89,16 @@ export default function NavbarNew() {
             <div className={`navbar__submenu ${isSubmenuOpen ? 'active' : ''}`}>
 
             <div className='navbar__submenu-link flex flex-col items-end'>
-              <div>Lost Pets</div>
-              <div>Found Pets</div>
+              <NavLink to="/pets" onClick={toggleMenu}>Lost Pets</NavLink>
+              <NavLink to="/pets" onClick={toggleMenu}>Found Pets</NavLink>
             </div>
             </div>
 
           )}
-        <div className='navbar__menu-link'>Pet Resources</div>
-        <div className='navbar__menu-link'>Contact</div>
+        <NavLink className='navbar__menu-link' to="/petResource"  onClick={toggleMenu}>Pet Resources</NavLink>
+        <NavLink className='navbar__menu-link' to="/contact"  onClick={toggleMenu}>Contact</NavLink>
       </div>   
-    </div>
+    </ul>
    
 
     </div>
