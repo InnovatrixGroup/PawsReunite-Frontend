@@ -1,8 +1,7 @@
 import "./App.css";
 import { Routes, Route, Outlet } from "react-router-dom";
-import Navbar from "./components/Navbar";
 import HomePage from "./pages/HomePage";
-import LoginPage from "./pages/LoginPage";
+import SigninPage from "./pages/SigninPage";
 import SignupPage from "./pages/SignupPage";
 import PetPostsPage from "./pages/pets/PetPostsPage";
 import SinglePostPage from "./pages/pets/SinglePostPage";
@@ -21,7 +20,7 @@ function App() {
       <NavbarNew />
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/login" element={<LoginPage />} />
+        <Route path="/signin" element={<SigninPage />} />
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/pets" element={<Outlet />}>
           <Route index element={<PetPostsPage />} />
