@@ -77,7 +77,6 @@ export default function NavbarNew() {
         </li>
       </ul>
       <div className={`navbar__menu ${isOpen ? 'active' : ''} text-base`}>
-        {console.log('isOpen', isOpen)}
         <NavLink className='navbar__menu-link' to="/" onClick={toggleMenu}>Home</NavLink>
         <div className='navbar__menu-link flex' onClick={toglleSubmenu}>
           <div className='submenu-button mr-12'>
@@ -97,9 +96,10 @@ export default function NavbarNew() {
           )}
         <NavLink className='navbar__menu-link' to="/petResource"  onClick={toggleMenu}>Pet Resources</NavLink>
         <NavLink className='navbar__menu-link' to="/contact"  onClick={toggleMenu}>Contact</NavLink>
+        <NavLink className='navbar__menu-link' to="/" onClick={toggleMenu}>Logout</NavLink>
+      
       </div>   
     </ul>
-   
 
     </div>
   )
