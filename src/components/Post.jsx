@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import logo from '../pics/logo.png'
 import Carousel from './Carousel';
+import BeatLoader from "react-spinners/BeatLoader";
+
 
 const api = process.env.REACT_APP_DATABASE_URL;
 
@@ -11,6 +13,7 @@ function Post(props) {
 
   const [post, setPost] = useState({});
   const [showFullDescription, setShowFullDescription] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const toggleDescription = () => {
     setShowFullDescription(!showFullDescription);
@@ -28,8 +31,8 @@ function Post(props) {
     const fetchPost = async () => {
       const response = await fetch(`${api}/posts?postId=${postId}`);
       const result = await response.json();
-      console.log(result)
       setPost(result.data);
+      setLoading(false);
     }
     fetchPost();
   }, [postId]);
@@ -38,8 +41,14 @@ function Post(props) {
 
   return (
     <div className='post-container'>
-      {Object.keys(post).length === 0 ? (
-        <div>Loading...</div>
+      {loading ? (
+        <div>
+          <BeatLoader 
+            color={'#f1f1f1'}
+            loading={loading}
+            size={5}
+          />
+        </div>
         ) : (
           <div className='post flex flex-col'>
             <div className='post__header flex justify-between px-3 py-2'>
