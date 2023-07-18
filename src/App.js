@@ -12,6 +12,7 @@ import PersonalDetailPage from "./pages/personalDetail/PersonalDetailPage";
 import EditProfilePage from "./pages/personalDetail/EditProfilePage";
 import CreatePostPage from "./pages/personalDetail/CreatePostPage";
 import NavbarNew from "./components/NavbarNew";
+import Footer from "./components/Footer";
 
 function App() {
   return (
@@ -35,6 +36,7 @@ function App() {
           <Route path="createPost" element={<CreatePostPage />} />
         </Route>
       </Routes>
+      <Footer />
     </div>
   );
 }

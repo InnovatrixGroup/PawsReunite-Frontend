@@ -36,7 +36,7 @@ export default function NavbarNew() {
   return (
   <div>
     <div className={`dark-filter ${isDarkFilterVisible ? 'active' : ''}`} onClick={toggleMenu}></div>
-    <ul className='navbar flex justify-between items-center bg-gray-200 py-2 px-6 h-16'>
+    <ul className='navbar flex justify-between items-center bg-gray-200 py-2 px-6 fixed w-full max-w-7xl'>
       <li>
         <NavLink className='navbar__logo' to="/">
           <img src={logo} alt='logo' className='w-10' />
@@ -77,7 +77,6 @@ export default function NavbarNew() {
         </li>
       </ul>
       <div className={`navbar__menu ${isOpen ? 'active' : ''} text-base`}>
-        {console.log('isOpen', isOpen)}
         <NavLink className='navbar__menu-link' to="/" onClick={toggleMenu}>Home</NavLink>
         <div className='navbar__menu-link flex' onClick={toglleSubmenu}>
           <div className='submenu-button mr-12'>
@@ -97,9 +96,10 @@ export default function NavbarNew() {
           )}
         <NavLink className='navbar__menu-link' to="/petResource"  onClick={toggleMenu}>Pet Resources</NavLink>
         <NavLink className='navbar__menu-link' to="/contact"  onClick={toggleMenu}>Contact</NavLink>
+        <NavLink className='navbar__menu-link' to="/" onClick={toggleMenu}>Logout</NavLink>
+      
       </div>   
     </ul>
-   
 
     </div>
   )
