@@ -1,5 +1,6 @@
 .navbar {
   z-index: 9999;
+  position: relative;
 }
 
 .navbar__menu-icon-bar {

@@ -1,12 +1,15 @@
 import { useForm } from "react-hook-form";
 import { useState } from "react";
 import { useLocalStorage } from "react-use";
+import { useNavigate } from "react-router-dom";
 
 const api = process.env.REACT_APP_DATABASE_URL;
 
 export default function SignupPage() {
   const [responseErrors, setResponseErrors] = useState(null);
   const [JWT, setJWT] = useLocalStorage("JWT", null);
+  const [authenticated, setAuthenticated] = useState(false);
+  const navigate = useNavigate();
 
   //useForm is a custom hook that allows us to register inputs and validate fields
   const {
@@ -33,7 +36,12 @@ export default function SignupPage() {
         } else {
           // save JWT token to local storage
           setJWT(data.JWTtoken);
+          setAuthenticated(true);
           setResponseErrors(null);
+          // redirect to home page after signup done
+          setTimeout(() => {
+            navigate("/");
+          }, 2000);
         }
       })
       .catch((error) => {
@@ -116,6 +124,7 @@ export default function SignupPage() {
         </a>
         .
       </p>
+      {authenticated && <p>Sign up successfully. Redirecting to home page...</p>}
     </div>
   );
 }
