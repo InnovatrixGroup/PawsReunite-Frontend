@@ -4,6 +4,7 @@ import { useLocalStorage } from "react-use";
 import { useNavigate } from "react-router-dom";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import "../styles/SignPage.css";
 
 const api = process.env.REACT_APP_DATABASE_URL;
 
@@ -64,13 +65,17 @@ export default function SignupPage() {
 
   return (
     <div>
-      <h1>Register</h1>
+      <h1 className="text-xl my-5 font-semibold">Register</h1>
       {responseErrors &&
         // loop through the array of errors and display them
         responseErrors.map((error) => {
-          return <li key={error}>{error}</li>;
+          return (
+            <p key={error} className="errorMsg">
+              {error}
+            </p>
+          );
         })}
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(onSubmit)} className="sign-from">
         <div>
           <input
             placeholder="username"
@@ -98,7 +103,7 @@ export default function SignupPage() {
           />
           {errors.email && <p className="errorMsg">{errors.email.message}</p>}
         </div>
-        <div>
+        <div className="password-container">
           <input
             placeholder="password"
             type={passwordVisibility ? "text" : "password"}
@@ -108,22 +113,22 @@ export default function SignupPage() {
               pattern: {
                 value: /^(?=.*[a-z])(?=.*[A-Z]).{8,}$/,
                 message:
-                  "Password must be at least 8 characters, and contain at least one uppercase letter and one lowercase letter"
+                  "At least 8 characters, containing at least 1 uppercase letter and 1 lowercase letter"
               }
             })}
           />
           {passwordVisibility ? (
-            <i onClick={handleClickShowPassword}>
+            <i onClick={handleClickShowPassword} className="visibility-icon">
               <VisibilityOffIcon />
             </i>
           ) : (
-            <i onClick={handleClickShowPassword}>
+            <i onClick={handleClickShowPassword} className="visibility-icon">
               <VisibilityIcon />
             </i>
           )}
           {errors.password && <p className="errorMsg">{errors.password.message}</p>}
         </div>
-        <div>
+        <div className="password-container">
           <input
             placeholder="confirm password"
             type={confirmPasswordVisibility ? "text" : "password"}
@@ -134,28 +139,28 @@ export default function SignupPage() {
             })}
           />
           {confirmPasswordVisibility ? (
-            <i onClick={handleClickShowConfirmPassword}>
+            <i onClick={handleClickShowConfirmPassword} className="visibility-icon">
               <VisibilityOffIcon />
             </i>
           ) : (
-            <i onClick={handleClickShowConfirmPassword}>
+            <i onClick={handleClickShowConfirmPassword} className="visibility-icon">
               <VisibilityIcon />
             </i>
           )}
           {errors.confirm_password && <p className="errorMsg">{errors.confirm_password.message}</p>}
         </div>
         <div>
-          <button type="submit">Sign Up</button>
+          <button type="submit" className="sign-btn">
+            Sign Up
+          </button>
         </div>
       </form>
-      <p>
-        If you already have an account, please proceed to{" "}
-        <a href="/signin" style={{ color: "red" }}>
-          sign in
-        </a>
-        .
+      <p className="signin-hint">
+        If you already have an account, please proceed to <a href="/signin">sign in</a>.
       </p>
-      {authenticated && <p>Sign up successfully. Redirecting to home page...</p>}
+      {authenticated && (
+        <p className="sign-success">Sign up successfully. Redirecting to home page...</p>
+      )}
     </div>
   );
 }

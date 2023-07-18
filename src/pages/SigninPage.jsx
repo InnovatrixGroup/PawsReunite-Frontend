@@ -4,6 +4,7 @@ import { useLocalStorage } from "react-use";
 import { useNavigate } from "react-router-dom";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import "../styles/SignPage.css";
 
 const api = process.env.REACT_APP_DATABASE_URL;
 
@@ -52,9 +53,9 @@ export default function SigninPage() {
 
   return (
     <div>
-      <h1>Login</h1>
-      <p>{responseErrors && "Invalid email or password"}</p>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <h1 className="text-xl my-5 font-semibold">Login</h1>
+      <p className="errorMsg">{responseErrors && "Invalid email or password"}</p>
+      <form onSubmit={handleSubmit(onSubmit)} className="sign-from">
         <div>
           <input
             placeholder="email@gmail.com"
@@ -64,7 +65,7 @@ export default function SigninPage() {
             {...register("email", { required: true })}
           />
         </div>
-        <div>
+        <div className="password-container">
           <input
             placeholder="password"
             name="password"
@@ -73,27 +74,27 @@ export default function SigninPage() {
             {...register("password", { required: true })}
           />
           {passwordVisibility ? (
-            <i onClick={handleClickShowPassword}>
+            <i onClick={handleClickShowPassword} className="visibility-icon">
               <VisibilityOffIcon />
             </i>
           ) : (
-            <i onClick={handleClickShowPassword}>
+            <i onClick={handleClickShowPassword} className="visibility-icon">
               <VisibilityIcon />
             </i>
           )}
         </div>
         <div>
-          <button type="submit">Sign In</button>
+          <button type="submit" className="sign-btn">
+            Sign In
+          </button>
         </div>
       </form>
-      <p>
-        Don't have an account? Please proceed to{" "}
-        <a href="/signup" style={{ color: "red" }}>
-          sign up
-        </a>
-        .
+      <p className="signin-hint">
+        Don't have an account? Please proceed to <a href="/signup">sign up</a>.
       </p>
-      {authenticated && <p>Sign in successfully. Redirecting to home page...</p>}
+      {authenticated && (
+        <p className="sign-success">Sign in successfully. Redirecting to home page...</p>
+      )}
     </div>
   );
 }
