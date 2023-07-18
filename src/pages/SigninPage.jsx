@@ -2,6 +2,8 @@ import { useForm } from "react-hook-form";
 import { useState } from "react";
 import { useLocalStorage } from "react-use";
 import { useNavigate } from "react-router-dom";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 
 const api = process.env.REACT_APP_DATABASE_URL;
 
@@ -11,6 +13,12 @@ export default function SigninPage() {
   const [JWT, setJWT] = useLocalStorage("JWT", null);
   const [authenticated, setAuthenticated] = useState(false);
   const navigate = useNavigate();
+
+  // function to toggle password visibility
+  const [passwordVisibility, setPasswordVisibility] = useState(false);
+  const handleClickShowPassword = () => {
+    setPasswordVisibility(!passwordVisibility);
+  };
 
   const onSubmit = async (data) => {
     try {
@@ -59,11 +67,20 @@ export default function SigninPage() {
         <div>
           <input
             placeholder="password"
-            type="text"
             name="password"
+            type={passwordVisibility ? "text" : "password"}
             onInput={() => setResponseErrors(null)}
             {...register("password", { required: true })}
           />
+          {passwordVisibility ? (
+            <i onClick={handleClickShowPassword}>
+              <VisibilityOffIcon />
+            </i>
+          ) : (
+            <i onClick={handleClickShowPassword}>
+              <VisibilityIcon />
+            </i>
+          )}
         </div>
         <div>
           <button type="submit">Sign In</button>

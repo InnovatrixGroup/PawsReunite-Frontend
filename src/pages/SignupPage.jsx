@@ -2,6 +2,8 @@ import { useForm } from "react-hook-form";
 import { useState } from "react";
 import { useLocalStorage } from "react-use";
 import { useNavigate } from "react-router-dom";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 
 const api = process.env.REACT_APP_DATABASE_URL;
 
@@ -10,6 +12,17 @@ export default function SignupPage() {
   const [JWT, setJWT] = useLocalStorage("JWT", null);
   const [authenticated, setAuthenticated] = useState(false);
   const navigate = useNavigate();
+
+  // function to toggle password visibility
+  const [passwordVisibility, setPasswordVisibility] = useState(false);
+  const handleClickShowPassword = () => {
+    setPasswordVisibility(!passwordVisibility);
+  };
+
+  const [confirmPasswordVisibility, setConfirmPasswordVisibility] = useState(false);
+  const handleClickShowConfirmPassword = () => {
+    setConfirmPasswordVisibility(!confirmPasswordVisibility);
+  };
 
   //useForm is a custom hook that allows us to register inputs and validate fields
   const {
@@ -88,7 +101,7 @@ export default function SignupPage() {
         <div>
           <input
             placeholder="password"
-            type="text"
+            type={passwordVisibility ? "text" : "password"}
             name="password"
             {...register("password", {
               required: "Password is required",
@@ -99,18 +112,36 @@ export default function SignupPage() {
               }
             })}
           />
+          {passwordVisibility ? (
+            <i onClick={handleClickShowPassword}>
+              <VisibilityOffIcon />
+            </i>
+          ) : (
+            <i onClick={handleClickShowPassword}>
+              <VisibilityIcon />
+            </i>
+          )}
           {errors.password && <p className="errorMsg">{errors.password.message}</p>}
         </div>
         <div>
           <input
             placeholder="confirm password"
-            type="text"
+            type={confirmPasswordVisibility ? "text" : "password"}
             name="confirm_password"
             {...register("confirm_password", {
               required: "Confirm password is required",
               validate: (value) => value === watch("password") || "Passwords do not match"
             })}
           />
+          {confirmPasswordVisibility ? (
+            <i onClick={handleClickShowConfirmPassword}>
+              <VisibilityOffIcon />
+            </i>
+          ) : (
+            <i onClick={handleClickShowConfirmPassword}>
+              <VisibilityIcon />
+            </i>
+          )}
           {errors.confirm_password && <p className="errorMsg">{errors.confirm_password.message}</p>}
         </div>
         <div>
