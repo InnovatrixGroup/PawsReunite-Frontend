@@ -3,6 +3,7 @@ import HeroSection from "../components/HeroSection";
 import Post from "../components/Post";
 import { Navigate } from "react-router-dom";
 import { Skeleton } from "@mui/material";
+import bg from "../pics/bg.svg";
 
 const api = process.env.REACT_APP_DATABASE_URL;
 
