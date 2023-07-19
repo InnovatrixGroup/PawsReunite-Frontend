@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import logo from "../pics/logo.png";
 import Carousel from "./Carousel";
 import PostSkeleton from "./PostSkeleton";
-import { useParams } from "react-router-dom";
+import { Navigate, useParams } from "react-router-dom";
 
 const api = process.env.REACT_APP_DATABASE_URL;
 
@@ -14,6 +14,7 @@ function Post(props) {
   const [post, setPost] = useState({});
   const [showFullDescription, setShowFullDescription] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [redirect, setRedirect] = useState(false);
 
   const toggleDescription = () => {
     setShowFullDescription(!showFullDescription);
@@ -37,13 +38,21 @@ function Post(props) {
     fetchPost();
   }, [id]);
 
+  const handleRedirectClick = () => {
+    setRedirect(true);
+  };
+
   return (
     <div className="post-container">
+      {redirect && <Navigate to={`/pets/${postId}`} />}
       {loading ? (
         <PostSkeleton />
       ) : (
         <div className="post flex flex-col">
-          <div className="post__header flex justify-between px-3 py-2">
+          <div
+            className="post__header flex justify-between px-3 py-2"
+            onClick={handleRedirectClick}
+          >
             <div className="post__header__left flex gap-3 items-center">
               <img
                 src={logo}
