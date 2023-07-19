@@ -19,8 +19,9 @@ export default function HomePage() {
   return (
     <div className="homepage-container mb-12">
       <HeroSection />
-
-      {posts.length > 0 && posts.map((post) => <Post key={post._id} postId={post._id} />)}
+      <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+        {posts.length > 0 && posts.map((post) => <Post key={post._id} postId={post._id} />)}
+      </div>
     </div>
   );
 }
