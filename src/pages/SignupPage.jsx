@@ -10,8 +10,8 @@ const api = process.env.REACT_APP_DATABASE_URL;
 
 export default function SignupPage() {
   const [responseErrors, setResponseErrors] = useState(null);
-  const [JWT, setJWT] = useLocalStorage("JWT", null);
   const [authenticated, setAuthenticated] = useState(false);
+  const [userData, setUserData] = useLocalStorage("userData", null);
   const navigate = useNavigate();
 
   // function to toggle password visibility
@@ -48,8 +48,11 @@ export default function SignupPage() {
         if (data.errors?.length > 0) {
           setResponseErrors(data.errors);
         } else {
-          // save JWT token to local storage
-          setJWT(data.JWTtoken);
+          // save user data to local storage
+          setUserData({
+            userId: data.userId,
+            jwt: data.JWTtoken
+          });
           setAuthenticated(true);
           setResponseErrors(null);
           // redirect to home page after signup done

@@ -1,18 +1,18 @@
-import { useForm } from "react-hook-form";
+import { set, useForm } from "react-hook-form";
 import { useState, useEffect } from "react";
 import { useLocalStorage } from "react-use";
 import { useNavigate } from "react-router-dom";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
-// import "../styles/SignPage.css";
+import "../styles/SignPage.css";
 
 const api = process.env.REACT_APP_DATABASE_URL;
 
 export default function SigninPage() {
   const { register, handleSubmit } = useForm();
   const [responseErrors, setResponseErrors] = useState(null);
-  const [JWT, setJWT] = useLocalStorage("JWT", null);
   const [authenticated, setAuthenticated] = useState(false);
+  const [userData, setUserData] = useLocalStorage("userData", null);
   const navigate = useNavigate();
 
   // function to toggle password visibility
@@ -35,10 +35,14 @@ export default function SigninPage() {
       const jsonData = await response.json();
 
       if (response.ok) {
-        // save JWT token to local storage
-        setJWT(jsonData.JWTtoken);
+        // save user data to local storage
+        setUserData({
+          userId: jsonData.userId,
+          jwt: jsonData.JWTtoken
+        });
         setAuthenticated(true);
         setResponseErrors(null);
+
         // redirect to home page after signin done
         setTimeout(() => {
           navigate("/");
