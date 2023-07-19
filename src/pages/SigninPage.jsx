@@ -1,5 +1,5 @@
-import { useForm } from "react-hook-form";
-import { useState } from "react";
+import { set, useForm } from "react-hook-form";
+import { useState, useEffect } from "react";
 import { useLocalStorage } from "react-use";
 import { useNavigate } from "react-router-dom";
 import VisibilityIcon from "@mui/icons-material/Visibility";
@@ -11,8 +11,8 @@ const api = process.env.REACT_APP_DATABASE_URL;
 export default function SigninPage() {
   const { register, handleSubmit } = useForm();
   const [responseErrors, setResponseErrors] = useState(null);
-  const [JWT, setJWT] = useLocalStorage("JWT", null);
   const [authenticated, setAuthenticated] = useState(false);
+  const [userData, setUserData] = useLocalStorage("userData", null);
   const navigate = useNavigate();
 
   // function to toggle password visibility
@@ -23,6 +23,9 @@ export default function SigninPage() {
 
   const onSubmit = async (data) => {
     try {
+      // convert email to lowercase
+      data.email = data.email.toLowerCase();
+
       const response = await fetch(`${api}/users/signin`, {
         method: "POST",
         headers: {
@@ -35,10 +38,14 @@ export default function SigninPage() {
       const jsonData = await response.json();
 
       if (response.ok) {
-        // save JWT token to local storage
-        setJWT(jsonData.JWTtoken);
+        // save user data to local storage
+        setUserData({
+          userId: jsonData.userId,
+          jwt: jsonData.JWTtoken
+        });
         setAuthenticated(true);
         setResponseErrors(null);
+
         // redirect to home page after signin done
         setTimeout(() => {
           navigate("/");
@@ -51,8 +58,12 @@ export default function SigninPage() {
     }
   };
 
+  useEffect(() => {
+    document.body.classList.add("signin-page-body");
+  });
+
   return (
-    <div>
+    <div className="signin-container">
       <h1 className="text-xl my-5 font-semibold">Login</h1>
       <p className="errorMsg">{responseErrors && "Invalid email or password"}</p>
       <form onSubmit={handleSubmit(onSubmit)} className="sign-from">
