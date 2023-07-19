@@ -18,7 +18,7 @@ export default function HomePage() {
 
   return (
     <div className="homepage-container mb-12">
-      {/* <HeroSection /> */}
+      <HeroSection />
 
       {posts.length > 0 && posts.map((post) => <Post key={post._id} postId={post._id} />)}
     </div>

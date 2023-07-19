@@ -43,12 +43,11 @@
 }
 
 .navbar__menu-link:hover,
-.navbar__submenu-link>div:hover
-{
+.navbar__submenu-link > div:hover {
   text-decoration: underline;
 }
 
-.navbar__menu.active{
+.navbar__menu.active {
   right: 0;
 }
 
