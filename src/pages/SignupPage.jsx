@@ -34,6 +34,9 @@ export default function SignupPage() {
   } = useForm();
 
   const onSubmit = (data) => {
+    // convert email to lowercase
+    data.email = data.email.toLowerCase();
+
     fetch(`${api}/users/signup`, {
       method: "POST",
       headers: {

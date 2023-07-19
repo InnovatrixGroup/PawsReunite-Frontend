@@ -23,6 +23,9 @@ export default function SigninPage() {
 
   const onSubmit = async (data) => {
     try {
+      // convert email to lowercase
+      data.email = data.email.toLowerCase();
+
       const response = await fetch(`${api}/users/signin`, {
         method: "POST",
         headers: {
