@@ -17,11 +17,15 @@ function Carousel(props) {
   return (
     <div className="carousel-container relative w-full max-h-96 overflow-hidden">
       <div
-        className="carousel__images flex max-h-96 transition-transform ease-out duration-500"
+        className="carousel__images flex max-h-96 transition-transform ease-out duration-500 md:max-w-md lg:max-w-md justify-start"
         style={{ transform: `translateX(-${curr * 100}%)` }}
       >
         {images.map((image) => (
-          <img className="w-full object-cover" src={image} alt="pet pictures" />
+          <img
+            className="w-full object-cover md:max-w-md lg:max-w-md"
+            src={image}
+            alt="pet pictures"
+          />
         ))}
       </div>
       {/* inset-0 defined by the distance of 0 pixels to the parent DIV element, on all four sides */}

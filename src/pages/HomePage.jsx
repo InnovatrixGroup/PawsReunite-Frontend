@@ -1,11 +1,14 @@
 import { useEffect, useState } from "react";
 import HeroSection from "../components/HeroSection";
 import Post from "../components/Post";
+import { Navigate } from "react-router-dom";
+import { Skeleton } from "@mui/material";
 
 const api = process.env.REACT_APP_DATABASE_URL;
 
 export default function HomePage() {
   const [posts, setPosts] = useState([]);
+  const [selectedPost, setSelectedPost] = useState(null);
 
   useEffect(() => {
     const fetchPosts = async () => {
