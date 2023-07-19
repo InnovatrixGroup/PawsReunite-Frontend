@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useLocalStorage } from "react-use";
 import { useNavigate } from "react-router-dom";
 import VisibilityIcon from "@mui/icons-material/Visibility";
@@ -63,8 +63,12 @@ export default function SignupPage() {
       });
   };
 
+  useEffect(() => {
+    document.body.classList.add("signup-page-body");
+  });
+
   return (
-    <div>
+    <div className="signup-container">
       <h1 className="text-xl my-5 font-semibold">Register</h1>
       {responseErrors &&
         // loop through the array of errors and display them

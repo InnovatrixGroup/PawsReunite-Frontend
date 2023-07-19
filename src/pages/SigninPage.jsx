@@ -1,10 +1,10 @@
 import { useForm } from "react-hook-form";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useLocalStorage } from "react-use";
 import { useNavigate } from "react-router-dom";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
-import "../styles/SignPage.css";
+// import "../styles/SignPage.css";
 
 const api = process.env.REACT_APP_DATABASE_URL;
 
@@ -51,8 +51,12 @@ export default function SigninPage() {
     }
   };
 
+  useEffect(() => {
+    document.body.classList.add("signin-page-body");
+  });
+
   return (
-    <div>
+    <div className="signin-container">
       <h1 className="text-xl my-5 font-semibold">Login</h1>
       <p className="errorMsg">{responseErrors && "Invalid email or password"}</p>
       <form onSubmit={handleSubmit(onSubmit)} className="sign-from">
