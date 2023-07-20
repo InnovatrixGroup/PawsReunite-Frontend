@@ -50,7 +50,7 @@ function Post(props) {
       ) : (
         <div className="post flex flex-col">
           <div
-            className="post__header flex justify-between px-3 py-2"
+            className="post__header flex justify-between px-3 py-2 cursor-pointer"
             onClick={handleRedirectClick}
           >
             <div className="post__header__left flex gap-3 items-center">

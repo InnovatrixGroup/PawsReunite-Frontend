@@ -14,12 +14,13 @@ import NavbarNew from "./components/NavbarNew";
 import Footer from "./components/Footer";
 
 function App() {
-  const location = useLocation();
-  console.log(location.pathname);
-  const isSigninOrSignupPage = location.pathname === "/signin" || location.pathname === "/signup";
+  // const location = useLocation();
+  // console.log(location.pathname);
+  // const isSigninOrSignupPage = location.pathname === "/signin" || location.pathname === "/signup";
   return (
     <div className="App max-w-7xl mx-auto">
-      {!isSigninOrSignupPage && <NavbarNew />}
+      {/* {!isSigninOrSignupPage && <NavbarNew />} */}
+      <NavbarNew />
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/signin" element={<SigninPage />} />
@@ -37,7 +38,8 @@ function App() {
           <Route path="createPost" element={<CreatePostPage />} />
         </Route>
       </Routes>
-      {!isSigninOrSignupPage && <Footer />}
+      {/* {!isSigninOrSignupPage && <Footer />} */}
+      <Footer />
     </div>
   );
 }

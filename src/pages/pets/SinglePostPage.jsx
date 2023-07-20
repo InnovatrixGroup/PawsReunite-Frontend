@@ -11,16 +11,16 @@ export default function SinglePetPage() {
       </div>
       <Post postId={id} isSingle={true} />
       <div className="single__post_funcation flex justify-end px-3 gap-4 mb-32 xs:justify-between">
-        <button className="single__post_funcation_btn bg-orange-900 text-white border px-16 py-2 font-light rounded-xl">
+        <button className="single__post_funcation_btn bg-orange-900 text-white border px-16 xs:flex-1 xs:px-0 py-2 font-light rounded-xl">
           Edit
         </button>
-        <button className="single__post_funcation_btn  bg-orange-900 text-white border px-16 py-2 font-light rounded-xl">
+        <button className="single__post_funcation_btn  bg-orange-900 text-white border px-16 xs:flex-1 xs:px-0 py-2 font-light rounded-xl">
           Delete
         </button>
       </div>
-      <div className="single__post_comment w-full fixed bottom-14 flex gap-4 p-3 max-w-7xl bg-white">
+      <div className="single__post_comment w-full fixed bottom-12 flex gap-4 p-3 max-w-7xl bg-white">
         <input
-          className="single__post_comment_input flex-1 border rounded-full shadow-inner px-3"
+          className="single__post_comment_input flex-1 border rounded-full shadow-inner pl-3"
           type="text"
           placeholder="Leave a comment..."
         />
