@@ -1,6 +1,7 @@
 import "./App.css";
 import { Routes, Route, Outlet, useLocation } from "react-router-dom";
 import Layout from "./components/Layout";
+import WelcomePage from "./pages/WelcomePage";
 import HomePage from "./pages/HomePage";
 import SigninPage from "./pages/SigninPage";
 import SignupPage from "./pages/SignupPage";
@@ -21,6 +22,7 @@ function App() {
       {/* {!isSigninOrSignupPage && <NavbarNew />} */}
       {/* <NavbarNew /> */}
       <Routes>
+        <Route path="/welcome" element={<WelcomePage />} />
         <Route path="/signin" element={<SigninPage />} />
         <Route path="/signup" element={<SignupPage />} />
         <Route element={<Layout />}>

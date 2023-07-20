@@ -1,34 +1,23 @@
 .signin-page-body {
-  background-image: url(../../public/signin-bg.svg);
+  background-image: url(../pics/signin-bg.svg);
   background-repeat: no-repeat;
   background-size: cover;
-  .App {
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
-  /* .navbar {
-    position: absolute;
-    top: 0;
-  } */
 }
 
 .signup-page-body {
-  background-image: url(../../public/signup-bg.svg);
+  background-image: url(../pics/signup-bg.svg);
   background-repeat: no-repeat;
   background-size: cover;
-  .App {
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
-  /* .navbar {
-    position: absolute;
-    top: 0;
-  } */
 }
+
+.signin-page-body .App,
+.signup-page-body .App {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
 
 .sign-from input {
   width: 60%;
