@@ -59,7 +59,12 @@ export default function SigninPage() {
   };
 
   useEffect(() => {
+    // add class to body for styling
     document.body.classList.add("signin-page-body");
+    // remove class when component unmount
+    return () => {
+      document.body.classList.remove("signin-page-body");
+    };
   });
 
   return (

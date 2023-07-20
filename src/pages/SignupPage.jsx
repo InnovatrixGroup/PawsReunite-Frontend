@@ -70,7 +70,12 @@ export default function SignupPage() {
   };
 
   useEffect(() => {
+    // add class to body for styling
     document.body.classList.add("signup-page-body");
+    // remove class when component unmount
+    return () => {
+      document.body.classList.remove("signup-page-body");
+    };
   });
 
   return (
