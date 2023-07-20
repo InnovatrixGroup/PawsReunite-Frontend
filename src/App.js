@@ -12,6 +12,7 @@ import EditProfilePage from "./pages/personalDetail/EditProfilePage";
 import CreatePostPage from "./pages/personalDetail/CreatePostPage";
 import NavbarNew from "./components/NavbarNew";
 import Footer from "./components/Footer";
+import TestFilter from "./components/TestFilter";
 
 function App() {
   // const location = useLocation();
@@ -20,7 +21,8 @@ function App() {
   return (
     <div className="App max-w-7xl mx-auto">
       {/* {!isSigninOrSignupPage && <NavbarNew />} */}
-      <NavbarNew />
+      {/* <NavbarNew /> */}
+      <TestFilter />
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/signin" element={<SigninPage />} />
@@ -39,7 +41,7 @@ function App() {
         </Route>
       </Routes>
       {/* {!isSigninOrSignupPage && <Footer />} */}
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 }
