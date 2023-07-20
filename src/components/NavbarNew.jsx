@@ -36,7 +36,7 @@ export default function NavbarNew() {
         className={`dark-filter ${isDarkFilterVisible ? "active" : ""}`}
         onClick={toggleMenu}
       ></div>
-      <ul className="navbar flex justify-between items-center bg-gray-200 py-2 px-6 fixed w-full max-w-7xl">
+      <ul className="navbar flex justify-between items-center bg-gray-200 py-2 px-6 fixed top-0 w-full max-w-7xl">
         <li>
           <NavLink className="navbar__logo" to="/">
             <img src={logo} alt="logo" className="w-10" />

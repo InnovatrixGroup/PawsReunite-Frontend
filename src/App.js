@@ -1,5 +1,5 @@
 import "./App.css";
-import { Routes, Route, Outlet } from "react-router-dom";
+import { Routes, Route, Outlet, useLocation } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import SigninPage from "./pages/SigninPage";
 import SignupPage from "./pages/SignupPage";
@@ -14,9 +14,12 @@ import NavbarNew from "./components/NavbarNew";
 import Footer from "./components/Footer";
 
 function App() {
+  // const location = useLocation();
+  // console.log(location.pathname);
+  // const isSigninOrSignupPage = location.pathname === "/signin" || location.pathname === "/signup";
   return (
     <div className="App max-w-7xl mx-auto">
-      {/* <Navbar /> */}
+      {/* {!isSigninOrSignupPage && <NavbarNew />} */}
       <NavbarNew />
       <Routes>
         <Route path="/" element={<HomePage />} />
@@ -35,6 +38,7 @@ function App() {
           <Route path="createPost" element={<CreatePostPage />} />
         </Route>
       </Routes>
+      {/* {!isSigninOrSignupPage && <Footer />} */}
       <Footer />
     </div>
   );

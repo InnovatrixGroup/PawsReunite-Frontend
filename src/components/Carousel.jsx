@@ -17,7 +17,7 @@ function Carousel(props) {
   return (
     <div className="carousel-container relative w-full max-h-96 overflow-hidden">
       <div
-        className="carousel__images flex max-h-96 transition-transform ease-out duration-500  lg:max-w-md justify-start"
+        className="carousel__images flex max-h-96 transition-transform ease-out duration-500 md:max-w-md  lg:max-w-md justify-start"
         style={{ transform: `translateX(-${curr * 100}%)` }}
       >
         {images.map((image) => (

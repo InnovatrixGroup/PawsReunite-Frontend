@@ -1,20 +1,42 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
-function Filter() {
+function Filter(props) {
+  const filterType = props.filterType;
+  const [filter, setFilter] = useState([]);
+  const [selectedValue, setSelectedValue] = useState(""); // New state for selected value
+
+  useEffect(() => {
+    const fetchFilter = async () => {
+      const response = await fetch(`http://localhost:3001/posts/filter?status=${filterType}`);
+      const result = await response.json();
+      setFilter(result.data);
+    };
+    fetchFilter();
+  }, [filterType]);
+
+  const handleSelectChange = (e) => {
+    const value = e.target.value;
+    setSelectedValue(value); // Update the selected value
+    props.onFilterChange(value); // Call the event handler passed as prop
+  };
+
   return (
-    <div>
-      <label for="countries" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-        Select an option
-      </label>
+    <div className="filter-container ">
       <select
-        id="countries"
-        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+        id={filterType}
+        className="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+        onChange={handleSelectChange} // Call the new event handler
+        value={selectedValue} // Set the value attribute to maintain the selected value
       >
-        <option selected>Choose a country</option>
-        <option value="US">United States</option>
-        <option value="CA">Canada</option>
-        <option value="FR">France</option>
-        <option value="DE">Germany</option>
+        <option selected value="">
+          {filterType}
+        </option>
+        {filter.length > 0 &&
+          filter.map((item) => (
+            <option key={item} value={item}>
+              {item}
+            </option>
+          ))}
       </select>
     </div>
   );
