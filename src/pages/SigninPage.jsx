@@ -12,7 +12,7 @@ export default function SigninPage() {
   const { register, handleSubmit } = useForm();
   const [responseErrors, setResponseErrors] = useState(null);
   const [authenticated, setAuthenticated] = useState(false);
-  const [userData, setUserData] = useLocalStorage("userData", null);
+  const [userAuth, setUserAuth] = useLocalStorage("pawsReuniteUserAuth", null);
   const navigate = useNavigate();
 
   // function to toggle password visibility
@@ -39,7 +39,7 @@ export default function SigninPage() {
 
       if (response.ok) {
         // save user data to local storage
-        setUserData({
+        setUserAuth({
           userId: jsonData.userId,
           jwt: jsonData.JWTtoken
         });
