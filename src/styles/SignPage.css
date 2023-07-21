@@ -18,7 +18,6 @@
   justify-content: center;
 }
 
-
 .sign-from input {
   width: 60%;
   max-width: 500px;
@@ -32,7 +31,7 @@
 .sign-btn {
   width: 60%;
   max-width: 500px;
-  background-color: #a23636;
+  background-color: #7c2d12;
   color: white;
   padding: 10px 20px;
   margin-top: 15px;
@@ -61,7 +60,7 @@
 }
 
 .signin-hint a {
-  color: #a23636;
+  color: #7c2d12;
   font-weight: 600;
 }
 
@@ -69,5 +68,5 @@
   width: 60%;
   max-width: 500px;
   margin: auto;
-  color: #a23636;
+  color: #7c2d12;
 }

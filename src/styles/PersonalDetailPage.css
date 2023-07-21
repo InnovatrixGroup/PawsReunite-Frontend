@@ -1,0 +1,108 @@
+.personal-info-container {
+    height: 300px;
+    background-color: #7c2d12;
+    display: flex;
+    flex-direction: column;
+    color: white;
+    align-items: flex-start;
+    width: 100%;
+    padding: 30px 50px;
+}
+
+.personal-info-avatar {
+    min-height: 80px;
+    min-width: 80px;
+    background-image: url(../pics/avatar.jpg);
+    background-size: cover;
+}
+
+.personal-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.personal-info h1 {
+    font-size: 1.6rem;
+    margin-bottom: 10px;
+}
+
+.personal-info .username,
+.personal-info .email {
+    font-size: 1.2rem;
+    margin: 5px 0;
+    inline-size: 250px;
+    overflow-wrap: break-word;
+}
+
+.personal-info-btn-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.personal-info-btn-container button {
+    width: 65vw;
+    max-width: 300px;
+    padding: 5px 20px;
+    margin: 10px 0;
+    border: 1px solid white;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+.personal-info-post-container h1 {
+    text-align: left;
+    margin: 10px 40px;
+    font-size: 2rem;
+    font-weight: 600;
+}
+
+.personal-info-post-gallery {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.personal-info-post-gallery a {
+    width: calc(100% / 3);
+    aspect-ratio: 1 / 1;
+    background-size: 100% 100%;
+    background-size: cover;
+    cursor: pointer;
+}
+
+.personal-info-post-container button {
+    width: 80%;
+    max-width: 500px;
+    padding: 5px 20px;
+    margin: 20px 0;
+    border-radius: 12px;
+    cursor: pointer;
+    background-color: #7c2d12;
+    color: white;
+}
+
+@media only screen and (min-width: 768px) {
+    .personal-info-container {
+        flex-direction: row;
+        align-items: center;
+        padding: 0 10%;
+    }
+
+    .personal-info-avatar{
+        border-radius: 50%;
+        margin-right: 50px;
+    }
+
+    .personal-info-btn-container {
+        flex-direction: row;
+        margin-left: 50px;
+        align-self: self-end;
+        padding-bottom: 90px;
+    }
+
+    .personal-info-btn-container button {
+        max-width: 130px;
+        margin-right: 20px;
+    }
+}
