@@ -21,7 +21,6 @@ function App() {
     <div className="App max-w-7xl mx-auto">
       {/* {!isSigninOrSignupPage && <NavbarNew />} */}
       {/* <NavbarNew /> */}
-
       <Routes>
         <Route path="/welcome" element={<WelcomePage />} />
         <Route path="/signin" element={<SigninPage />} />
