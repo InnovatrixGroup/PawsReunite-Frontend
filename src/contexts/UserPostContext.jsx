@@ -67,7 +67,7 @@ export default function UserPostProvider(props) {
       }
     }
     fetchUserData();
-  }, []);
+  }, [userAuth]);
 
   return (
     <UserPostContext.Provider value={userPostData}>

@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useLocalStorage } from "react-use";
 import { useUserPost } from "../../contexts/UserPostContext";
+import { useNavigate } from "react-router-dom";
 import "../../styles/PersonalDetailPage.css";
-// import avatar from "../../pics/avatar.png";
 
 const api = process.env.REACT_APP_DATABASE_URL;
 
@@ -10,7 +10,17 @@ export default function PersonalDetailPage() {
   // const [userData, setUserData] = useState(null);
   const [userAuth, setUserAuth] = useLocalStorage("pawsReuniteUserAuth");
   const [userDetail, setUserDetail] = useState(null);
+  const navigate = useNavigate();
   const userPostData = useUserPost();
+
+  const handleLogout = () => {
+    setUserAuth(null);
+
+    // navigate to landing page automatically after logout
+    setTimeout(() => {
+      navigate("/welcome");
+    }, 2000);
+  };
 
   useEffect(() => {
     async function fetchUserData() {
@@ -41,7 +51,7 @@ export default function PersonalDetailPage() {
         </div>
         <div className="personal-info-btn-container">
           <button>Edit profile</button>
-          <button>Logout</button>
+          <button onClick={handleLogout}>Logout</button>
         </div>
       </div>
       <div className="personal-info-post-container">
