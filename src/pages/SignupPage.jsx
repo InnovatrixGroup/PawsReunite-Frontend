@@ -11,7 +11,7 @@ const api = process.env.REACT_APP_DATABASE_URL;
 export default function SignupPage() {
   const [responseErrors, setResponseErrors] = useState(null);
   const [authenticated, setAuthenticated] = useState(false);
-  const [userData, setUserData] = useLocalStorage("userData", null);
+  const [userAuth, setUserAuth] = useLocalStorage("pawsReuniteUserAuth", null);
   const navigate = useNavigate();
 
   // function to toggle password visibility
@@ -52,7 +52,7 @@ export default function SignupPage() {
           setResponseErrors(data.errors);
         } else {
           // save user data to local storage
-          setUserData({
+          setUserAuth({
             userId: data.userId,
             jwt: data.JWTtoken
           });
