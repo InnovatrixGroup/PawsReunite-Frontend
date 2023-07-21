@@ -5,6 +5,7 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter } from "react-router-dom";
 import { SkeletonTheme } from "react-loading-skeleton";
+import FilterProvider from "./contexts/FilterContext";
 import UserPostContext from "./contexts/UserPostContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
@@ -13,7 +14,9 @@ root.render(
     <BrowserRouter>
       <SkeletonTheme color="#202020" highlightColor="#444">
         <UserPostContext>
-          <App />
+          <FilterProvider>
+            <App />
+          </FilterProvider>
         </UserPostContext>
       </SkeletonTheme>
     </BrowserRouter>
