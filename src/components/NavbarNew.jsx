@@ -102,7 +102,7 @@ export default function NavbarNew() {
           {isSubmenuOpen && (
             <div className={`navbar__submenu ${isSubmenuOpen ? "active" : ""}`}>
               <div className="navbar__submenu-link flex flex-col items-end">
-                <NavLink to="/pets" onClick={toggleMenu}>
+                <NavLink to="/" onClick={toggleMenu}>
                   Lost Pets
                 </NavLink>
                 <NavLink to="/pets" onClick={toggleMenu}>

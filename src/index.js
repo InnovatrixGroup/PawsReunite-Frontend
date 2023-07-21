@@ -6,6 +6,7 @@ import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter } from "react-router-dom";
 import { SkeletonTheme } from "react-loading-skeleton";
 import UserProvider from "./contexts/UserContext";
+import FilterProvider from "./contexts/FilterContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -13,7 +14,9 @@ root.render(
     <BrowserRouter>
       <SkeletonTheme color="#202020" highlightColor="#444">
         <UserProvider>
-          <App />
+          <FilterProvider>
+            <App />
+          </FilterProvider>
         </UserProvider>
       </SkeletonTheme>
     </BrowserRouter>
