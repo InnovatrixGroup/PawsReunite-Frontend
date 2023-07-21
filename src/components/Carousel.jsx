@@ -42,6 +42,7 @@ function Carousel(props) {
       <div className="carousel__dots absolute bottom-4 right-0 left-0 flex justify-center items-center gap-2">
         {images.map((_, index) => (
           <div
+            key={index}
             className={`w-1 h-1 bg-gray-400 rounded-full ${
               curr === index ? "bg-gray-800 p-1" : ""
             } `}
