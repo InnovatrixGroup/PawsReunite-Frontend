@@ -3,6 +3,7 @@ import logo from "../pics/logo.png";
 import Carousel from "./Carousel";
 import PostSkeleton from "./PostSkeleton";
 import { Navigate, useParams } from "react-router-dom";
+import Comment from "./Comment";
 
 const api = process.env.REACT_APP_DATABASE_URL;
 
@@ -15,6 +16,7 @@ function Post(props) {
   const [showFullDescription, setShowFullDescription] = useState(false);
   const [loading, setLoading] = useState(true);
   const [redirect, setRedirect] = useState(false);
+  const [numberOfComments, setNumberOfComments] = useState(0);
 
   const toggleDescription = () => {
     setShowFullDescription(!showFullDescription);
@@ -35,7 +37,14 @@ function Post(props) {
       setPost(result.data);
       setLoading(false);
     };
+
+    const fetchComments = async () => {
+      const response = await fetch(`${api}/comments?postId=${postId}`);
+      const result = await response.json();
+      setNumberOfComments(result.data.length);
+    };
     fetchPost();
+    fetchComments();
   }, [id]);
 
   const handleRedirectClick = () => {
@@ -88,7 +97,7 @@ function Post(props) {
               <div className="contactInfo mb-3 text-gray-500">
                 <span className="font-extrabold">Contact Info:</span> {post.contactInfo}
               </div>
-              <div className="description text-left">
+              <div className="description text-left mb-3">
                 {!isSingle ? truncateDescription(post.description) : post.description}
                 {post.description.length > 150 && showFullDescription === false && (
                   <span onClick={toggleDescription} className="text-gray-500">
@@ -96,6 +105,9 @@ function Post(props) {
                     {!isSingle && "...more"}
                   </span>
                 )}
+              </div>
+              <div className="post__comments">
+                {!isSingle && numberOfComments !== 0 && <p>View all {numberOfComments} comments</p>}
               </div>
             </div>
           </div>
