@@ -1,0 +1,77 @@
+.show-footer {
+    z-index: 9999;
+}
+
+.edit-profile-header {
+    display: flex;
+    padding: 12px 15px 
+}
+
+.edit-profile-header h1 {
+    font-size: 24px;
+    font-weight: 500;
+    margin-left: 10px;
+}
+
+.edit-personal-info-container {
+    padding: 30px 30px;
+}
+
+.edit-personal-info-container h1 {
+    font-size: 24px;
+    font-weight: 500;
+    margin-bottom: 15px;
+}
+
+.edit-profile-form div{
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 25px;
+}
+
+.edit-profile-form div:last-child{
+    margin-bottom: 20px;
+}
+
+.edit-profile-form label{
+    font-size: 18px;
+    font-weight: 350;
+    margin-bottom: 5px;
+    color: #847f7f;
+}
+
+.edit-profile-form input {
+    outline: none;
+    border-bottom: 1px solid;
+    background-color: white;
+    font-size: 18px;
+}
+
+.edit-profile-form .edit-profile-btn {
+    width: 70%;
+    max-width: 500px;
+    background-color: #7c2d12;
+    color: white;
+    padding: 5px 20px;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    font-weight: 300;
+    font-size: 14px;
+}
+
+.edit-profile-form .password-container-input {
+    position: relative;
+}
+
+.edit-profile-form .password-container-input .visibility-icon {
+    right: 0;
+    top: 5%
+}
+
+.edit-profile-form .errorMsg {
+    width: 100%;
+    max-width: 500px;
+}
+
+

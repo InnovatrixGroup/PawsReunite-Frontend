@@ -43,13 +43,13 @@
   cursor: pointer;
 }
 
-.password-container {
+.password-container-input {
   position: relative;
 }
 
 .visibility-icon {
   position: absolute;
-  top: 30%;
+  top: 35%;
   cursor: pointer;
 }
 

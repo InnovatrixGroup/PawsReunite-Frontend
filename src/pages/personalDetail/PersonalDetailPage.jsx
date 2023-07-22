@@ -24,6 +24,7 @@ export default function PersonalDetailPage() {
     }, 2000);
   };
 
+  // fetch user data and save to state
   useEffect(() => {
     async function fetchUserData() {
       try {
@@ -43,13 +44,27 @@ export default function PersonalDetailPage() {
   }, [userAuth]);
 
   // handle edit profile dialog
-  const [editProfileDialogOpen, setEditProfileDialogOpen] = useState(false);
+  const [editProfileDialogOpen, setEditProfileDialogOpen] = useState(true);
   const closeEditProfileDialog = () => {
     setEditProfileDialogOpen(false);
   };
   const openEditProfileDialog = () => {
     setEditProfileDialogOpen(true);
   };
+
+  // hide navbar when edit profile dialog is open, but show footer
+  useEffect(() => {
+    const navbar = document.querySelector(".navbar");
+    editProfileDialogOpen && navbar.classList.add("hidden");
+
+    const footer = document.querySelector(".footer-container");
+    editProfileDialogOpen && footer.classList.add("show-footer");
+
+    return () => {
+      navbar.classList.remove("hidden");
+      footer.classList.remove("show-footer");
+    };
+  });
 
   return (
     <div>
@@ -66,6 +81,7 @@ export default function PersonalDetailPage() {
             isOpen={editProfileDialogOpen}
             closeDialog={closeEditProfileDialog}
             setUserDetail={setUserDetail}
+            userDetail={userDetail}
           />
           <button onClick={handleLogout}>Logout</button>
         </div>

@@ -1,10 +1,11 @@
-import { forwardRef } from "react";
-import { Dialog, Slide } from "@mui/material";
+import { forwardRef, useEffect } from "react";
+import { Dialog, Slide, Divider } from "@mui/material";
 import RegisterForm from "./RegisterForm";
 import ClearIcon from "@mui/icons-material/Clear";
+import "../styles/EditProfileDialog.css";
 
 export default function EditProfileDialog(props) {
-  const { isOpen, closeDialog } = props;
+  const { isOpen, closeDialog, userDetail } = props;
   // const Transition = forwardRef(function Transition(props, ref) {
   //   return <Slide direction="up" ref={ref} {...props} />;
   // });
@@ -17,15 +18,20 @@ export default function EditProfileDialog(props) {
 
   return (
     <Dialog open={isOpen} onClose={closeDialog} fullScreen>
-      <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquam, repellat? Recusandae
-        temporibus adipisci aperiam eveniet cumque, iure quibusdam tenetur eligendi dolorem id
-        voluptatum repellat quod vel distinctio in blanditiis quidem!
-      </p>
-      <ClearIcon onClick={closeDialog} className="close-icon" />
-      <h1>Edit profile</h1>
-      {/* <button onClick={closeDialog}>close</button> */}
-      <RegisterForm onSubmit={onSubmit} responseError={responseErrors} page="edit-profile" />
+      <div className="edit-profile-header">
+        <ClearIcon onClick={closeDialog} className="close-icon" fontSize="large" />
+        <h1>Edit profile</h1>
+      </div>
+      <Divider sx={{ boxShadow: 2 }} />
+      <div className="edit-personal-info-container">
+        <h1>Personal Info</h1>
+        <RegisterForm
+          onSubmit={onSubmit}
+          responseError={responseErrors}
+          userDetail={userDetail}
+          page="edit-profile"
+        />
+      </div>
     </Dialog>
   );
 }
