@@ -71,7 +71,7 @@ export default function SigninPage() {
     <div className="signin-container">
       <h1 className="text-xl my-5 font-semibold">Login</h1>
       <p className="errorMsg">{responseErrors && "Invalid email or password"}</p>
-      <form onSubmit={handleSubmit(onSubmit)} className="sign-from">
+      <form onSubmit={handleSubmit(onSubmit)} className="signin-form">
         <div>
           <input
             placeholder="email@gmail.com"
@@ -100,7 +100,7 @@ export default function SigninPage() {
           )}
         </div>
         <div>
-          <button type="submit" className="sign-btn">
+          <button type="submit" className="signin-btn">
             Sign In
           </button>
         </div>

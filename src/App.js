@@ -10,7 +10,7 @@ import SinglePostPage from "./pages/pets/SinglePostPage";
 import ContactPage from "./pages/ContactPage";
 import PetResourcePage from "./pages/PetResourcePage";
 import PersonalDetailPage from "./pages/personalDetail/PersonalDetailPage";
-import EditProfilePage from "./pages/personalDetail/EditProfilePage";
+import EditProfilePage from "./components/EditProfileDialog";
 import CreatePostPage from "./pages/personalDetail/CreatePostPage";
 
 function App() {

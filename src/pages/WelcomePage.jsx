@@ -18,7 +18,7 @@ export default function WelcomePage() {
       <div className="welcome-page-topbar">
         <img src={logo} alt="logo" className="w-12" />
         <a href="./signin">
-          <button className="signin-btn">Sign In</button>
+          <button className="welcome-page-signin-btn">Sign In</button>
         </a>
       </div>
       <section className="welcome-page-words-container">

@@ -3,6 +3,7 @@ import { useLocalStorage } from "react-use";
 import { useUserPost } from "../../contexts/UserPostContext";
 import { useNavigate } from "react-router-dom";
 import "../../styles/PersonalDetailPage.css";
+import EditProfileDialog from "../../components/EditProfileDialog";
 
 const api = process.env.REACT_APP_DATABASE_URL;
 
@@ -11,6 +12,7 @@ export default function PersonalDetailPage() {
   const [userAuth, setUserAuth] = useLocalStorage("pawsReuniteUserAuth");
   const [userDetail, setUserDetail] = useState(null);
   const navigate = useNavigate();
+  // context
   const userPostData = useUserPost();
 
   const handleLogout = () => {
@@ -38,7 +40,16 @@ export default function PersonalDetailPage() {
       }
     }
     fetchUserData();
-  }, []);
+  }, [userAuth]);
+
+  // handle edit profile dialog
+  const [editProfileDialogOpen, setEditProfileDialogOpen] = useState(false);
+  const closeEditProfileDialog = () => {
+    setEditProfileDialogOpen(false);
+  };
+  const openEditProfileDialog = () => {
+    setEditProfileDialogOpen(true);
+  };
 
   return (
     <div>
@@ -50,7 +61,12 @@ export default function PersonalDetailPage() {
           <h3 className="email">{userDetail && userDetail.email}</h3>
         </div>
         <div className="personal-info-btn-container">
-          <button>Edit profile</button>
+          <button onClick={openEditProfileDialog}>Edit profile</button>
+          <EditProfileDialog
+            isOpen={editProfileDialogOpen}
+            closeDialog={closeEditProfileDialog}
+            setUserDetail={setUserDetail}
+          />
           <button onClick={handleLogout}>Logout</button>
         </div>
       </div>
@@ -68,7 +84,7 @@ export default function PersonalDetailPage() {
               </a>
             ))}
         </div>
-        <button>Create Post</button>
+        <button onClick={() => navigate("/personalDetail/createPost")}>Create Post</button>
       </div>
     </div>
   );

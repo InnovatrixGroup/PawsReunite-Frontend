@@ -18,7 +18,8 @@
   justify-content: center;
 }
 
-.sign-from input {
+.signin-form input,
+.signup-form input {
   width: 60%;
   max-width: 500px;
   border: 1px;
@@ -28,7 +29,8 @@
   box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
-.sign-btn {
+.signin-btn,
+.signup-btn {
   width: 60%;
   max-width: 500px;
   background-color: #7c2d12;
