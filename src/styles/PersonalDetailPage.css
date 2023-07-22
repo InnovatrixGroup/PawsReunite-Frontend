@@ -107,7 +107,7 @@
   .personal-info .username,
   .personal-info .email {
     inline-size: 200px;
-    }
+  }
 
   .personal-info-btn-container {
     flex-direction: row;
@@ -128,20 +128,19 @@
 
   .personal-info-post-gallery {
     width: 100%;
-    align-content: flex-start; 
+    align-content: flex-start;
     padding: 0 10px;
     align-self: center;
   }
 
   .personal-info-post-gallery a {
     width: 31%;
-    margin: calc(7% / 6)
+    margin: calc(7% / 6);
   }
 
   .personal-info-post-container h1 {
     margin-bottom: 0;
     margin-left: 0;
-    padding-left: calc(7% / 6 + 10px)
+    padding-left: calc(7% / 6 + 10px);
   }
 }
-

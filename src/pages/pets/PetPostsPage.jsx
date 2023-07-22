@@ -87,6 +87,28 @@ export default function HomePage() {
   const breedsForSelectedSpecies =
     selection_2.find((item) => item.species === selectedSpecies)?.breeds || [];
 
+  function hasNonEmptyStringValue(obj) {
+    if (typeof obj !== "object" || obj === null) {
+      return false;
+    }
+
+    for (const key in obj) {
+      if (obj.hasOwnProperty(key)) {
+        const value = obj[key];
+
+        if (typeof value === "string" && value.trim() !== "") {
+          return true;
+        } else if (typeof value === "object") {
+          if (hasNonEmptyStringValue(value)) {
+            return true;
+          }
+        }
+      }
+    }
+
+    return false;
+  }
+
   useEffect(() => {
     const fetchPosts = async () => {
       let apiUrl = `${api}/posts?status=found`;
@@ -146,7 +168,8 @@ export default function HomePage() {
         />
       </div>
       <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-        {posts.length === 0 && <p>No posts found</p>}
+        {/* check filterData has empty string value for prevent first rendering with no posts found display when fetching */}
+        {posts.length === 0 && hasNonEmptyStringValue(filterData) && <p>No posts found</p>}
         {posts.length > 0 && posts.map((post) => <Post key={post._id} postId={post._id} />)}
       </div>
     </div>
