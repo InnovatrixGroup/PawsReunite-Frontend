@@ -1,27 +1,48 @@
 import { useEffect, useState } from "react";
 import { useLocalStorage } from "react-use";
-import { useUserPost } from "../../contexts/UserPostContext";
+import { useUserPostDispatch, useUserPost } from "../../contexts/UserPostContext";
 import { useNavigate } from "react-router-dom";
 import "../../styles/PersonalDetailPage.css";
+import EditProfileDialog from "../../components/EditProfileDialog";
 
 const api = process.env.REACT_APP_DATABASE_URL;
 
 export default function PersonalDetailPage() {
-  // const [userData, setUserData] = useState(null);
   const [userAuth, setUserAuth] = useLocalStorage("pawsReuniteUserAuth");
   const [userDetail, setUserDetail] = useState(null);
   const navigate = useNavigate();
-  const userPostData = useUserPost();
 
   const handleLogout = () => {
     setUserAuth(null);
-
     // navigate to landing page automatically after logout
     setTimeout(() => {
       navigate("/welcome");
     }, 2000);
   };
 
+  const userPostData = useUserPost();
+  const userPostDispatch = useUserPostDispatch();
+  // fetch user post data and save to context
+  useEffect(() => {
+    async function fetchUserPosts() {
+      try {
+        const response = await fetch(`${api}/posts/user`, {
+          method: "GET",
+          headers: {
+            authorization: `Bearer ${userAuth.jwt}`,
+            userId: userAuth.userId
+          }
+        });
+        const jsonData = await response.json();
+        userPostDispatch({ type: "loadAll", payload: jsonData.data });
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    fetchUserPosts();
+  }, [userAuth]);
+
+  // fetch user data and save to state
   useEffect(() => {
     async function fetchUserData() {
       try {
@@ -38,7 +59,30 @@ export default function PersonalDetailPage() {
       }
     }
     fetchUserData();
-  }, []);
+  }, [userAuth]);
+
+  // handle edit profile dialog
+  const [editProfileDialogOpen, setEditProfileDialogOpen] = useState(false);
+  const closeEditProfileDialog = () => {
+    setEditProfileDialogOpen(false);
+  };
+  const openEditProfileDialog = () => {
+    setEditProfileDialogOpen(true);
+  };
+
+  // hide navbar when edit profile dialog is open, but show footer
+  useEffect(() => {
+    const navbar = document.querySelector(".navbar");
+    editProfileDialogOpen && navbar.classList.add("hidden");
+
+    const footer = document.querySelector(".footer-container");
+    editProfileDialogOpen && footer.classList.add("show-footer");
+
+    return () => {
+      navbar.classList.remove("hidden");
+      footer.classList.remove("show-footer");
+    };
+  }, [editProfileDialogOpen]);
 
   return (
     <div>
@@ -50,7 +94,15 @@ export default function PersonalDetailPage() {
           <h3 className="email">{userDetail && userDetail.email}</h3>
         </div>
         <div className="personal-info-btn-container">
-          <button>Edit profile</button>
+          <button onClick={openEditProfileDialog}>Edit profile</button>
+          <EditProfileDialog
+            isOpen={editProfileDialogOpen}
+            closeDialog={closeEditProfileDialog}
+            setUserDetail={setUserDetail}
+            userDetail={userDetail}
+            userAuth={userAuth}
+            setUserAuth={setUserAuth}
+          />
           <button onClick={handleLogout}>Logout</button>
         </div>
       </div>
@@ -68,7 +120,7 @@ export default function PersonalDetailPage() {
               </a>
             ))}
         </div>
-        <button>Create Post</button>
+        <button onClick={() => navigate("/personalDetail/createPost")}>Create Post</button>
       </div>
     </div>
   );

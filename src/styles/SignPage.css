@@ -18,7 +18,8 @@
   justify-content: center;
 }
 
-.sign-from input {
+.signin-form input,
+.signup-form input {
   width: 60%;
   max-width: 500px;
   border: 1px;
@@ -28,7 +29,8 @@
   box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
-.sign-btn {
+.signin-btn,
+.signup-btn {
   width: 60%;
   max-width: 500px;
   background-color: #7c2d12;
@@ -41,13 +43,13 @@
   cursor: pointer;
 }
 
-.password-container {
+.password-container-input {
   position: relative;
 }
 
 .visibility-icon {
+  top: 35%;
   position: absolute;
-  top: 30%;
   cursor: pointer;
 }
 
@@ -64,7 +66,8 @@
   font-weight: 600;
 }
 
-.errorMsg {
+.signin-form .errorMsg,
+.singup-from .errorMsg {
   width: 60%;
   max-width: 500px;
   margin: auto;

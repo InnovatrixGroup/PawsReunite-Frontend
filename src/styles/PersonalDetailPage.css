@@ -81,7 +81,7 @@
 
 .personal-info-post-container button {
   width: 80%;
-  max-width: 500px;
+  max-width: 300px;
   padding: 5px 20px;
   margin: 20px 0;
   border-radius: 12px;
@@ -107,6 +107,7 @@
   .personal-info .username,
   .personal-info .email {
     inline-size: 200px;
+    width: fit-content;
   }
 
   .personal-info-btn-container {
@@ -142,5 +143,13 @@
     margin-bottom: 0;
     margin-left: 0;
     padding-left: calc(7% / 6 + 10px);
+  }
+}
+
+@media only screen and (min-width: 1024px) {
+  .personal-info .username,
+  .personal-info .email {
+    inline-size: 500px;
+    width: fit-content;
   }
 }
