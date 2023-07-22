@@ -82,22 +82,24 @@ export default function SigninPage() {
           />
         </div>
         <div className="password-container">
-          <input
-            placeholder="password"
-            name="password"
-            type={passwordVisibility ? "text" : "password"}
-            onInput={() => setResponseErrors(null)}
-            {...register("password", { required: true })}
-          />
-          {passwordVisibility ? (
-            <i onClick={handleClickShowPassword} className="visibility-icon">
-              <VisibilityOffIcon />
-            </i>
-          ) : (
-            <i onClick={handleClickShowPassword} className="visibility-icon">
-              <VisibilityIcon />
-            </i>
-          )}
+          <div className="password-container-input">
+            <input
+              placeholder="password"
+              name="password"
+              type={passwordVisibility ? "text" : "password"}
+              onInput={() => setResponseErrors(null)}
+              {...register("password", { required: true })}
+            />
+            {passwordVisibility ? (
+              <i onClick={handleClickShowPassword} className="visibility-icon">
+                <VisibilityOffIcon />
+              </i>
+            ) : (
+              <i onClick={handleClickShowPassword} className="visibility-icon">
+                <VisibilityIcon />
+              </i>
+            )}
+          </div>
         </div>
         <div>
           <button type="submit" className="signin-btn">

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useLocalStorage } from "react-use";
-import { useUserPost } from "../../contexts/UserPostContext";
+import { useUserPostDispatch, useUserPost } from "../../contexts/UserPostContext";
 import { useNavigate } from "react-router-dom";
 import "../../styles/PersonalDetailPage.css";
 import EditProfileDialog from "../../components/EditProfileDialog";
@@ -8,21 +8,39 @@ import EditProfileDialog from "../../components/EditProfileDialog";
 const api = process.env.REACT_APP_DATABASE_URL;
 
 export default function PersonalDetailPage() {
-  // const [userData, setUserData] = useState(null);
   const [userAuth, setUserAuth] = useLocalStorage("pawsReuniteUserAuth");
   const [userDetail, setUserDetail] = useState(null);
   const navigate = useNavigate();
-  // context
-  const userPostData = useUserPost();
 
   const handleLogout = () => {
     setUserAuth(null);
-
     // navigate to landing page automatically after logout
     setTimeout(() => {
       navigate("/welcome");
     }, 2000);
   };
+
+  const userPostData = useUserPost();
+  const userPostDispatch = useUserPostDispatch();
+  // fetch user post data and save to context
+  useEffect(() => {
+    async function fetchUserPosts() {
+      try {
+        const response = await fetch(`${api}/posts/user`, {
+          method: "GET",
+          headers: {
+            authorization: `Bearer ${userAuth.jwt}`,
+            userId: userAuth.userId
+          }
+        });
+        const jsonData = await response.json();
+        userPostDispatch({ type: "loadAll", payload: jsonData.data });
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    fetchUserPosts();
+  }, [userAuth]);
 
   // fetch user data and save to state
   useEffect(() => {
@@ -64,7 +82,7 @@ export default function PersonalDetailPage() {
       navbar.classList.remove("hidden");
       footer.classList.remove("show-footer");
     };
-  });
+  }, [editProfileDialogOpen]);
 
   return (
     <div>
@@ -82,6 +100,8 @@ export default function PersonalDetailPage() {
             closeDialog={closeEditProfileDialog}
             setUserDetail={setUserDetail}
             userDetail={userDetail}
+            userAuth={userAuth}
+            setUserAuth={setUserAuth}
           />
           <button onClick={handleLogout}>Logout</button>
         </div>

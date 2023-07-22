@@ -4,7 +4,8 @@ import { useForm } from "react-hook-form";
 import { useState } from "react";
 
 export default function RegisterForm(props) {
-  const { onSubmit, responseErrors, page, userDetail } = props;
+  const { onSubmit, responseErrors, page, userDetail, onChange } = props;
+
   //useForm is a custom hook that allows us to register inputs and validate fields
   const {
     register,
@@ -38,7 +39,7 @@ export default function RegisterForm(props) {
             </p>
           );
         })}
-      <form onSubmit={handleSubmit(onSubmit)} className={`${page}-form`}>
+      <form onSubmit={handleSubmit(onSubmit)} className={`${page}-form`} onChange={onChange}>
         <div>
           {!isSignupPage && <label>Username</label>}
           <input
