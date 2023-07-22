@@ -1,18 +1,23 @@
-import { useParams } from "react-router-dom";
+import { useParams, Navigate } from "react-router-dom";
 import Post from "../../components/Post";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import Comment from "../../components/Comment";
 import { useLocalStorage } from "react-use";
 import { useEffect, useState } from "react";
+import { useUserPost, useUserPostDispatch } from "../../contexts/UserPostContext";
+import DeleteConfirmDialog from "../../components/DeleteConfirmDialog";
 
 const api = process.env.REACT_APP_DATABASE_URL;
 
 export default function SinglePetPage() {
   const { id } = useParams();
 
+  const [isredirect, setIsRedirect] = useState(false);
   const [userAuth, setUserAuth] = useLocalStorage("pawsReuniteUserAuth");
+  const userPostDispatch = useUserPostDispatch();
   console.log(userAuth.userId);
   const [post, setPost] = useState(null);
+  const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
 
   useEffect(() => {
     const fetchPost = async () => {
@@ -22,6 +27,28 @@ export default function SinglePetPage() {
     };
     fetchPost();
   }, [id]);
+
+  const deletePost = async () => {
+    try {
+      const response = await fetch(`${api}/posts/${id}`, {
+        method: "DELETE",
+        headers: {
+          authorization: `Bearer ${userAuth.jwt}`
+        }
+      });
+      if (response.ok) {
+        userPostDispatch({ type: "delete", blogIdToDelete: id });
+        // Show a message that the post has been deleted
+        alert("Post has been deleted.");
+        console.log("Post has been deleted.");
+
+        setIsRedirect(true);
+      }
+      setShowDeleteConfirmation(false);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const isUserPost = post && post.userId === userAuth.userId;
 
@@ -36,7 +63,10 @@ export default function SinglePetPage() {
           <button className="single__post_funcation_btn bg-orange-900 text-white border px-16 xs:flex-1 xs:px-0 py-2 font-light rounded-xl">
             Edit
           </button>
-          <button className="single__post_funcation_btn  bg-orange-900 text-white border px-16 xs:flex-1 xs:px-0 py-2 font-light rounded-xl">
+          <button
+            className="single__post_funcation_btn  bg-orange-900 text-white border px-16 xs:flex-1 xs:px-0 py-2 font-light rounded-xl"
+            onClick={() => setShowDeleteConfirmation(true)}
+          >
             Delete
           </button>
         </div>
@@ -55,6 +85,12 @@ export default function SinglePetPage() {
           Send
         </button>
       </div>
+      <DeleteConfirmDialog
+        open={showDeleteConfirmation}
+        onClose={() => setShowDeleteConfirmation(false)}
+        onConfirm={deletePost}
+      />
+      {isredirect && <Navigate to="/personalDetail" />}
     </div>
   );
 }
