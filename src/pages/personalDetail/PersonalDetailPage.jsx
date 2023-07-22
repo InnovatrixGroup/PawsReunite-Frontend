@@ -44,7 +44,7 @@ export default function PersonalDetailPage() {
   }, [userAuth]);
 
   // handle edit profile dialog
-  const [editProfileDialogOpen, setEditProfileDialogOpen] = useState(true);
+  const [editProfileDialogOpen, setEditProfileDialogOpen] = useState(false);
   const closeEditProfileDialog = () => {
     setEditProfileDialogOpen(false);
   };

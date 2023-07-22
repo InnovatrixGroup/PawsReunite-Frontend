@@ -17,20 +17,23 @@ export default function EditProfileDialog(props) {
   const responseErrors = null;
 
   return (
-    <Dialog open={isOpen} onClose={closeDialog} fullScreen>
+    <Dialog open={isOpen} onClose={closeDialog} fullScreen className="edit-profile-dialog">
       <div className="edit-profile-header">
         <ClearIcon onClick={closeDialog} className="close-icon" fontSize="large" />
         <h1>Edit profile</h1>
       </div>
       <Divider sx={{ boxShadow: 2 }} />
-      <div className="edit-personal-info-container">
-        <h1>Personal Info</h1>
-        <RegisterForm
-          onSubmit={onSubmit}
-          responseError={responseErrors}
-          userDetail={userDetail}
-          page="edit-profile"
-        />
+      <div className="edit-profile-bg-container">
+        <div className="edit-personal-info-container">
+          <h1>Personal Info</h1>
+          <RegisterForm
+            onSubmit={onSubmit}
+            responseError={responseErrors}
+            userDetail={userDetail}
+            page="edit-profile"
+          />
+        </div>
+        <div className="hidden lg:block lg-bg"></div>
       </div>
     </Dialog>
   );
