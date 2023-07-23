@@ -8,7 +8,11 @@ import Button from "@mui/material/Button";
 
 function DeleteConfirmDialog({ open, onClose, onConfirm }) {
   return (
-    <Dialog open={open} onClose={onClose}>
+    <Dialog
+      open={open}
+      onClose={onClose}
+      PaperProps={{ style: { padding: "12px", borderRadius: "20px" } }}
+    >
       <DialogTitle>Delete Post?</DialogTitle>
       <DialogContent>
         <DialogContentText>Are you sure you want to delete this post?</DialogContentText>

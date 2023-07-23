@@ -167,7 +167,7 @@ export default function HomePage() {
           title="suburb" // Add the title prop for the first filter
         />
       </div>
-      <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+      <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3">
         {/* check filterData has empty string value for prevent first rendering with no posts found display when fetching */}
         {posts.length === 0 && hasNonEmptyStringValue(filterData) && <p>No posts found</p>}
         {posts.length > 0 && posts.map((post) => <Post key={post._id} postId={post._id} />)}

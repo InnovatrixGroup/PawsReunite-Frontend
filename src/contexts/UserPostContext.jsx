@@ -12,7 +12,14 @@ const userPostReducer = (previousState, instructions) => {
       let newState = instructions.payload;
       return newState;
     case "update":
-      // let newState = { stateEditable, ...instructions.payload };
+      console.log(instructions);
+      console.log(stateEditable);
+      let index = stateEditable.findIndex((blog) => blog._id === instructions.blogIdToUpdate);
+      // copy of existing state since we can't modify it directly
+      // stateEditable = [...previousState];
+      // modify the copy
+      // stateEditable[targetBlog] = instructions.updatedBlog;
+      stateEditable[index] = { ...stateEditable[index], ...instructions.updatedBlog };
       return stateEditable;
     case "delete":
       // do some delete or filter on the previous state

@@ -4,8 +4,9 @@ import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import Comment from "../../components/Comment";
 import { useLocalStorage } from "react-use";
 import { useEffect, useState } from "react";
-import { useUserPost, useUserPostDispatch } from "../../contexts/UserPostContext";
+import { useUserPostDispatch, useUserPost } from "../../contexts/UserPostContext";
 import DeleteConfirmDialog from "../../components/DeleteConfirmDialog";
+import EditPostPopup from "../../components/EditPostPopup";
 
 const api = process.env.REACT_APP_DATABASE_URL;
 
@@ -15,9 +16,10 @@ export default function SinglePetPage() {
   const [isredirect, setIsRedirect] = useState(false);
   const [userAuth, setUserAuth] = useLocalStorage("pawsReuniteUserAuth");
   const userPostDispatch = useUserPostDispatch();
-  console.log(userAuth.userId);
   const [post, setPost] = useState(null);
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
+  const [isEdit, setIsEdit] = useState(false);
+  const userPostData = useUserPost();
 
   useEffect(() => {
     const fetchPost = async () => {
@@ -40,7 +42,6 @@ export default function SinglePetPage() {
         userPostDispatch({ type: "delete", blogIdToDelete: id });
         // Show a message that the post has been deleted
         alert("Post has been deleted.");
-        console.log("Post has been deleted.");
 
         setIsRedirect(true);
       }
@@ -60,7 +61,10 @@ export default function SinglePetPage() {
       <Post postId={id} isSingle={true} />
       {isUserPost && (
         <div className="single__post_funcation flex justify-end px-3 gap-4 mb-8 xs:justify-between">
-          <button className="single__post_funcation_btn bg-orange-900 text-white border px-16 xs:flex-1 xs:px-0 py-2 font-light rounded-xl">
+          <button
+            className="single__post_funcation_btn bg-orange-900 text-white border px-16 xs:flex-1 xs:px-0 py-2 font-light rounded-xl"
+            onClick={() => setIsEdit(true)}
+          >
             Edit
           </button>
           <button
@@ -90,6 +94,7 @@ export default function SinglePetPage() {
         onClose={() => setShowDeleteConfirmation(false)}
         onConfirm={deletePost}
       />
+      {post && <EditPostPopup trigger={isEdit} close={() => setIsEdit(false)} post={post} />}
       {isredirect && <Navigate to="/personalDetail" />}
     </div>
   );
