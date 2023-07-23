@@ -1,0 +1,13 @@
+.contact-container-msg {
+    background-image: url(../pics/signin-bg.svg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 100% 100%;
+}
+
+.contact-container .lg-right-bg {
+    background-image: url(../pics/contact-page-cat.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
