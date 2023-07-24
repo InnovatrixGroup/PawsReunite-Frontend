@@ -104,7 +104,14 @@ export default function SinglePetPage() {
             onClose={() => setShowDeleteConfirmation(false)}
             onConfirm={deletePost}
           />
-          {post && <EditPostPopup trigger={isEdit} close={() => setIsEdit(false)} post={post} />}
+          {post && (
+            <EditPostPopup
+              trigger={isEdit}
+              close={() => setIsEdit(false)}
+              post={post}
+              mode="update"
+            />
+          )}
           {isredirect && <Navigate to="/personalDetail" />}
         </div>
       )}

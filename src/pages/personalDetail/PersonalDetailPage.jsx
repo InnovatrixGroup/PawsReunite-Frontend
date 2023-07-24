@@ -4,12 +4,14 @@ import { useUserPostDispatch, useUserPost } from "../../contexts/UserPostContext
 import { useNavigate } from "react-router-dom";
 import "../../styles/PersonalDetailPage.css";
 import EditProfileDialog from "../../components/EditProfileDialog";
+import EditPostPopup from "../../components/EditPostPopup";
 
 const api = process.env.REACT_APP_DATABASE_URL;
 
 export default function PersonalDetailPage() {
   const [userAuth, setUserAuth] = useLocalStorage("pawsReuniteUserAuth");
   const [userDetail, setUserDetail] = useState(null);
+  const [isCreate, setIsCreate] = useState(false);
   const navigate = useNavigate();
   const userPostDispatch = useUserPostDispatch();
   const userPostData = useUserPost();
@@ -119,7 +121,15 @@ export default function PersonalDetailPage() {
               </a>
             ))}
         </div>
-        <button onClick={() => navigate("/personalDetail/createPost")}>Create Post</button>
+        <button onClick={() => setIsCreate(true)}>Create Post</button>
+        {
+          <EditPostPopup
+            trigger={isCreate}
+            close={() => setIsCreate(false)}
+            post={{}}
+            mode="create"
+          />
+        }
       </div>
     </div>
   );
