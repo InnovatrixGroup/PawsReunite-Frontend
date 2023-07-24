@@ -14,10 +14,9 @@ export default function PersonalDetailPage() {
 
   const handleLogout = () => {
     setUserAuth(null);
+    alert("You have logged out.");
     // navigate to landing page automatically after logout
-    setTimeout(() => {
-      navigate("/welcome");
-    }, 2000);
+    navigate("/welcome");
   };
 
   // fetch user data and save to state
