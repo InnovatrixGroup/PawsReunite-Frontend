@@ -3,6 +3,9 @@ import HeroSection from "../components/HeroSection";
 import Post from "../components/Post";
 import FilterSelect from "../components/FilterSelect";
 import { useFilterData, useFilterDispatch } from "../contexts/FilterContext";
+import { useUserPost, useUserPostDispatch } from "../contexts/UserPostContext";
+import { useLocalStorage } from "react-use";
+import PostSkeleton from "../components/PostSkeleton";
 
 const api = process.env.REACT_APP_DATABASE_URL;
 
@@ -18,6 +21,11 @@ export default function HomePage() {
   const [selectedColor, setSelectedColor] = useState("");
   const [selectedSuburb, setSelectedSuburb] = useState("");
   const [suburbOptions, setSuburbOptions] = useState([]);
+  const [userAuth, setUserAuth] = useLocalStorage("pawsReuniteUserAuth");
+  const [isloading, setIsLoading] = useState(true);
+
+  const userPostDispatch = useUserPostDispatch();
+  const userPosts = useUserPost();
 
   const handleSpeciesChange = async (event) => {
     const speciesValue = event.target.value;
@@ -108,7 +116,26 @@ export default function HomePage() {
       const response = await fetch(apiUrl);
       const result = await response.json();
       setPosts(result.data);
+      setIsLoading(false);
     };
+
+    // const fetchUserPosts = async () => {
+    //   try {
+    //     const response = await fetch(`${api}/posts/user`, {
+    //       method: "GET",
+    //       headers: {
+    //         authorization: `Bearer ${userAuth.jwt}`,
+    //         userId: userAuth.userId
+    //       }
+    //     });
+    //     const jsonData = await response.json();
+    //     userPostDispatch({ type: "loadAll", payload: jsonData.data });
+    //   } catch (error) {
+    //     console.log(error);
+    //   }
+    // };
+
+    // fetchUserPosts();
     fetchPosts();
   }, [selectedSpecies, breed, selectedColor, selectedSuburb, filterData]);
 
@@ -168,10 +195,16 @@ export default function HomePage() {
         />
       </div>
       <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3">
-        {/* check filterData has empty string value for prevent first rendering with no posts found display when fetching */}
-        {posts.length === 0 && hasNonEmptyStringValue(filterData) && <p>No posts found</p>}
-        {posts.length > 0 && posts.map((post) => <Post key={post._id} postId={post._id} />)}
+        {posts.length > 0 && posts.map((post) => <Post key={post._id} postData={post} />)}
       </div>
+      {isloading && (
+        <div className="Skeleton-container grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3">
+          <PostSkeleton num={8} />
+        </div>
+      )}
+      {/* check filterData has empty string value for prevent first rendering with no posts found display when fetching */}
+      {posts.length === 0 && hasNonEmptyStringValue(filterData) && <p>No posts found</p>}
+      {console.log("userpost", userPosts)}
     </div>
   );
 }

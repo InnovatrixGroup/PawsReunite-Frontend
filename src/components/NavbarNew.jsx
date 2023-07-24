@@ -7,11 +7,14 @@ import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import Dropdown from "./Dropdown";
 import { NavLink } from "react-router-dom";
+import { useFilterData, useFilterDispatch } from "../contexts/FilterContext";
 
 export default function NavbarNew() {
   const [isOpen, setIsOpen] = useState(false);
   const [isSubmenuOpen, setIsSubmenuOpen] = useState(false);
   const [isDarkFilterVisible, setIsDarkFilterVisible] = useState(false);
+  const filterData = useFilterData();
+  const filerDispath = useFilterDispatch();
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -30,6 +33,12 @@ export default function NavbarNew() {
     setIsSubmenuOpen(false);
   };
 
+  // reset filter data and reload the page so the selection is cleared
+  const resetFilterData = () => {
+    filerDispath({ type: "reset" });
+    window.location.href = "/";
+  };
+
   return (
     <div>
       <div
@@ -38,7 +47,7 @@ export default function NavbarNew() {
       ></div>
       <ul className="navbar flex justify-between items-center bg-gray-200 py-2 px-6 fixed top-0 w-full max-w-7xl">
         <li>
-          <NavLink className="navbar__logo" to="/">
+          <NavLink className="navbar__logo" to="/" onClick={resetFilterData}>
             <img src={logo} alt="logo" className="w-10" />
           </NavLink>
         </li>
@@ -46,7 +55,9 @@ export default function NavbarNew() {
         <ul className="navbar__icons flex gap-4">
           <ul className="hidden justify-between items-center gap-6 md:flex lg:flex">
             <li>
-              <NavLink to="/">Home</NavLink>
+              <NavLink to="/" onClick={resetFilterData}>
+                Home
+              </NavLink>
             </li>
             <li
               className="pet__menu relative"

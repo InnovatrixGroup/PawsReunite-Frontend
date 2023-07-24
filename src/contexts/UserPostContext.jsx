@@ -27,7 +27,7 @@ const userPostReducer = (previousState, instructions) => {
       // stateEditable = [...previousState];
       let targetBlog = instructions.blogIdToDelete;
       // return the result
-      return stateEditable.filter((blog) => blog.id !== targetBlog);
+      return stateEditable.filter((blog) => blog._id !== targetBlog);
     case "create":
       // add some data to the previous state
       // return the result;
@@ -55,6 +55,28 @@ export function useUserPostDispatch() {
 
 export default function UserPostProvider(props) {
   const [userPostData, userPostDispatch] = useReducer(userPostReducer, initial_state);
+
+  const [userAuth, setUserAuth] = useLocalStorage("pawsReuniteUserAuth");
+
+  useEffect(() => {
+    const fetchUserPosts = async () => {
+      try {
+        const response = await fetch(`${api}/posts/user`, {
+          method: "GET",
+          headers: {
+            authorization: `Bearer ${userAuth.jwt}`,
+            userId: userAuth.userId
+          }
+        });
+        const jsonData = await response.json();
+        userPostDispatch({ type: "loadAll", payload: jsonData.data });
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchUserPosts();
+  }, []);
 
   return (
     <UserPostContext.Provider value={userPostData}>

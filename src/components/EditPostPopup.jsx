@@ -5,7 +5,7 @@ import { useUserPost, useUserPostDispatch } from "../contexts/UserPostContext";
 
 const api = process.env.REACT_APP_DATABASE_URL;
 
-function EditPostPopup({ trigger, close, post }) {
+function EditPostPopup({ trigger, close, post, update }) {
   const colorOptions = [
     "yellow",
     "black",
@@ -81,6 +81,7 @@ function EditPostPopup({ trigger, close, post }) {
         })
       });
       const result = await response.json();
+
       close();
     } catch (error) {
       console.log(error);

@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
-import HeroSection from "../../components/HeroSection";
 import Post from "../../components/Post";
 import FilterSelect from "../../components/FilterSelect";
 import { useFilterData, useFilterDispatch } from "../../contexts/FilterContext";
+import { useUserPost, useUserPostDispatch } from "../../contexts/UserPostContext";
+import { useLocalStorage } from "react-use";
+import PostSkeleton from "../../components/PostSkeleton";
 
 const api = process.env.REACT_APP_DATABASE_URL;
 
-export default function HomePage() {
+export default function PetPostsPage() {
   const [posts, setPosts] = useState([]);
   const [selectedSpecies, setSelectedSpecies] = useState("");
   const [speciesOptions, setSpeciesOptions] = useState([]);
@@ -18,6 +20,11 @@ export default function HomePage() {
   const [selectedColor, setSelectedColor] = useState("");
   const [selectedSuburb, setSelectedSuburb] = useState("");
   const [suburbOptions, setSuburbOptions] = useState([]);
+  const [userAuth, setUserAuth] = useLocalStorage("pawsReuniteUserAuth");
+  const [isloading, setIsLoading] = useState(true);
+
+  const userPostDispatch = useUserPostDispatch();
+  const userPostData = useUserPost();
 
   const handleSpeciesChange = async (event) => {
     const speciesValue = event.target.value;
@@ -87,6 +94,33 @@ export default function HomePage() {
   const breedsForSelectedSpecies =
     selection_2.find((item) => item.species === selectedSpecies)?.breeds || [];
 
+  useEffect(() => {
+    const fetchPosts = async () => {
+      let apiUrl = `${api}/posts?status=found`;
+      filterData.forEach((filter) => {
+        if (filter.species) {
+          apiUrl += `&species=${filter.species}`;
+        }
+        if (filter.breed) {
+          apiUrl += `&breed=${filter.breed}`;
+        }
+        if (filter.color) {
+          apiUrl += `&color=${filter.color}`;
+        }
+        if (filter.suburb) {
+          apiUrl += `&suburb=${filter.suburb}`;
+        }
+      });
+
+      const response = await fetch(apiUrl);
+      const result = await response.json();
+      setPosts(result.data);
+      setIsLoading(false);
+    };
+
+    fetchPosts();
+  }, [selectedSpecies, breed, selectedColor, selectedSuburb, filterData]);
+
   function hasNonEmptyStringValue(obj) {
     if (typeof obj !== "object" || obj === null) {
       return false;
@@ -108,32 +142,6 @@ export default function HomePage() {
 
     return false;
   }
-
-  useEffect(() => {
-    const fetchPosts = async () => {
-      let apiUrl = `${api}/posts?status=found`;
-      console.log(filterData);
-      filterData.forEach((filter) => {
-        if (filter.species) {
-          apiUrl += `&species=${filter.species}`;
-        }
-        if (filter.breed) {
-          apiUrl += `&breed=${filter.breed}`;
-        }
-        if (filter.color) {
-          apiUrl += `&color=${filter.color}`;
-        }
-        if (filter.suburb) {
-          apiUrl += `&suburb=${filter.suburb}`;
-        }
-      });
-
-      const response = await fetch(apiUrl);
-      const result = await response.json();
-      setPosts(result.data);
-    };
-    fetchPosts();
-  }, [selectedSpecies, breed, selectedColor, selectedSuburb, filterData]);
 
   return (
     <div className="homepage-container mb-12">
@@ -167,11 +175,17 @@ export default function HomePage() {
           title="suburb" // Add the title prop for the first filter
         />
       </div>
-      <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-        {/* check filterData has empty string value for prevent first rendering with no posts found display when fetching */}
-        {posts.length === 0 && hasNonEmptyStringValue(filterData) && <p>No posts found</p>}
-        {posts.length > 0 && posts.map((post) => <Post key={post._id} postId={post._id} />)}
+      <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3">
+        {posts.length > 0 && posts.map((post) => <Post key={post._id} postData={post} />)}
       </div>
+      {isloading && (
+        <div className="Skeleton-container grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3">
+          <PostSkeleton num={8} />
+        </div>
+      )}
+      {/* check filterData has empty string value for prevent first rendering with no posts found display when fetching */}
+      {posts.length === 0 && hasNonEmptyStringValue(filterData) && <p>No posts found</p>}
+      {userPostData && console.log(userPostData)}
     </div>
   );
 }
