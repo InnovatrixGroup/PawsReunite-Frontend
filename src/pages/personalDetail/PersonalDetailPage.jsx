@@ -19,28 +19,6 @@ export default function PersonalDetailPage() {
     navigate("/welcome");
   };
 
-  const userPostData = useUserPost();
-  const userPostDispatch = useUserPostDispatch();
-  // fetch user post data and save to context
-  useEffect(() => {
-    async function fetchUserPosts() {
-      try {
-        const response = await fetch(`${api}/posts/user`, {
-          method: "GET",
-          headers: {
-            authorization: `Bearer ${userAuth.jwt}`,
-            userId: userAuth.userId
-          }
-        });
-        const jsonData = await response.json();
-        userPostDispatch({ type: "loadAll", payload: jsonData.data });
-      } catch (error) {
-        console.log(error);
-      }
-    }
-    fetchUserPosts();
-  }, [userAuth]);
-
   // fetch user data and save to state
   useEffect(() => {
     async function fetchUserData() {
@@ -83,6 +61,8 @@ export default function PersonalDetailPage() {
     };
   }, [editProfileDialogOpen]);
 
+  const userPostData = useUserPost();
+
   return (
     <div>
       <div className="personal-info-container">
@@ -108,7 +88,8 @@ export default function PersonalDetailPage() {
       <div className="personal-info-post-container">
         <h1>Your Posts</h1>
         <div className="personal-info-post-gallery">
-          {userPostData?.length > 0 &&
+          {userPostData &&
+            userPostData.length > 0 &&
             userPostData.map((post) => (
               <a
                 href={`./pets/${post._id}`}
