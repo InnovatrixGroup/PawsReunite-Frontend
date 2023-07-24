@@ -2,10 +2,11 @@ import React, { useEffect, useState } from "react";
 import FilterSelect from "./FilterSelect";
 import { useLocalStorage } from "react-use";
 import { useUserPost, useUserPostDispatch } from "../contexts/UserPostContext";
+import { useNavigate } from "react-router-dom";
 
 const api = process.env.REACT_APP_DATABASE_URL;
 
-function EditPostPopup({ trigger, close, post, update }) {
+function EditPostPopup({ trigger, close, post, update, mode }) {
   const colorOptions = ["Yellow", "Black", "White", "Brown", "Grey", "Multi", "Cream"];
 
   const speciesOptions = ["Dog", "Cat", "Bird", "Rabbit", "Other"];
@@ -38,7 +39,9 @@ function EditPostPopup({ trigger, close, post, update }) {
   const [selectedStatus, setSelectedStatus] = useState(post.status);
   const [selectedSpecies, setSelectedSpecies] = useState(post.species);
   const [selectedBreed, setSelectedBreed] = useState(post.breed);
+  const [selectedImages, setSelectedImages] = useState(post.photos);
   const userPost = useUserPost();
+  const navigate = useNavigate();
 
   const handleSuburbChange = (event) => {
     const suburbValue = event.target.value;
@@ -88,7 +91,25 @@ function EditPostPopup({ trigger, close, post, update }) {
     setSelectedBreed(breedValue);
   };
 
-  const handleSubmit = async () => {
+  // for image upload
+  const fileSelectedHandler = (event) => {
+    const selectedFiles = event.target.files;
+    const selectedFilesArray = Array.from(selectedFiles);
+
+    const imagesArray = selectedFilesArray.map((file) => {
+      return URL.createObjectURL(file);
+    });
+
+    setSelectedImages((prevImages) => prevImages.concat(imagesArray));
+  };
+
+  // for image delete
+  const handleDeleteImage = (image) => {
+    setSelectedImages((prevImages) => prevImages.filter((prevImage) => prevImage !== image));
+  };
+
+  // for update post
+  const handleUpdatePost = async () => {
     try {
       const data = {
         title: title,
@@ -98,7 +119,8 @@ function EditPostPopup({ trigger, close, post, update }) {
         contactInfo: contactInfo,
         color: selectedColor,
         breed: selectedBreed,
-        species: selectedSpecies
+        species: selectedSpecies,
+        photos: selectedImages
       };
       userPostDispatch({ type: "update", blogIdToUpdate: post._id, updatedBlog: data });
       const response = await fetch(`${api}/posts/${post._id}`, {
@@ -112,6 +134,37 @@ function EditPostPopup({ trigger, close, post, update }) {
       const result = await response.json();
       alert("Post has been updated.");
       window.location.reload();
+
+      close();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleCreatePost = async () => {
+    try {
+      const data = {
+        title: title,
+        suburb: suburb,
+        status: selectedStatus,
+        description: description,
+        contactInfo: contactInfo,
+        color: selectedColor,
+        breed: selectedBreed,
+        species: selectedSpecies
+      };
+      userPostDispatch({ type: "create", newPost: data });
+      const response = await fetch(`${api}/posts`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          authorization: `Bearer ${userAuth.jwt}`
+        },
+        body: JSON.stringify(data)
+      });
+      const result = await response.json();
+      alert("Post has been created successfully.");
+      navigate(`/posts/${result.data._id}}`);
 
       close();
     } catch (error) {
@@ -218,8 +271,29 @@ function EditPostPopup({ trigger, close, post, update }) {
                   </span>
                 </label>
               </div>
+              <label>Upload Images</label>
+              <input
+                type="file"
+                onChange={fileSelectedHandler}
+                multiple
+                accept="image/png, image/jpeg"
+              />
+              <div className="images">
+                {selectedImages &&
+                  selectedImages.map((image, index) => {
+                    return (
+                      <div key={image}>
+                        <img src={image} className="h-28" alt="pet" />
+                        <button onClick={() => handleDeleteImage(image)}>X</button>
+                      </div>
+                    );
+                  })}
+              </div>
             </form>
-            <button className="btn border-2 p-3 " onClick={handleSubmit}>
+            <button
+              className="btn border-2 p-3 "
+              onClick={mode === "update" ? handleUpdatePost : handleCreatePost}
+            >
               Save
             </button>
             <button className="close-btn border-2 p-3" onClick={close}>

@@ -29,9 +29,8 @@ const userPostReducer = (previousState, instructions) => {
       // return the result
       return stateEditable.filter((blog) => blog._id !== targetBlog);
     case "create":
-      // add some data to the previous state
       // return the result;
-      return stateEditable;
+      return [...stateEditable, instructions.newPost];
     case "logout":
       // do some logout
       return stateEditable;

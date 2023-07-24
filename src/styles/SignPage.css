@@ -66,8 +66,7 @@
   font-weight: 600;
 }
 
-.signin-form .errorMsg,
-.singup-from .errorMsg {
+.errorMsg {
   width: 60%;
   max-width: 500px;
   margin: auto;
