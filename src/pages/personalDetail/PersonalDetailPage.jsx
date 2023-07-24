@@ -11,6 +11,8 @@ export default function PersonalDetailPage() {
   const [userAuth, setUserAuth] = useLocalStorage("pawsReuniteUserAuth");
   const [userDetail, setUserDetail] = useState(null);
   const navigate = useNavigate();
+  const userPostDispatch = useUserPostDispatch();
+  const userPostData = useUserPost();
 
   const handleLogout = () => {
     setUserAuth(null);
@@ -35,6 +37,25 @@ export default function PersonalDetailPage() {
         console.log(error);
       }
     }
+
+    const fetchUserPosts = async () => {
+      try {
+        const response = await fetch(`${api}/posts/user`, {
+          method: "GET",
+          headers: {
+            authorization: `Bearer ${userAuth.jwt}`,
+            userId: userAuth.userId
+          }
+        });
+        const jsonData = await response.json();
+        userPostDispatch({ type: "loadAll", payload: jsonData.data });
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchUserPosts();
+
     fetchUserData();
   }, [userAuth]);
 
@@ -60,8 +81,6 @@ export default function PersonalDetailPage() {
       footer.classList.remove("show-footer");
     };
   }, [editProfileDialogOpen]);
-
-  const userPostData = useUserPost();
 
   return (
     <div>
