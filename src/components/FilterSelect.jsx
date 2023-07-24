@@ -7,6 +7,7 @@ const FilterSelect = ({ label, value, options, onChange }) => {
       value={value}
       onChange={onChange}
     >
+      {console.log(value)}
       <option value="">{label}</option>
       {options.map((item) => (
         <option key={item} value={item}>

@@ -4,8 +4,8 @@ import React from "react";
 function PostSkeleton({ num }) {
   return Array(num)
     .fill(0)
-    .map((item) => (
-      <div className="post-skeleton flex flex-col justify-between">
+    .map((item, index) => (
+      <div className="post-skeleton flex flex-col justify-between" key={index}>
         <div className="post-skeleton__header flex justify-between">
           <div className="header_left flex-1">
             <Skeleton width="30%" height={32} />
