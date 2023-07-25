@@ -12,8 +12,6 @@ const userPostReducer = (previousState, instructions) => {
       let newState = instructions.payload;
       return newState;
     case "update":
-      console.log(instructions);
-      console.log(stateEditable);
       let index = stateEditable.findIndex((blog) => blog._id === instructions.blogIdToUpdate);
       // copy of existing state since we can't modify it directly
       // stateEditable = [...previousState];
@@ -55,27 +53,27 @@ export function useUserPostDispatch() {
 export default function UserPostProvider(props) {
   const [userPostData, userPostDispatch] = useReducer(userPostReducer, initial_state);
 
-  const [userAuth, setUserAuth] = useLocalStorage("pawsReuniteUserAuth");
+  // const [userAuth, setUserAuth] = useLocalStorage("pawsReuniteUserAuth");
 
-  useEffect(() => {
-    const fetchUserPosts = async () => {
-      try {
-        const response = await fetch(`${api}/posts/user`, {
-          method: "GET",
-          headers: {
-            authorization: `Bearer ${userAuth.jwt}`,
-            userId: userAuth.userId
-          }
-        });
-        const jsonData = await response.json();
-        userPostDispatch({ type: "loadAll", payload: jsonData.data });
-      } catch (error) {
-        console.log(error);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchUserPosts = async () => {
+  //     try {
+  //       const response = await fetch(`${api}/posts/user`, {
+  //         method: "GET",
+  //         headers: {
+  //           authorization: `Bearer ${userAuth.jwt}`,
+  //           userId: userAuth.userId
+  //         }
+  //       });
+  //       const jsonData = await response.json();
+  //       userPostDispatch({ type: "loadAll", payload: jsonData.data });
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   };
 
-    fetchUserPosts();
-  }, []);
+  //   fetchUserPosts();
+  // }, []);
 
   return (
     <UserPostContext.Provider value={userPostData}>

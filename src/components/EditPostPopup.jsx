@@ -3,6 +3,8 @@ import FilterSelect from "./FilterSelect";
 import { useLocalStorage } from "react-use";
 import { useUserPost, useUserPostDispatch } from "../contexts/UserPostContext";
 import { useNavigate } from "react-router-dom";
+import TextField from "@mui/material/TextField";
+import CancelRoundedIcon from "@mui/icons-material/CancelRounded";
 
 const api = process.env.REACT_APP_DATABASE_URL;
 
@@ -29,17 +31,17 @@ function EditPostPopup({ trigger, close, post, update, mode }) {
     }
   ];
 
-  const [selectedColor, setSelectedColor] = useState(post.color);
-  const [suburb, setSuburb] = useState(post.suburb);
-  const [title, setTitle] = useState(post.title);
-  const [description, setDescription] = useState(post.description);
+  const [selectedColor, setSelectedColor] = useState("");
+  const [suburb, setSuburb] = useState("");
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
   const [userAuth, setUserAuth] = useLocalStorage("pawsReuniteUserAuth");
   const userPostDispatch = useUserPostDispatch();
-  const [contactInfo, setContactInfo] = useState(post.contactInfo);
-  const [selectedStatus, setSelectedStatus] = useState(post.status);
-  const [selectedSpecies, setSelectedSpecies] = useState(post.species);
-  const [selectedBreed, setSelectedBreed] = useState(post.breed);
-  const [selectedImages, setSelectedImages] = useState(post.photos);
+  const [contactInfo, setContactInfo] = useState("");
+  const [selectedStatus, setSelectedStatus] = useState("lost");
+  const [selectedSpecies, setSelectedSpecies] = useState("");
+  const [selectedBreed, setSelectedBreed] = useState("");
+  const [selectedImages, setSelectedImages] = useState([]);
   const userPost = useUserPost();
   const navigate = useNavigate();
 
@@ -95,76 +97,56 @@ function EditPostPopup({ trigger, close, post, update, mode }) {
   const fileSelectedHandler = (event) => {
     const selectedFiles = event.target.files;
     const selectedFilesArray = Array.from(selectedFiles);
-
-    const imagesArray = selectedFilesArray.map((file) => {
-      return URL.createObjectURL(file);
-    });
-
-    setSelectedImages((prevImages) => prevImages.concat(imagesArray));
+    console.log(selectedFilesArray);
+    const files = selectedFilesArray.map((file) => ({
+      url: URL.createObjectURL(file),
+      file: file
+    }));
+    setSelectedImages((prevImages) => [
+      ...prevImages,
+      ...selectedFilesArray.map((file) => ({
+        url: URL.createObjectURL(file),
+        file: file
+      }))
+    ]);
   };
 
   // for image delete
-  const handleDeleteImage = (image) => {
-    setSelectedImages((prevImages) => prevImages.filter((prevImage) => prevImage !== image));
+  const handleDeleteImage = (url) => {
+    setSelectedImages((prevImages) => prevImages.filter((image) => image.url !== url));
   };
 
-  // for update post
-  const handleUpdatePost = async () => {
-    try {
-      const data = {
-        title: title,
-        suburb: suburb,
-        status: selectedStatus,
-        description: description,
-        contactInfo: contactInfo,
-        color: selectedColor,
-        breed: selectedBreed,
-        species: selectedSpecies,
-        photos: selectedImages
-      };
-      userPostDispatch({ type: "update", blogIdToUpdate: post._id, updatedBlog: data });
-      const response = await fetch(`${api}/posts/${post._id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          authorization: `Bearer ${userAuth.jwt}`
-        },
-        body: JSON.stringify(data)
-      });
-      const result = await response.json();
-      alert("Post has been updated.");
-      window.location.reload();
-
-      close();
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
+  // for create post
   const handleCreatePost = async () => {
     try {
-      const data = {
-        title: title,
-        suburb: suburb,
-        status: selectedStatus,
-        description: description,
-        contactInfo: contactInfo,
-        color: selectedColor,
-        breed: selectedBreed,
-        species: selectedSpecies
-      };
-      userPostDispatch({ type: "create", newPost: data });
+      const formData = new FormData();
+      formData.append("title", title);
+      formData.append("suburb", suburb);
+      formData.append("status", selectedStatus);
+      formData.append("description", description);
+      formData.append("contactInfo", contactInfo);
+      formData.append("color", selectedColor);
+      formData.append("breed", selectedBreed);
+      formData.append("species", selectedSpecies);
+      selectedImages.forEach((image) => {
+        formData.append("photos", image.file);
+      });
+
+      console.log(formData);
+
       const response = await fetch(`${api}/posts`, {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
           authorization: `Bearer ${userAuth.jwt}`
         },
-        body: JSON.stringify(data)
+        body: formData
       });
       const result = await response.json();
-      alert("Post has been created successfully.");
-      navigate(`/posts/${result.data._id}}`);
+      console.log(result.data);
+      // userPostDispatch({ type: "create", newPost: data });
+
+      alert("Post has been created.");
+      window.location.reload();
 
       close();
     } catch (error) {
@@ -176,129 +158,145 @@ function EditPostPopup({ trigger, close, post, update, mode }) {
     <div>
       {trigger && post ? (
         <div
-          className="popup fixed left-0 top-0 w-full h-screen bg-black bg-opacity-80 flex justify-center items-center"
+          className="popup fixed left-0 top-0 w-full h-full bg-black bg-opacity-80 flex justify-center items-center"
           style={{ zIndex: "2000" }}
         >
-          <div className="popup-inner p-16 max-w-md h-100vh bg-white ">
-            <h1>Edit Post</h1>
-            <form className="flex flex-col gap-4">
-              <label>Title</label>
-              <input
-                type="text"
-                className="border border-gray-300 rounded-md p-2"
+          <div className="popup-inner xs:w-full xs:h-full h-5/6 p-8 max-w-xl bg-white overflow-y-auto">
+            <form className="flex flex-col gap-8">
+              <TextField
+                id="standard-basic"
+                label="Title"
+                variant="standard"
                 onChange={handleTitleChange}
                 value={title}
               />
-              <label>Suburb</label>
-              <input
-                type="text"
-                className="border border-gray-300 rounded-md p-2"
-                value={suburb}
-                onChange={handleSuburbChange}
-              />
-              <FilterSelect
-                label="species"
-                value={selectedSpecies}
-                options={speciesOptions}
-                onChange={handleSpeciesChange}
-                title="species" // Add the title prop for the first filter
-              />
-              {console.log(breedOptionsList)}
-
-              {breedOptionsList && (
+              {console.log(title)}
+              <div className="filter-container grid grid-cols-2 gap-2">
                 <FilterSelect
-                  label="breed"
-                  value={selectedBreed}
-                  options={breedOptionsList}
-                  onChange={handleBreedChange}
-                  title="breed" // Add the title prop for the first filter
+                  label="species"
+                  value={selectedSpecies}
+                  options={speciesOptions}
+                  onChange={handleSpeciesChange}
+                  title="species" // Add the title prop for the first filter
                 />
-              )}
-              <FilterSelect
-                label="color"
-                value={selectedColor}
-                options={colorOptions}
-                onChange={handleColorChange}
-                title="color" // Add the title prop for the first filter
-              />
-              <label>Description</label>
-              <textarea
-                className="border border-gray-300 rounded-md p-2"
-                value={description}
-                onChange={handleDescriptionChange}
-              />
-              <label>ContactInfo</label>
-              <input
-                type="text"
-                className="border border-gray-300 rounded-md p-2"
-                value={contactInfo}
-                onChange={handleContactInfoChange}
-              />
-              <label>Status</label>
-              <div className="radio-buttons flex gap-4">
-                <label className="radio-button">
-                  <input
-                    type="radio"
-                    name="status"
-                    value="lost"
-                    onChange={handleStatusChange}
-                    checked={selectedStatus === "lost"}
-                    className="hidden"
+                {breedOptionsList && (
+                  <FilterSelect
+                    label="breed"
+                    value={selectedBreed}
+                    options={breedOptionsList}
+                    onChange={handleBreedChange}
+                    title="breed" // Add the title prop for the first filter
                   />
-                  <span
-                    className={`${
-                      selectedStatus === "lost" && "bg-gray-300"
-                    } py-2 px-4 rounded-md border border-gray-300 cursor-pointer hover:bg-gray-100`}
-                  >
-                    Lost
-                  </span>
-                </label>
-                <label className="radio-button">
-                  <input
-                    type="radio"
-                    name="status"
-                    value="found"
-                    onChange={handleStatusChange}
-                    checked={selectedStatus === "found"}
-                    className="hidden"
-                  />
-                  <span
-                    className={`${
-                      selectedStatus === "found" && "bg-gray-300"
-                    } py-2 px-4 rounded-md border border-gray-300 cursor-pointer hover:bg-gray-100`}
-                  >
-                    Found
-                  </span>
-                </label>
+                )}
+                <FilterSelect
+                  label="color"
+                  value={selectedColor}
+                  options={colorOptions}
+                  onChange={handleColorChange}
+                  title="color" // Add the title prop for the first filter
+                />
+                <TextField
+                  id="standard-basic"
+                  label="Suburb"
+                  variant="standard"
+                  onChange={handleSuburbChange}
+                  value={suburb}
+                />
               </div>
-              <label>Upload Images</label>
-              <input
-                type="file"
-                onChange={fileSelectedHandler}
-                multiple
-                accept="image/png, image/jpeg"
+              <div className="description flex flex-col text-gray-500">
+                <label className="text-left mb-2">Description</label>
+                <textarea
+                  className="border border-gray-300 rounded-md p-2"
+                  value={description}
+                  placeholder="Please describe your pet"
+                  onChange={handleDescriptionChange}
+                  rows={6}
+                />
+              </div>
+
+              <TextField
+                id="standard-basic"
+                label="ContactInfo(Phone)"
+                variant="standard"
+                onChange={handleContactInfoChange}
+                value={contactInfo}
               />
-              <div className="images">
-                {selectedImages &&
-                  selectedImages.map((image, index) => {
-                    return (
-                      <div key={image}>
-                        <img src={image} className="h-28" alt="pet" />
-                        <button onClick={() => handleDeleteImage(image)}>X</button>
-                      </div>
-                    );
-                  })}
+
+              <div className="status flex flex-col text-gray-500">
+                <label className="text-left mb-2">Status</label>
+                <div className="radio-buttons grid grid-cols-2 gap-4">
+                  <label className="radio-button ">
+                    <input
+                      type="radio"
+                      name="status"
+                      value="lost"
+                      onChange={handleStatusChange}
+                      checked={selectedStatus === "lost"}
+                      className="hidden"
+                    />
+                    <div
+                      className={`${
+                        selectedStatus === "lost" && "border-blue-500 border-2"
+                      }  py-2 px-4 rounded-md border bg-gray-100 cursor-pointer hover:bg-gray-200`}
+                    >
+                      Lost
+                    </div>
+                  </label>
+                  <label className="radio-button">
+                    <input
+                      type="radio"
+                      name="status"
+                      value="found"
+                      onChange={handleStatusChange}
+                      checked={selectedStatus === "found"}
+                      className="hidden"
+                    />
+                    <div
+                      className={`${
+                        selectedStatus === "found" && "border-blue-500 border-2"
+                      } py-2 px-4 rounded-md border bg-gray-100 cursor-pointer hover:bg-gray-200`}
+                    >
+                      Found
+                    </div>
+                  </label>
+                </div>
+              </div>
+
+              <div className="upload-images flex flex-col text-gray-500">
+                <label className="text-left mb-2">Upload Images</label>
+                <input
+                  type="file"
+                  onChange={fileSelectedHandler}
+                  multiple
+                  accept="image/png, image/jpeg"
+                  className="mb-4"
+                />
+
+                <div className="images grid grid-cols-3 gap-4 text-orange-900">
+                  {selectedImages &&
+                    selectedImages.map((image, index) => {
+                      return (
+                        <div key={image.url} className="relative">
+                          <img
+                            src={image.url}
+                            className="w-28 h-28 aspect-square object-cover"
+                            alt="pet"
+                          />
+                          {/* <button onClick={() => handleDeleteImage(image.url)} className="absolute top-0 left-0 p-3 rounded-full">X</button> */}
+                          <CancelRoundedIcon
+                            onClick={() => handleDeleteImage(image.url)}
+                            className="absolute -top-2 -right-2 bg-white rounded-full"
+                          />
+                        </div>
+                      );
+                    })}
+                </div>
               </div>
             </form>
-            <button
-              className="btn border-2 p-3 "
-              onClick={mode === "update" ? handleUpdatePost : handleCreatePost}
-            >
-              Save
-            </button>
-            <button className="close-btn border-2 p-3" onClick={close}>
-              Close
-            </button>
+            <div className="flex justify-end gap-4">
+              <button onClick={mode === "create" && handleCreatePost}>Save</button>
+              <button onClick={close}>Close</button>
+            </div>
           </div>
         </div>
       ) : (

@@ -109,9 +109,10 @@ export default function SinglePetPage() {
               trigger={isEdit}
               close={() => setIsEdit(false)}
               post={post}
-              mode="update"
+              mode="create"
             />
           )}
+
           {isredirect && <Navigate to="/personalDetail" />}
         </div>
       )}
