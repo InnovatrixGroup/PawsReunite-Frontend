@@ -7,11 +7,9 @@ import SigninPage from "./pages/SigninPage";
 import SignupPage from "./pages/SignupPage";
 import PetPostsPage from "./pages/pets/PetPostsPage";
 import SinglePostPage from "./pages/pets/SinglePostPage";
-import EditPostPage from "./pages/pets/EditPostPage";
 import ContactPage from "./pages/ContactPage";
 import PetResourcePage from "./pages/PetResourcePage";
-import PersonalDetailPage from "./pages/personalDetail/PersonalDetailPage";
-import CreatePostPage from "./pages/personalDetail/CreatePostPage";
+import PersonalDetailPage from "./pages/PersonalDetailPage";
 
 function App() {
   // const location = useLocation();
@@ -30,14 +28,10 @@ function App() {
           <Route path="/pets" element={<Outlet />}>
             <Route index element={<PetPostsPage />} />
             <Route path=":id" element={<SinglePostPage />} />
-            <Route path=":id/edit" element={<EditPostPage />} />
           </Route>
           <Route path="/petResource" element={<PetResourcePage />} />
           <Route path="/contact" element={<ContactPage />} />
-          <Route path="/personalDetail" element={<Outlet />}>
-            <Route index element={<PersonalDetailPage />} />
-            <Route path="createPost" element={<CreatePostPage />} />
-          </Route>
+          <Route path="/personalDetail" element={<PersonalDetailPage />} />
         </Route>
       </Routes>
       {/* {!isSigninOrSignupPage && <Footer />} */}
