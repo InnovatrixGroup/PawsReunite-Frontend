@@ -53,7 +53,6 @@ export default function SinglePetPage() {
       console.log(error);
     }
   };
-
   const isUserPost = post && post.userId === userAuth.userId;
 
   return (
@@ -112,7 +111,6 @@ export default function SinglePetPage() {
               mode="update"
             />
           )}
-
           {isredirect && <Navigate to="/personalDetail" />}
         </div>
       )}
