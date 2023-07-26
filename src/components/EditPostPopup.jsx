@@ -18,7 +18,7 @@ function EditPostPopup({ trigger, close, post, update, mode }) {
       Dog: ["Dachshund", "Poodle", "Labrador", "Pug", "Other"]
     },
     {
-      Cat: ["Persian", "Siamese", "Bengal", "Ragdoll", "Other"]
+      Cat: ["Persian", "Siamese", "Bengal", "Ragdoll", "American Bobtail", "Other"]
     },
     {
       Bird: ["Cockatiel", "Budgerigar", "Lovebird", "Parrot", "Other"]
@@ -31,16 +31,16 @@ function EditPostPopup({ trigger, close, post, update, mode }) {
     }
   ];
 
-  const [selectedColor, setSelectedColor] = useState("");
-  const [suburb, setSuburb] = useState("");
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
+  const [selectedColor, setSelectedColor] = useState(post.color);
+  const [suburb, setSuburb] = useState(post.suburb);
+  const [title, setTitle] = useState(post.title);
+  const [description, setDescription] = useState(post.description);
   const [userAuth, setUserAuth] = useLocalStorage("pawsReuniteUserAuth");
   const userPostDispatch = useUserPostDispatch();
-  const [contactInfo, setContactInfo] = useState("");
-  const [selectedStatus, setSelectedStatus] = useState("lost");
-  const [selectedSpecies, setSelectedSpecies] = useState("");
-  const [selectedBreed, setSelectedBreed] = useState("");
+  const [contactInfo, setContactInfo] = useState(post.contactInfo);
+  const [selectedStatus, setSelectedStatus] = useState(post.status || "lost");
+  const [selectedSpecies, setSelectedSpecies] = useState(post.species);
+  const [selectedBreed, setSelectedBreed] = useState(post.breed);
   const [selectedImages, setSelectedImages] = useState([]);
   const userPost = useUserPost();
   const navigate = useNavigate();
@@ -146,6 +146,41 @@ function EditPostPopup({ trigger, close, post, update, mode }) {
       // userPostDispatch({ type: "create", newPost: data });
 
       alert("Post has been created.");
+      window.location.reload();
+
+      close();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // for update post
+  const handleUpdatePost = async () => {
+    try {
+      let updatedPost = {
+        title: title,
+        suburb: suburb,
+        status: selectedStatus,
+        description: description,
+        contactInfo: contactInfo,
+        color: selectedColor,
+        breed: selectedBreed,
+        species: selectedSpecies
+      };
+
+      const response = await fetch(`${api}/posts/${post._id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          authorization: `Bearer ${userAuth.jwt}`
+        },
+        body: JSON.stringify(updatedPost)
+      });
+      const result = await response.json();
+      console.log(result.data);
+      // userPostDispatch({ type: "create", newPost: data });
+
+      alert("Post has been updated.");
       window.location.reload();
 
       close();
@@ -261,40 +296,43 @@ function EditPostPopup({ trigger, close, post, update, mode }) {
                   </label>
                 </div>
               </div>
+              {mode === "create" && (
+                <div className="upload-images flex flex-col text-gray-500">
+                  <label className="text-left mb-2">Upload Images</label>
+                  <input
+                    type="file"
+                    onChange={fileSelectedHandler}
+                    multiple
+                    accept="image/png, image/jpeg"
+                    className="mb-4"
+                  />
 
-              <div className="upload-images flex flex-col text-gray-500">
-                <label className="text-left mb-2">Upload Images</label>
-                <input
-                  type="file"
-                  onChange={fileSelectedHandler}
-                  multiple
-                  accept="image/png, image/jpeg"
-                  className="mb-4"
-                />
+                  <div className="images grid grid-cols-3 gap-4 text-orange-900">
+                    {selectedImages &&
+                      selectedImages.map((image, index) => {
+                        return (
+                          <div key={image.url} className="relative">
+                            <img
+                              src={image.url}
+                              className="w-28 h-28 aspect-square object-cover"
+                              alt="pet"
+                            />
 
-                <div className="images grid grid-cols-3 gap-4 text-orange-900">
-                  {selectedImages &&
-                    selectedImages.map((image, index) => {
-                      return (
-                        <div key={image.url} className="relative">
-                          <img
-                            src={image.url}
-                            className="w-28 h-28 aspect-square object-cover"
-                            alt="pet"
-                          />
-                          {/* <button onClick={() => handleDeleteImage(image.url)} className="absolute top-0 left-0 p-3 rounded-full">X</button> */}
-                          <CancelRoundedIcon
-                            onClick={() => handleDeleteImage(image.url)}
-                            className="absolute -top-2 -right-2 bg-white rounded-full"
-                          />
-                        </div>
-                      );
-                    })}
+                            <CancelRoundedIcon
+                              onClick={() => handleDeleteImage(image.url)}
+                              className="absolute -top-2 -right-2 bg-white rounded-full"
+                            />
+                          </div>
+                        );
+                      })}
+                  </div>
                 </div>
-              </div>
+              )}
             </form>
             <div className="flex justify-end gap-4">
-              <button onClick={mode === "create" && handleCreatePost}>Save</button>
+              <button onClick={mode === "create" ? handleCreatePost : handleUpdatePost}>
+                Save
+              </button>
               <button onClick={close}>Close</button>
             </div>
           </div>

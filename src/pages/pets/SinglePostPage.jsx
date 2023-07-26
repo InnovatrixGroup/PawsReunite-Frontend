@@ -109,7 +109,7 @@ export default function SinglePetPage() {
               trigger={isEdit}
               close={() => setIsEdit(false)}
               post={post}
-              mode="create"
+              mode="update"
             />
           )}
 
