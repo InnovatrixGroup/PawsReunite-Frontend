@@ -5,6 +5,8 @@ import { useUserPost, useUserPostDispatch } from "../contexts/UserPostContext";
 import { useNavigate } from "react-router-dom";
 import TextField from "@mui/material/TextField";
 import CancelRoundedIcon from "@mui/icons-material/CancelRounded";
+import { fabClasses } from "@mui/material";
+import AsyncSelect from "react-select/async";
 
 const api = process.env.REACT_APP_DATABASE_URL;
 
@@ -46,9 +48,10 @@ function EditPostPopup({ trigger, close, post, update, mode }) {
   const userPost = useUserPost();
   const navigate = useNavigate();
 
-  const handleSuburbChange = (event) => {
-    const suburbValue = event.target.value;
-    setSuburb(suburbValue);
+  const handleSuburbChange = async (suburb) => {
+    let response = await fetch(`${api}/suburbs/search?postcode=${suburb}`);
+    let jsonData = await response.json();
+    return jsonData;
   };
 
   const handleColorChange = (event) => {
@@ -226,14 +229,18 @@ function EditPostPopup({ trigger, close, post, update, mode }) {
                   value={selectedColor}
                   options={colorOptions}
                   onChange={handleColorChange}
-                  title="color" // Add the title prop for the first filter
                 />
-                <TextField
+                {/* <TextField
                   id="standard-basic"
                   label="Suburb"
                   variant="standard"
                   onChange={handleSuburbChange}
                   value={suburb}
+                /> */}
+                <AsyncSelect
+                  placeholder="Suburb"
+                  loadOptions={(input) => handleSuburbChange(input)}
+                  onChange={(input) => setSuburb(input.value)}
                 />
               </div>
               <div className="description flex flex-col text-gray-500">
@@ -358,6 +365,8 @@ function EditPostPopup({ trigger, close, post, update, mode }) {
       ) : (
         ""
       )}
+      <label htmlFor="">test</label>
+      <input type="text" onChange={(e) => handleSuburbChange(e.target.value)} />
     </div>
   );
 }
