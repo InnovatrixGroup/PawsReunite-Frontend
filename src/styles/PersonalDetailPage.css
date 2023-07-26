@@ -65,11 +65,6 @@
   font-weight: 600;
 }
 
-.personal-info-post-gallery {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-}
 
 .personal-info-post-gallery a {
   width: calc(100% / 3);

@@ -53,7 +53,6 @@ export default function SinglePetPage() {
       console.log(error);
     }
   };
-
   const isUserPost = post && post.userId === userAuth.userId;
 
   return (
@@ -109,10 +108,9 @@ export default function SinglePetPage() {
               trigger={isEdit}
               close={() => setIsEdit(false)}
               post={post}
-              mode="create"
+              mode="update"
             />
           )}
-
           {isredirect && <Navigate to="/personalDetail" />}
         </div>
       )}

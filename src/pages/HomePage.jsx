@@ -119,23 +119,6 @@ export default function HomePage() {
       setIsLoading(false);
     };
 
-    // const fetchUserPosts = async () => {
-    //   try {
-    //     const response = await fetch(`${api}/posts/user`, {
-    //       method: "GET",
-    //       headers: {
-    //         authorization: `Bearer ${userAuth.jwt}`,
-    //         userId: userAuth.userId
-    //       }
-    //     });
-    //     const jsonData = await response.json();
-    //     userPostDispatch({ type: "loadAll", payload: jsonData.data });
-    //   } catch (error) {
-    //     console.log(error);
-    //   }
-    // };
-
-    // fetchUserPosts();
     fetchPosts();
   }, [selectedSpecies, breed, selectedColor, selectedSuburb, filterData]);
 

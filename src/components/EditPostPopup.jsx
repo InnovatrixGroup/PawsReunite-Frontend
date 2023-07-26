@@ -31,17 +31,18 @@ function EditPostPopup({ trigger, close, post, update, mode }) {
     }
   ];
 
-  const [selectedColor, setSelectedColor] = useState("");
-  const [suburb, setSuburb] = useState("");
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
+  const [selectedColor, setSelectedColor] = useState(post.color || "");
+  const [suburb, setSuburb] = useState(post.suburb || "");
+  const [title, setTitle] = useState(post.title || "");
+  const [description, setDescription] = useState(post.description || "");
   const [userAuth, setUserAuth] = useLocalStorage("pawsReuniteUserAuth");
   const userPostDispatch = useUserPostDispatch();
-  const [contactInfo, setContactInfo] = useState("");
-  const [selectedStatus, setSelectedStatus] = useState("lost");
-  const [selectedSpecies, setSelectedSpecies] = useState("");
-  const [selectedBreed, setSelectedBreed] = useState("");
-  const [selectedImages, setSelectedImages] = useState([]);
+  const [contactInfo, setContactInfo] = useState(post.contactInfo || "");
+  const [selectedStatus, setSelectedStatus] = useState(post.status || "lost");
+  const [selectedSpecies, setSelectedSpecies] = useState(post.species || "");
+  const [selectedBreed, setSelectedBreed] = useState(post.breed || "");
+  const [selectedImages, setSelectedImages] = useState(post.photos || []);
+  const [updatedImages, setUpdatedImages] = useState([]);
   const userPost = useUserPost();
   const navigate = useNavigate();
 
@@ -97,12 +98,11 @@ function EditPostPopup({ trigger, close, post, update, mode }) {
   const fileSelectedHandler = (event) => {
     const selectedFiles = event.target.files;
     const selectedFilesArray = Array.from(selectedFiles);
-    console.log(selectedFilesArray);
     const files = selectedFilesArray.map((file) => ({
       url: URL.createObjectURL(file),
       file: file
     }));
-    setSelectedImages((prevImages) => [
+    setUpdatedImages((prevImages) => [
       ...prevImages,
       ...selectedFilesArray.map((file) => ({
         url: URL.createObjectURL(file),
@@ -113,7 +113,12 @@ function EditPostPopup({ trigger, close, post, update, mode }) {
 
   // for image delete
   const handleDeleteImage = (url) => {
-    setSelectedImages((prevImages) => prevImages.filter((image) => image.url !== url));
+    setUpdatedImages((prevImages) => prevImages.filter((image) => image.url !== url));
+  };
+
+  //for update old image delete
+  const handleDeleteOldImage = (image) => {
+    setSelectedImages((prevImages) => prevImages.filter((item) => item !== image));
   };
 
   // for create post
@@ -128,11 +133,9 @@ function EditPostPopup({ trigger, close, post, update, mode }) {
       formData.append("color", selectedColor);
       formData.append("breed", selectedBreed);
       formData.append("species", selectedSpecies);
-      selectedImages.forEach((image) => {
+      updatedImages.forEach((image) => {
         formData.append("photos", image.file);
       });
-
-      console.log(formData);
 
       const response = await fetch(`${api}/posts`, {
         method: "POST",
@@ -142,10 +145,44 @@ function EditPostPopup({ trigger, close, post, update, mode }) {
         body: formData
       });
       const result = await response.json();
-      console.log(result.data);
       // userPostDispatch({ type: "create", newPost: data });
 
       alert("Post has been created.");
+      window.location.reload();
+
+      close();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // for update post
+  const handleUpdatePost = async () => {
+    try {
+      const formData = new FormData();
+      formData.append("title", title);
+      formData.append("suburb", suburb);
+      formData.append("status", selectedStatus);
+      formData.append("description", description);
+      formData.append("contactInfo", contactInfo);
+      formData.append("color", selectedColor);
+      formData.append("breed", selectedBreed);
+      formData.append("species", selectedSpecies);
+      formData.append("oldphotos", selectedImages);
+      updatedImages.forEach((image) => {
+        formData.append("photos", image.file);
+      });
+      const response = await fetch(`${api}/posts/${post._id}`, {
+        method: "PUT",
+        headers: {
+          authorization: `Bearer ${userAuth.jwt}`
+        },
+        body: formData
+      });
+      const result = await response.json();
+      // userPostDispatch({ type: "create", newPost: data });
+
+      alert("Post has been UPDATED.");
       window.location.reload();
 
       close();
@@ -170,7 +207,6 @@ function EditPostPopup({ trigger, close, post, update, mode }) {
                 onChange={handleTitleChange}
                 value={title}
               />
-              {console.log(title)}
               <div className="filter-container grid grid-cols-2 gap-2">
                 <FilterSelect
                   label="species"
@@ -272,37 +308,80 @@ function EditPostPopup({ trigger, close, post, update, mode }) {
                   className="mb-4"
                 />
 
-                <div className="images grid grid-cols-3 gap-4 text-orange-900">
-                  {selectedImages &&
-                    selectedImages.map((image, index) => {
-                      return (
-                        <div key={image.url} className="relative">
+                {mode === "create" && (
+                  <div className="images grid grid-cols-3 gap-4 text-orange-900">
+                    {updatedImages &&
+                      updatedImages.map((image, index) => {
+                        return (
+                          <div key={image.url} className="relative">
+                            <img
+                              src={image.url}
+                              className="w-28 h-28 aspect-square object-cover"
+                              alt="pet"
+                            />
+                            {/* <button onClick={() => handleDeleteImage(image.url)} className="absolute top-0 left-0 p-3 rounded-full">X</button> */}
+                            <CancelRoundedIcon
+                              onClick={() => handleDeleteImage(image.url)}
+                              className="absolute -top-2 -right-2 bg-white rounded-full"
+                            />
+                          </div>
+                        );
+                      })}
+                  </div>
+                )}
+
+                {mode === "update" && (
+                  <div className="images grid grid-cols-3 gap-4 text-orange-900">
+                    {selectedImages &&
+                      selectedImages.map((image, index) => (
+                        <div key={image} className="relative">
+                          {console.log(image)}
                           <img
-                            src={image.url}
+                            src={image}
                             className="w-28 h-28 aspect-square object-cover"
                             alt="pet"
                           />
-                          {/* <button onClick={() => handleDeleteImage(image.url)} className="absolute top-0 left-0 p-3 rounded-full">X</button> */}
                           <CancelRoundedIcon
-                            onClick={() => handleDeleteImage(image.url)}
+                            onClick={() => handleDeleteOldImage(image)}
                             className="absolute -top-2 -right-2 bg-white rounded-full"
                           />
                         </div>
-                      );
-                    })}
-                </div>
+                      ))}
+                    {updatedImages &&
+                      updatedImages.map((image, index) => {
+                        return (
+                          <div key={image.url} className="relative">
+                            <img
+                              src={image.url}
+                              className="w-28 h-28 aspect-square object-cover"
+                              alt="pet"
+                            />
+                            {/* <button onClick={() => handleDeleteImage(image.url)} className="absolute top-0 left-0 p-3 rounded-full">X</button> */}
+                            <CancelRoundedIcon
+                              onClick={() => handleDeleteImage(image.url)}
+                              className="absolute -top-2 -right-2 bg-white rounded-full"
+                            />
+                          </div>
+                        );
+                      })}
+                  </div>
+                )}
               </div>
             </form>
             <div className="flex justify-end gap-4">
-              <button onClick={mode === "create" && handleCreatePost}>Save</button>
+              <button onClick={mode === "create" ? handleCreatePost : handleUpdatePost}>
+                Save
+              </button>
               <button onClick={close}>Close</button>
             </div>
           </div>
+          {post && console.log(post._id)}
         </div>
       ) : (
         ""
       )}
-      {console.log(selectedStatus)}
+      {console.log("selectedImages", selectedImages)}
+      {console.log("updatedImages", updatedImages)}
     </div>
   );
 }

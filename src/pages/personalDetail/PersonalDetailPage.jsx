@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useLocalStorage } from "react-use";
 import { useUserPostDispatch, useUserPost } from "../../contexts/UserPostContext";
-import { useNavigate } from "react-router-dom";
+import { Link, Navigate, redirect, useNavigate } from "react-router-dom";
 import "../../styles/PersonalDetailPage.css";
 import EditProfileDialog from "../../components/EditProfileDialog";
 import EditPostPopup from "../../components/EditPostPopup";
@@ -15,6 +15,7 @@ export default function PersonalDetailPage() {
   const navigate = useNavigate();
   const userPostDispatch = useUserPostDispatch();
   const userPostData = useUserPost();
+  const [selectedPostId, setSelectedPostId] = useState(null);
 
   const handleLogout = () => {
     setUserAuth(null);
@@ -70,6 +71,13 @@ export default function PersonalDetailPage() {
     setEditProfileDialogOpen(true);
   };
 
+  const [redirect, setRedirect] = useState(false);
+
+  const handleRedirect = (id) => {
+    setRedirect(true);
+    setSelectedPostId(id);
+  };
+
   // hide navbar when edit profile dialog is open, but show footer
   useEffect(() => {
     const navbar = document.querySelector(".navbar");
@@ -108,17 +116,17 @@ export default function PersonalDetailPage() {
       </div>
       <div className="personal-info-post-container">
         <h1>Your Posts</h1>
-        <div className="personal-info-post-gallery">
+        <div className="grid grid-cols-3 gap-3 p-5 xs:gap-0">
           {userPostData &&
             userPostData.length > 0 &&
             userPostData.map((post) => (
-              <a
-                href={`./pets/${post._id}`}
-                key={post._id}
-                style={{ backgroundImage: `url(${post.photos[0]})` }}
-              >
-                {" "}
-              </a>
+              <div className="image" onClick={() => handleRedirect(post._id)} key={post._id}>
+                <img
+                  src={post.photos[0]}
+                  className="w-full aspect-square object-cover"
+                  alt="post"
+                />
+              </div>
             ))}
         </div>
         <button onClick={() => setIsCreate(true)}>Create Post</button>
@@ -130,6 +138,7 @@ export default function PersonalDetailPage() {
             mode="create"
           />
         }
+        {redirect && <Navigate to={`/pets/${selectedPostId}`} />}
       </div>
     </div>
   );
