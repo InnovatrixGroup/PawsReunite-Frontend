@@ -98,10 +98,7 @@ function EditPostPopup({ trigger, close, post, update, mode }) {
   const fileSelectedHandler = (event) => {
     const selectedFiles = event.target.files;
     const selectedFilesArray = Array.from(selectedFiles);
-    const files = selectedFilesArray.map((file) => ({
-      url: URL.createObjectURL(file),
-      file: file
-    }));
+
     setUpdatedImages((prevImages) => [
       ...prevImages,
       ...selectedFilesArray.map((file) => ({
@@ -331,11 +328,10 @@ function EditPostPopup({ trigger, close, post, update, mode }) {
                 )}
 
                 {mode === "update" && (
-                  <div className="images grid grid-cols-3 gap-4 text-orange-900">
+                  <div className="images grid grid-cols-3 gap-4 text-orange-900 mb-5">
                     {selectedImages &&
                       selectedImages.map((image, index) => (
                         <div key={image} className="relative">
-                          {console.log(image)}
                           <img
                             src={image}
                             className="w-28 h-28 aspect-square object-cover"
@@ -368,20 +364,22 @@ function EditPostPopup({ trigger, close, post, update, mode }) {
                 )}
               </div>
             </form>
-            <div className="flex justify-end gap-4">
-              <button onClick={mode === "create" ? handleCreatePost : handleUpdatePost}>
+            <div className="grid grid-cols-2 gap-4">
+              <button
+                onClick={mode === "create" ? handleCreatePost : handleUpdatePost}
+                className="bg-orange-900 py-2 text-white px-10 rounded-2xl"
+              >
                 Save
               </button>
-              <button onClick={close}>Close</button>
+              <button onClick={close} className="bg-orange-900 text-white px-10 rounded-2xl">
+                Close
+              </button>
             </div>
           </div>
-          {post && console.log(post._id)}
         </div>
       ) : (
         ""
       )}
-      {console.log("selectedImages", selectedImages)}
-      {console.log("updatedImages", updatedImages)}
     </div>
   );
 }
