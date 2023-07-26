@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import { useLocalStorage } from "react-use";
-import { useUserPostDispatch, useUserPost } from "../../contexts/UserPostContext";
-import { Link, Navigate, redirect, useNavigate } from "react-router-dom";
-import "../../styles/PersonalDetailPage.css";
-import EditProfileDialog from "../../components/EditProfileDialog";
-import EditPostPopup from "../../components/EditPostPopup";
+
+import { useUserPostDispatch, useUserPost } from "../contexts/UserPostContext";
+import { useNavigate } from "react-router-dom";
+import "../styles/PersonalDetailPage.css";
+import EditProfileDialog from "../components/EditProfileDialog";
+import EditPostPopup from "../components/EditPostPopup";
+import { Navigate } from "react-router-dom";
 
 const api = process.env.REACT_APP_DATABASE_URL;
 

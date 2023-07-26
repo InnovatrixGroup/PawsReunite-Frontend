@@ -18,7 +18,7 @@ function EditPostPopup({ trigger, close, post, update, mode }) {
       Dog: ["Dachshund", "Poodle", "Labrador", "Pug", "Other"]
     },
     {
-      Cat: ["Persian", "Siamese", "Bengal", "Ragdoll", "Other"]
+      Cat: ["Persian", "Siamese", "Bengal", "Ragdoll", "American Bobtail", "Other"]
     },
     {
       Bird: ["Cockatiel", "Budgerigar", "Lovebird", "Parrot", "Other"]
@@ -294,86 +294,80 @@ function EditPostPopup({ trigger, close, post, update, mode }) {
                   </label>
                 </div>
               </div>
+              {mode === "create" && (
+                <div className="upload-images flex flex-col text-gray-500">
+                  <label className="text-left mb-2">Upload Images</label>
+                  <input
+                    type="file"
+                    onChange={fileSelectedHandler}
+                    multiple
+                    accept="image/png, image/jpeg"
+                    className="mb-4"
+                  />
 
-              <div className="upload-images flex flex-col text-gray-500">
-                <label className="text-left mb-2">Upload Images</label>
-                <input
-                  type="file"
-                  onChange={fileSelectedHandler}
-                  multiple
-                  accept="image/png, image/jpeg"
-                  className="mb-4"
-                />
+                  {mode === "create" && (
+                    <div className="images grid grid-cols-3 gap-4 text-orange-900">
+                      {updatedImages &&
+                        updatedImages.map((image, index) => {
+                          return (
+                            <div key={image.url} className="relative">
+                              <img
+                                src={image.url}
+                                className="w-28 h-28 aspect-square object-cover"
+                                alt="pet"
+                              />
+                              {/* <button onClick={() => handleDeleteImage(image.url)} className="absolute top-0 left-0 p-3 rounded-full">X</button> */}
+                              <CancelRoundedIcon
+                                onClick={() => handleDeleteImage(image.url)}
+                                className="absolute -top-2 -right-2 bg-white rounded-full"
+                              />
+                            </div>
+                          );
+                        })}
+                    </div>
+                  )}
 
-                {mode === "create" && (
-                  <div className="images grid grid-cols-3 gap-4 text-orange-900">
-                    {updatedImages &&
-                      updatedImages.map((image, index) => {
-                        return (
-                          <div key={image.url} className="relative">
+                  {mode === "update" && (
+                    <div className="images grid grid-cols-3 gap-4 text-orange-900 mb-5">
+                      {selectedImages &&
+                        selectedImages.map((image, index) => (
+                          <div key={image} className="relative">
                             <img
-                              src={image.url}
+                              src={image}
                               className="w-28 h-28 aspect-square object-cover"
                               alt="pet"
                             />
-                            {/* <button onClick={() => handleDeleteImage(image.url)} className="absolute top-0 left-0 p-3 rounded-full">X</button> */}
                             <CancelRoundedIcon
-                              onClick={() => handleDeleteImage(image.url)}
+                              onClick={() => handleDeleteOldImage(image)}
                               className="absolute -top-2 -right-2 bg-white rounded-full"
                             />
                           </div>
-                        );
-                      })}
-                  </div>
-                )}
-
-                {mode === "update" && (
-                  <div className="images grid grid-cols-3 gap-4 text-orange-900 mb-5">
-                    {selectedImages &&
-                      selectedImages.map((image, index) => (
-                        <div key={image} className="relative">
-                          <img
-                            src={image}
-                            className="w-28 h-28 aspect-square object-cover"
-                            alt="pet"
-                          />
-                          <CancelRoundedIcon
-                            onClick={() => handleDeleteOldImage(image)}
-                            className="absolute -top-2 -right-2 bg-white rounded-full"
-                          />
-                        </div>
-                      ))}
-                    {updatedImages &&
-                      updatedImages.map((image, index) => {
-                        return (
-                          <div key={image.url} className="relative">
-                            <img
-                              src={image.url}
-                              className="w-28 h-28 aspect-square object-cover"
-                              alt="pet"
-                            />
-                            {/* <button onClick={() => handleDeleteImage(image.url)} className="absolute top-0 left-0 p-3 rounded-full">X</button> */}
-                            <CancelRoundedIcon
-                              onClick={() => handleDeleteImage(image.url)}
-                              className="absolute -top-2 -right-2 bg-white rounded-full"
-                            />
-                          </div>
-                        );
-                      })}
-                  </div>
-                )}
-              </div>
+                        ))}
+                      {updatedImages &&
+                        updatedImages.map((image, index) => {
+                          return (
+                            <div key={image.url} className="relative">
+                              <img
+                                src={image.url}
+                                className="w-28 h-28 aspect-square object-cover"
+                                alt="pet"
+                              />
+                              {/* <button onClick={() => handleDeleteImage(image.url)} className="absolute top-0 left-0 p-3 rounded-full">X</button> */}
+                              <CancelRoundedIcon
+                                onClick={() => handleDeleteImage(image.url)}
+                                className="absolute -top-2 -right-2 bg-white rounded-full"
+                              />
+                            </div>
+                          );
+                        })}
+                    </div>
+                  )}
+                </div>
+              )}
             </form>
-            <div className="grid grid-cols-2 gap-4">
-              <button
-                onClick={mode === "create" ? handleCreatePost : handleUpdatePost}
-                className="bg-orange-900 py-2 text-white px-10 rounded-2xl"
-              >
-                Save
-              </button>
-              <button onClick={close} className="bg-orange-900 text-white px-10 rounded-2xl">
-                Close
-              </button>
+            <div className="flex justify-end gap-4">
+              <button onClick={mode === "create" && handleCreatePost}>Save</button>
+              <button onClick={close}>Close</button>
             </div>
           </div>
         </div>
