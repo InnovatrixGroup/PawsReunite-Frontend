@@ -7,6 +7,7 @@ import TextField from "@mui/material/TextField";
 import CancelRoundedIcon from "@mui/icons-material/CancelRounded";
 import { fabClasses } from "@mui/material";
 import AsyncSelect from "react-select/async";
+import { parsePhoneNumberFromString } from "libphonenumber-js";
 
 const api = process.env.REACT_APP_DATABASE_URL;
 
@@ -45,8 +46,8 @@ function EditPostPopup({ trigger, close, post, update, mode }) {
   const [selectedBreed, setSelectedBreed] = useState(post.breed || "");
   const [selectedImages, setSelectedImages] = useState(post.photos || []);
   const [updatedImages, setUpdatedImages] = useState([]);
-  const userPost = useUserPost();
-  const navigate = useNavigate();
+  const [titleError, setTitleError] = useState("");
+  const [contactInfoError, setContactInfoError] = useState("");
 
   const handleSuburbChange = async (suburb) => {
     let response = await fetch(`${api}/suburbs/search?postcode=${suburb}`);
@@ -62,6 +63,11 @@ function EditPostPopup({ trigger, close, post, update, mode }) {
   const handleTitleChange = (event) => {
     const titleValue = event.target.value;
     setTitle(titleValue);
+    if (titleValue.length > 15) {
+      setTitleError("Title must be 15 characters or less");
+    } else {
+      setTitleError("");
+    }
   };
 
   const handleDescriptionChange = (event) => {
@@ -72,6 +78,21 @@ function EditPostPopup({ trigger, close, post, update, mode }) {
   const handleContactInfoChange = (event) => {
     const contactInfoValue = event.target.value;
     setContactInfo(contactInfoValue);
+
+    // Use a regular expression to check if the input is entirely numeric
+    const numericRegex = /^\d+$/;
+
+    if (!numericRegex.test(contactInfoValue)) {
+      setContactInfoError("Phone number must contain only numbers");
+    }
+
+    // Parse the phone number
+    const phoneNumber = parsePhoneNumberFromString(contactInfoValue, "AU");
+    if (phoneNumber && phoneNumber.isValid()) {
+      setContactInfoError("");
+    } else {
+      setContactInfoError("Phone number is invalid");
+    }
   };
 
   const handleStatusChange = (event) => {
@@ -158,8 +179,16 @@ function EditPostPopup({ trigger, close, post, update, mode }) {
 
   // for update post
   const handleUpdatePost = async () => {
+    if (titleError || contactInfoError) {
+      alert("Please fix the form errors before submitting.");
+      return; // Prevent form submission if there are errors
+    }
     try {
       const formData = new FormData();
+
+      if (selectedImages.length === 0 && updatedImages.length === 0) {
+        alert("Please upload at least one image.");
+      }
       formData.append("title", title);
       formData.append("suburb", suburb);
       formData.append("status", selectedStatus);
@@ -200,13 +229,17 @@ function EditPostPopup({ trigger, close, post, update, mode }) {
         >
           <div className="popup-inner xs:w-full xs:h-full h-5/6 p-8 max-w-xl bg-white overflow-y-auto">
             <form className="flex flex-col gap-8">
-              <TextField
-                id="standard-basic"
-                label="Title"
-                variant="standard"
-                onChange={handleTitleChange}
-                value={title}
-              />
+              <div className="title-container flex flex-col">
+                <TextField
+                  id="standard-basic"
+                  label="Title"
+                  variant="standard"
+                  onChange={handleTitleChange}
+                  value={title}
+                />
+                {titleError && <div className="text-red-500 text-left">{titleError}</div>}
+              </div>
+
               <div className="filter-container grid grid-cols-2 gap-2">
                 <FilterSelect
                   label="species"
@@ -253,14 +286,17 @@ function EditPostPopup({ trigger, close, post, update, mode }) {
                   rows={6}
                 />
               </div>
+              <div className="contactInfo-container flex flex-col">
+                <TextField
+                  id="standard-basic"
+                  label="ContactInfo(Phone)"
+                  variant="standard"
+                  onChange={handleContactInfoChange}
+                  value={contactInfo}
+                />
+                {contactInfoError && <div className="text-red-500 text-left">{contactInfoError}</div>}
+              </div>
 
-              <TextField
-                id="standard-basic"
-                label="ContactInfo(Phone)"
-                variant="standard"
-                onChange={handleContactInfoChange}
-                value={contactInfo}
-              />
 
               <div className="status flex flex-col text-gray-500">
                 <label className="text-left mb-2">Status</label>
