@@ -176,13 +176,18 @@ function EditPostPopup({ trigger, close, post, update, mode }) {
 
   // for update post
   const handleUpdatePost = async (data) => {
+    if (!selectedSpecies || !selectedBreed || !selectedColor || !suburb) {
+      alert("Please select species, breed, color and suburb.");
+      return;
+    }
+    if (selectedImages.length === 0 && updatedImages.length === 0) {
+      alert("Please upload at least one image.");
+      return;
+    }
+
     try {
-      console.log("data", data.title);
       const formData = new FormData();
 
-      if (selectedImages.length === 0 && updatedImages.length === 0) {
-        alert("Please upload at least one image.");
-      }
       formData.append("title", data.title || title);
       formData.append("suburb", suburb);
       formData.append("status", selectedStatus);
@@ -279,6 +284,7 @@ function EditPostPopup({ trigger, close, post, update, mode }) {
 
                 <AsyncSelect
                   placeholder="Suburb"
+                  defaultValue={suburb ? { value: suburb, label: suburb } : null}
                   loadOptions={(input) => handleSuburbChange(input)}
                   onChange={(input) => setSuburb(input.value)}
                 />
