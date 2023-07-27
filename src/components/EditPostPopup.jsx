@@ -294,9 +294,10 @@ function EditPostPopup({ trigger, close, post, update, mode }) {
                   onChange={handleContactInfoChange}
                   value={contactInfo}
                 />
-                {contactInfoError && <div className="text-red-500 text-left">{contactInfoError}</div>}
+                {contactInfoError && (
+                  <div className="text-red-500 text-left">{contactInfoError}</div>
+                )}
               </div>
-
 
               <div className="status flex flex-col text-gray-500">
                 <label className="text-left mb-2">Status</label>
@@ -348,40 +349,38 @@ function EditPostPopup({ trigger, close, post, update, mode }) {
                   className="mb-4"
                 />
 
-                {mode === "update" && (
-                  <div className="images grid grid-cols-3 gap-4 text-orange-900 mb-5">
-                    {selectedImages &&
-                      selectedImages.map((image, index) => (
-                        <div key={image} className="relative">
+                <div className="images grid grid-cols-3 gap-4 text-orange-900 mb-5">
+                  {selectedImages &&
+                    selectedImages.map((image, index) => (
+                      <div key={image} className="relative">
+                        <img
+                          src={image}
+                          className="w-28 h-28 aspect-square object-cover"
+                          alt="pet"
+                        />
+                        <CancelRoundedIcon
+                          onClick={() => handleDeleteOldImage(image)}
+                          className="absolute -top-2 -right-2 bg-white rounded-full"
+                        />
+                      </div>
+                    ))}
+                  {updatedImages &&
+                    updatedImages.map((image, index) => {
+                      return (
+                        <div key={image.url} className="relative">
                           <img
-                            src={image}
+                            src={image.url}
                             className="w-28 h-28 aspect-square object-cover"
                             alt="pet"
                           />
                           <CancelRoundedIcon
-                            onClick={() => handleDeleteOldImage(image)}
+                            onClick={() => handleDeleteImage(image.url)}
                             className="absolute -top-2 -right-2 bg-white rounded-full"
                           />
                         </div>
-                      ))}
-                    {updatedImages &&
-                      updatedImages.map((image, index) => {
-                        return (
-                          <div key={image.url} className="relative">
-                            <img
-                              src={image.url}
-                              className="w-28 h-28 aspect-square object-cover"
-                              alt="pet"
-                            />
-                            <CancelRoundedIcon
-                              onClick={() => handleDeleteImage(image.url)}
-                              className="absolute -top-2 -right-2 bg-white rounded-full"
-                            />
-                          </div>
-                        );
-                      })}
-                  </div>
-                )}
+                      );
+                    })}
+                </div>
               </div>
             </form>
 
