@@ -1,9 +1,10 @@
-import logo from "../pics/logo.png";
-import { NavLink } from "react-router-dom";
 import AdminDialog from "../components/AdminDialog";
 import { useLocalStorage } from "react-use";
 import { useNavigate } from "react-router-dom";
-const { useState, useEffect } = require("react");
+import Footer from "../components/Footer";
+import { useState, useEffect } from "react";
+import "../styles/AdminPage.css";
+import AdminNavBar from "../components/AdminNavBar";
 
 const api = process.env.REACT_APP_DATABASE_URL;
 
@@ -55,12 +56,6 @@ export default function AdminPage() {
     fetchUserData();
   }, [userAuth]);
 
-  // useEffect(() => {
-  //   if (userDetail?.role !== "admin") {
-  //     navigate("/");
-  //   }
-  // }, [userDetail]);
-
   useEffect(() => {
     async function fetchAllUsers() {
       try {
@@ -72,7 +67,10 @@ export default function AdminPage() {
           validateStatus: false
         });
         const jsonData = await response.json();
-        setAllUsers(jsonData);
+
+        // exclude current user from allUsers, a user cannot delete itself
+        const allUsers = jsonData.filter((user) => user._id !== userAuth.userId);
+        setAllUsers(allUsers);
       } catch (error) {
         console.log(error);
       }
@@ -101,39 +99,33 @@ export default function AdminPage() {
 
   return (
     <>
-      <nav>
-        <ul className="navbar flex justify-between items-center bg-gray-200 py-2 px-6 fixed top-0 w-full max-w-7xl">
-          <li>
-            <NavLink className="navbar__logo" to="/">
-              <img src={logo} alt="logo" className="w-10" />
-            </NavLink>
-          </li>
-          <li>
-            <button onClick={handleLogout}>Logout</button>
-          </li>
-        </ul>
-      </nav>
-      <div className="flex flex-col">
+      <AdminNavBar handleLogout={handleLogout} />
+      <div className="admin-page-body">
         <h1>Admin</h1>
-        <button onClick={openEditUserDialog}>Users Management</button>
-        <AdminDialog
-          isOpen={editUserDialog}
-          closeDialog={closeEditUserDialog}
-          data={allUsers}
-          setAllUsers={setAllUsers}
-          userAuth={userAuth}
-          mode="editUsers"
-        />
-        <button onClick={openEditPostDialog}>Posts Management</button>
-        <AdminDialog
-          isOpen={editPostDialog}
-          closeDialog={closeEditPostDialog}
-          data={allPosts}
-          setAllPosts={setAllPosts}
-          userAuth={userAuth}
-          mode="editPosts"
-        />
+        <div className="admin-page-btn-container">
+          <button onClick={openEditUserDialog}>Users Management</button>
+          <AdminDialog
+            isOpen={editUserDialog}
+            closeDialog={closeEditUserDialog}
+            data={allUsers}
+            setAllUsers={setAllUsers}
+            userAuth={userAuth}
+            handleLogout={handleLogout}
+            mode="editUsers"
+          />
+          <button onClick={openEditPostDialog}>Posts Management</button>
+          <AdminDialog
+            isOpen={editPostDialog}
+            closeDialog={closeEditPostDialog}
+            data={allPosts}
+            setAllPosts={setAllPosts}
+            userAuth={userAuth}
+            handleLogout={handleLogout}
+            mode="editPosts"
+          />
+        </div>
       </div>
+      <Footer />
     </>
   );
 }

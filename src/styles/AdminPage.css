@@ -1,0 +1,99 @@
+.admin-page-body {
+    padding-top: 100px;
+    background-color: #d9d9d9;
+    height: 100vh;
+}
+
+.admin-page-body h1 {
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.admin-page-btn-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.admin-page-btn-container button {
+    width: 65%;
+    max-width: 300px;
+    padding: 10px 20px;
+    margin: 20px 0;
+    border-radius: 12px;
+    cursor: pointer;
+    background-color: #7c2d12;
+    color: white;
+    align-self: center;
+}
+
+.admin-page-edit-header {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px 15px;
+    margin-bottom: 5px;
+}
+.admin-page-edit-header h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.admin-page-edit-header button {
+    width: 100px;
+    padding: 8px 20px;
+    border-radius: 12px;
+    cursor: pointer;
+    background-color: #7c2d12;
+    color: white;
+    align-self: center;
+}
+
+.admin-page-edit-body [role="dialog"] {
+    background-color: #d9d9d9;
+}
+
+.admin-page-edit-list-item {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 3fr 6fr 1fr;
+    padding: 5px 30px;
+    padding-right: 20px;
+    margin: 5px 0;
+    background-color: white;
+}
+
+.admin-page-edit-list-item-delete {
+    text-align: end;
+}
+
+@media only screen and (min-width: 768px) {
+    .admin-page-edit-header {
+        margin: 30px 5vw;
+    }
+
+    .admin-page-btn-container {
+        flex-direction: row;
+        justify-content: center;
+    }
+
+    .admin-page-btn-container button {
+        margin: 20px 25px;
+        height: 150px;
+        width: 200px;
+        font-size: 1.5rem;
+    }
+
+    .admin-page-edit-list {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .admin-page-edit-list-item {
+        padding: 8px 30px;
+        align-self: center;
+        width: 90vw;
+        border-radius: 10px;
+        grid-template-columns: 3fr 3fr 4fr;
+    }
+}
