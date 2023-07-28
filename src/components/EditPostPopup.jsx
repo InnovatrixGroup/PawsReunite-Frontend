@@ -8,10 +8,18 @@ import CancelRoundedIcon from "@mui/icons-material/CancelRounded";
 import { fabClasses } from "@mui/material";
 import AsyncSelect from "react-select/async";
 import { parsePhoneNumberFromString } from "libphonenumber-js";
+import { useForm, Controller } from "react-hook-form";
+import { render } from "@testing-library/react";
 
 const api = process.env.REACT_APP_DATABASE_URL;
 
 function EditPostPopup({ trigger, close, post, update, mode }) {
+  const {
+    control,
+    handleSubmit,
+    formState: { errors }
+  } = useForm();
+
   const colorOptions = ["Yellow", "Black", "White", "Brown", "Grey", "Multi", "Cream"];
 
   const speciesOptions = ["Dog", "Cat", "Bird", "Rabbit", "Other"];
@@ -60,39 +68,9 @@ function EditPostPopup({ trigger, close, post, update, mode }) {
     setSelectedColor(colorValue);
   };
 
-  const handleTitleChange = (event) => {
-    const titleValue = event.target.value;
-    setTitle(titleValue);
-    if (titleValue.length > 15) {
-      setTitleError("Title must be 15 characters or less");
-    } else {
-      setTitleError("");
-    }
-  };
-
   const handleDescriptionChange = (event) => {
     const descriptionValue = event.target.value;
     setDescription(descriptionValue);
-  };
-
-  const handleContactInfoChange = (event) => {
-    const contactInfoValue = event.target.value;
-    setContactInfo(contactInfoValue);
-
-    // Use a regular expression to check if the input is entirely numeric
-    const numericRegex = /^\d+$/;
-
-    if (!numericRegex.test(contactInfoValue)) {
-      setContactInfoError("Phone number must contain only numbers");
-    }
-
-    // Parse the phone number
-    const phoneNumber = parsePhoneNumberFromString(contactInfoValue, "AU");
-    if (phoneNumber && phoneNumber.isValid()) {
-      setContactInfoError("");
-    } else {
-      setContactInfoError("Phone number is invalid");
-    }
   };
 
   const handleStatusChange = (event) => {
@@ -116,6 +94,15 @@ function EditPostPopup({ trigger, close, post, update, mode }) {
   const handleBreedChange = (event) => {
     const breedValue = event.target.value;
     setSelectedBreed(breedValue);
+  };
+
+  const validatePhoneNumber = (contactInfoValue) => {
+    const phoneNumber = parsePhoneNumberFromString(contactInfoValue, "AU");
+    if (phoneNumber && phoneNumber.isValid()) {
+      return true;
+    } else {
+      return "Phone number is invalid";
+    }
   };
 
   // for image upload
@@ -143,14 +130,24 @@ function EditPostPopup({ trigger, close, post, update, mode }) {
   };
 
   // for create post
-  const handleCreatePost = async () => {
+  const handleCreatePost = async (data) => {
+    if (!selectedSpecies || !selectedBreed || !selectedColor || !suburb) {
+      alert("Please select species, breed, color and suburb.");
+      return;
+    }
+
+    if (updatedImages.length === 0) {
+      alert("Please upload at least one image.");
+      return;
+    }
+
     try {
       const formData = new FormData();
-      formData.append("title", title);
+      formData.append("title", data.title);
       formData.append("suburb", suburb);
       formData.append("status", selectedStatus);
       formData.append("description", description);
-      formData.append("contactInfo", contactInfo);
+      formData.append("contactInfo", data.contactInfo);
       formData.append("color", selectedColor);
       formData.append("breed", selectedBreed);
       formData.append("species", selectedSpecies);
@@ -178,22 +175,24 @@ function EditPostPopup({ trigger, close, post, update, mode }) {
   };
 
   // for update post
-  const handleUpdatePost = async () => {
-    if (titleError || contactInfoError) {
-      alert("Please fix the form errors before submitting.");
-      return; // Prevent form submission if there are errors
+  const handleUpdatePost = async (data) => {
+    if (!selectedSpecies || !selectedBreed || !selectedColor || !suburb) {
+      alert("Please select species, breed, color and suburb.");
+      return;
     }
+    if (selectedImages.length === 0 && updatedImages.length === 0) {
+      alert("Please upload at least one image.");
+      return;
+    }
+
     try {
       const formData = new FormData();
 
-      if (selectedImages.length === 0 && updatedImages.length === 0) {
-        alert("Please upload at least one image.");
-      }
-      formData.append("title", title);
+      formData.append("title", data.title || title);
       formData.append("suburb", suburb);
       formData.append("status", selectedStatus);
       formData.append("description", description);
-      formData.append("contactInfo", contactInfo);
+      formData.append("contactInfo", data.contactInfo || contactInfo);
       formData.append("color", selectedColor);
       formData.append("breed", selectedBreed);
       formData.append("species", selectedSpecies);
@@ -228,16 +227,35 @@ function EditPostPopup({ trigger, close, post, update, mode }) {
           style={{ zIndex: "2000" }}
         >
           <div className="popup-inner xs:w-full xs:h-full h-5/6 p-8 max-w-xl bg-white overflow-y-auto">
-            <form className="flex flex-col gap-8">
+            <form
+              className="flex flex-col gap-8"
+              onSubmit={
+                mode === "create" ? handleSubmit(handleCreatePost) : handleSubmit(handleUpdatePost)
+              }
+            >
               <div className="title-container flex flex-col">
-                <TextField
-                  id="standard-basic"
-                  label="Title"
-                  variant="standard"
-                  onChange={handleTitleChange}
-                  value={title}
+                <Controller
+                  name="title"
+                  defaultValue={title}
+                  control={control}
+                  rules={{
+                    required: "Title is required",
+                    maxLength: {
+                      value: 15,
+                      message: "Title cannot be more than 15 characters"
+                    }
+                  }}
+                  render={({ field }) => (
+                    <TextField
+                      {...field}
+                      id="standard-basic"
+                      label="Title"
+                      variant="standard"
+                      error={!!errors.title}
+                      helperText={errors.title?.message}
+                    />
+                  )}
                 />
-                {titleError && <div className="text-red-500 text-left">{titleError}</div>}
               </div>
 
               <div className="filter-container grid grid-cols-2 gap-2">
@@ -263,15 +281,10 @@ function EditPostPopup({ trigger, close, post, update, mode }) {
                   options={colorOptions}
                   onChange={handleColorChange}
                 />
-                {/* <TextField
-                  id="standard-basic"
-                  label="Suburb"
-                  variant="standard"
-                  onChange={handleSuburbChange}
-                  value={suburb}
-                /> */}
+
                 <AsyncSelect
                   placeholder="Suburb"
+                  defaultValue={suburb ? { value: suburb, label: suburb } : null}
                   loadOptions={(input) => handleSuburbChange(input)}
                   onChange={(input) => setSuburb(input.value)}
                 />
@@ -287,16 +300,25 @@ function EditPostPopup({ trigger, close, post, update, mode }) {
                 />
               </div>
               <div className="contactInfo-container flex flex-col">
-                <TextField
-                  id="standard-basic"
-                  label="ContactInfo(Phone)"
-                  variant="standard"
-                  onChange={handleContactInfoChange}
-                  value={contactInfo}
+                <Controller
+                  name="contactInfo"
+                  defaultValue={contactInfo}
+                  control={control}
+                  rules={{
+                    required: "ContactInfo is required",
+                    validate: validatePhoneNumber
+                  }}
+                  render={({ field }) => (
+                    <TextField
+                      {...field}
+                      id="standard-basic"
+                      label="ContactInfo"
+                      variant="standard"
+                      error={!!errors.contactInfo}
+                      helperText={errors.contactInfo?.message}
+                    />
+                  )}
                 />
-                {contactInfoError && (
-                  <div className="text-red-500 text-left">{contactInfoError}</div>
-                )}
               </div>
 
               <div className="status flex flex-col text-gray-500">
@@ -382,19 +404,15 @@ function EditPostPopup({ trigger, close, post, update, mode }) {
                     })}
                 </div>
               </div>
+              <div className="grid grid-cols-2 gap-4">
+                <button type="submit" className="py-2 bg-orange-900 text-white rounded-2xl">
+                  Save
+                </button>
+                <button onClick={close} className="py-2 bg-orange-900 text-white rounded-2xl">
+                  Close
+                </button>
+              </div>
             </form>
-
-            <div className="grid grid-cols-2 gap-4">
-              <button
-                onClick={mode === "create" ? handleCreatePost : handleUpdatePost}
-                className="py-2 bg-orange-900 text-white rounded-2xl"
-              >
-                Save
-              </button>
-              <button onClick={close} className="py-2 bg-orange-900 text-white rounded-2xl">
-                Close
-              </button>
-            </div>
           </div>
         </div>
       ) : (
