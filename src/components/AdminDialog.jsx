@@ -52,17 +52,19 @@ const ListItem = ({ item, onDelete }) => {
       <span>{item.username || item.title}</span>
       {item.email && <span>{item.email}</span>}
       {item.createdAt && <Moment format="YYYY-MM-DD hh:mm A">{item.createdAt}</Moment>}
-      <div className="admin-page-edit-list-item-delete">
+      <div className="admin-page-delete-icon">
         <DeleteIcon onClick={handleDeleteClick} style={{ cursor: "pointer" }} />
       </div>
-      <DeleteConfirmDialog
-        open={showDeleteConfirmation}
-        onClose={() => setShowDeleteConfirmation(false)}
-        onConfirm={() => {
-          onDelete(item._id);
-          setShowDeleteConfirmation(false);
-        }}
-      />
+      <div className="admin-page-delete-confirm">
+        <DeleteConfirmDialog
+          open={showDeleteConfirmation}
+          onClose={() => setShowDeleteConfirmation(false)}
+          onConfirm={() => {
+            onDelete(item._id);
+            setShowDeleteConfirmation(false);
+          }}
+        />
+      </div>
     </div>
   );
 };
@@ -98,7 +100,7 @@ export function AdminDialog(props) {
   });
 
   return (
-    <Dialog open={isOpen} fullScreen>
+    <Dialog open={isOpen} fullScreen classes={{ root: "admin-page-dialog" }}>
       <AdminNavBar handleLogout={handleLogout} />
       <div className="admin-page-edit-header">
         <h2>{mode === "editUsers" ? "User List" : "Post List"}</h2>

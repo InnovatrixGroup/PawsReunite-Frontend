@@ -5,6 +5,7 @@ import Footer from "../components/Footer";
 import { useState, useEffect } from "react";
 import "../styles/AdminPage.css";
 import AdminNavBar from "../components/AdminNavBar";
+import { Divider } from "@mui/material";
 
 const api = process.env.REACT_APP_DATABASE_URL;
 
@@ -40,6 +41,7 @@ export default function AdminPage() {
     setEditPostDialog(false);
   };
 
+  // fetch current user detail
   useEffect(() => {
     async function fetchUserData() {
       try {
@@ -58,6 +60,7 @@ export default function AdminPage() {
     fetchUserData();
   }, [userAuth]);
 
+  // fetch all users
   useEffect(() => {
     async function fetchAllUsers() {
       try {
@@ -80,6 +83,7 @@ export default function AdminPage() {
     fetchAllUsers();
   }, [userAuth]);
 
+  // fetch all posts
   useEffect(() => {
     async function fetchAllPosts() {
       try {
@@ -99,14 +103,33 @@ export default function AdminPage() {
     fetchAllPosts();
   }, [userAuth, allPosts]);
 
+  // change button color when user switch between user and post management
+  useEffect(() => {
+    const userManageBtn = document.querySelector(".user-manage-btn");
+    const postManageBtn = document.querySelector(".post-manage-btn");
+
+    if (editPostDialog) {
+      postManageBtn.classList.add("active");
+      userManageBtn.classList.remove("active");
+    } else {
+      postManageBtn.classList.remove("active");
+      userManageBtn.classList.add("active");
+    }
+  }, [editUserDialog, editPostDialog]);
+
   return (
     <>
       <AdminNavBar handleLogout={handleLogout} />
       <div className="admin-page-body">
         <h1>Admin</h1>
         <div className="admin-page-btn-container">
-          <button onClick={openEditUserDialog}>Users Management</button>
-          <button onClick={openEditPostDialog}>Posts Management</button>
+          <button onClick={openEditUserDialog} className="user-manage-btn">
+            Users Management
+          </button>
+          <button onClick={openEditPostDialog} className="post-manage-btn">
+            Posts Management
+          </button>
+
           {/* small and medium screen only*/}
           <AdminDialog
             isOpen={editUserDialog}
@@ -127,7 +150,10 @@ export default function AdminPage() {
             mode="editPosts"
           />
         </div>
-        <div>
+
+        {/* large screen only*/}
+        <Divider orientation="vertical" lasses={{ root: "admin-page-divider" }} />
+        <div className="admin-page-list-lg">
           <AdminEditList
             data={editPostDialog ? allPosts : allUsers}
             setAllUsers={setAllUsers}

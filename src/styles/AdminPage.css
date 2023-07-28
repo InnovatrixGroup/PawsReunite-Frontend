@@ -39,7 +39,6 @@
   font-weight: 600;
 }
 
-
 .admin-page-edit-header button {
   width: 100px;
   padding: 8px 20px;
@@ -50,7 +49,7 @@
   align-self: center;
 }
 
-.admin-page-edit-body [role="dialog"] {
+.admin-page-dialog [role="dialog"] {
   background-color: #d9d9d9;
   max-width: 1280px;
   margin: auto;
@@ -66,8 +65,13 @@
   background-color: white;
 }
 
-.admin-page-edit-list-item-delete {
+.admin-page-delete-icon {
   text-align: end;
+}
+
+.admin-page-divider,
+.admin-page-list-lg {
+  display: none;
 }
 
 @media only screen and (min-width: 768px) {
@@ -101,10 +105,54 @@
   }
 }
 
-
 @media only screen and (min-width: 1024px) {
   /* hide dialog on large screen */
-  /* .admin-page-edit-body [role="presentation"] {
+  .admin-page-dialog {
     display: none;
-  } */
+  }
+
+  .admin-page-body {
+    display: flex;
+    padding-top: 0;
+  }
+
+  .admin-page-body h1 {
+    display: none;
+  }
+
+  .admin-page-btn-container {
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+
+  .admin-page-btn-container button {
+    width: 20vw;
+    height: fit-content;
+    padding: 10px 20px;
+    margin: 10px 20px;
+    font-size: 1rem;
+  }
+
+  .admin-page-btn-container button:not(.active) {
+    background-color: #d9d9d9;
+    color: #7c2d12;
+    border: 1px solid #7c2d12;
+  }
+
+  .admin-page-btn-container button:first-child {
+    margin-top: 30px;
+  }
+
+  .admin-page-list-lg {
+    display: block;
+    width: 75vw;
+  }
+
+  .admin-page-edit-list div:first-child {
+    margin-top: 30px;
+  }
+
+  .admin-page-divider {
+    display: block;
+  }
 }

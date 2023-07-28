@@ -12,6 +12,7 @@ function DeleteConfirmDialog({ open, onClose, onConfirm }) {
       open={open}
       onClose={onClose}
       PaperProps={{ style: { padding: "12px", borderRadius: "20px" } }}
+      classes={{ root: "delete-confirm-dialog" }}
     >
       <DialogTitle>Delete Post?</DialogTitle>
       <DialogContent>
