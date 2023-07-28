@@ -65,6 +65,23 @@ export default function SinglePetPage() {
   };
   const isUserPost = post && post.userId === userAuth.userId;
 
+  const handleDeleteComment = async (commentId) => {
+    try {
+      const response = await fetch(`${api}/comments/${commentId}`, {
+        method: "DELETE",
+        headers: {
+          authorization: `Bearer ${userAuth.jwt}`
+        }
+      });
+      if (response.ok) {
+        alert("Comment has been deleted.");
+        setComments((prev) => prev.filter((comment) => comment._id !== commentId));
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div>
       {isloading && (
@@ -96,7 +113,7 @@ export default function SinglePetPage() {
           )}
 
           <div className="comments flex px-3 mb-32">
-            <Comment comments={comments} />
+            <Comment comments={comments} onDelete={handleDeleteComment} />
           </div>
           <div className="single__post_comment w-full fixed bottom-12 flex gap-4 p-3 max-w-7xl bg-white">
             <input
@@ -113,6 +130,7 @@ export default function SinglePetPage() {
             onClose={() => setShowDeleteConfirmation(false)}
             onConfirm={deletePost}
           />
+
           {post && (
             <EditPostPopup
               trigger={isEdit}
