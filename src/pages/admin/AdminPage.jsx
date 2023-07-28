@@ -81,7 +81,6 @@ export default function AdminPage() {
   }, [userAuth]);
 
   useEffect(() => {
-    // fetch all posts
     async function fetchAllPosts() {
       try {
         const response = await fetch(`${api}/posts`, {
@@ -121,6 +120,8 @@ export default function AdminPage() {
           isOpen={editUserDialog}
           closeDialog={closeEditUserDialog}
           data={allUsers}
+          setAllUsers={setAllUsers}
+          userAuth={userAuth}
           mode="editUsers"
         />
         <button onClick={openEditPostDialog}>Posts Management</button>
@@ -128,6 +129,8 @@ export default function AdminPage() {
           isOpen={editPostDialog}
           closeDialog={closeEditPostDialog}
           data={allPosts}
+          setAllPosts={setAllPosts}
+          userAuth={userAuth}
           mode="editPosts"
         />
       </div>
