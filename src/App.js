@@ -10,7 +10,7 @@ import SinglePostPage from "./pages/pets/SinglePostPage";
 import ContactPage from "./pages/ContactPage";
 import PetResourcePage from "./pages/PetResourcePage";
 import PersonalDetailPage from "./pages/PersonalDetailPage";
-import AdminPage from "./pages/admin/AdminPage";
+import AdminPage from "./pages/AdminPage";
 
 function App() {
   // const location = useLocation();
