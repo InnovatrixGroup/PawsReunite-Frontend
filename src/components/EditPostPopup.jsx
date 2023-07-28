@@ -9,7 +9,6 @@ import { fabClasses } from "@mui/material";
 import AsyncSelect from "react-select/async";
 import { parsePhoneNumberFromString } from "libphonenumber-js";
 import { useForm, Controller } from "react-hook-form";
-import { render } from "@testing-library/react";
 
 const api = process.env.REACT_APP_DATABASE_URL;
 
@@ -163,7 +162,7 @@ function EditPostPopup({ trigger, close, post, update, mode }) {
         body: formData
       });
       const result = await response.json();
-      // userPostDispatch({ type: "create", newPost: data });
+      userPostDispatch({ type: "create", newPost: result.data });
 
       alert("Post has been created.");
       window.location.reload();
@@ -208,7 +207,7 @@ function EditPostPopup({ trigger, close, post, update, mode }) {
         body: formData
       });
       const result = await response.json();
-      // userPostDispatch({ type: "create", newPost: data });
+      userPostDispatch({ type: "update", newPost: result.data });
 
       alert("Post has been UPDATED.");
       window.location.reload();
@@ -418,7 +417,6 @@ function EditPostPopup({ trigger, close, post, update, mode }) {
       ) : (
         ""
       )}
-      <label htmlFor="">test</label>
       <input type="text" onChange={(e) => handleSuburbChange(e.target.value)} />
     </div>
   );
