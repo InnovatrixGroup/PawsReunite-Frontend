@@ -1,6 +1,6 @@
-import logo from "../../pics/logo.png";
+import logo from "../pics/logo.png";
 import { NavLink } from "react-router-dom";
-import AdminDialog from "../../components/AdminDialog";
+import AdminDialog from "../components/AdminDialog";
 import { useLocalStorage } from "react-use";
 import { useNavigate } from "react-router-dom";
 const { useState, useEffect } = require("react");
@@ -97,7 +97,7 @@ export default function AdminPage() {
       }
     }
     fetchAllPosts();
-  }, [userAuth]);
+  }, [userAuth, allPosts]);
 
   return (
     <>
