@@ -5,7 +5,7 @@ import LogoutIcon from "@mui/icons-material/Logout";
 export default function AdminNavBar({ handleLogout }) {
   return (
     <nav>
-      <ul className="navbar flex justify-between items-center bg-orange-900 py-3 px-6 fixed top-0 w-full max-w-7xl">
+      <ul className="navbar admin-navbar flex justify-between items-center bg-orange-900 py-3 px-6 fixed top-0 w-full max-w-7xl">
         <li>
           <NavLink className="navbar__logo" to="/">
             <img src={logo} alt="logo" className="w-10" />

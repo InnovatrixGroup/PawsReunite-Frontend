@@ -1,4 +1,4 @@
-import AdminDialog from "../components/AdminDialog";
+import { AdminDialog, AdminEditList } from "../components/AdminDialog";
 import { useLocalStorage } from "react-use";
 import { useNavigate } from "react-router-dom";
 import Footer from "../components/Footer";
@@ -26,6 +26,7 @@ export default function AdminPage() {
 
   const openEditUserDialog = () => {
     setEditUserDialog(true);
+    setEditPostDialog(false);
   };
   const closeEditUserDialog = () => {
     setEditUserDialog(false);
@@ -33,6 +34,7 @@ export default function AdminPage() {
 
   const openEditPostDialog = () => {
     setEditPostDialog(true);
+    setEditUserDialog(false);
   };
   const closeEditPostDialog = () => {
     setEditPostDialog(false);
@@ -104,6 +106,8 @@ export default function AdminPage() {
         <h1>Admin</h1>
         <div className="admin-page-btn-container">
           <button onClick={openEditUserDialog}>Users Management</button>
+          <button onClick={openEditPostDialog}>Posts Management</button>
+          {/* small and medium screen only*/}
           <AdminDialog
             isOpen={editUserDialog}
             closeDialog={closeEditUserDialog}
@@ -113,7 +117,6 @@ export default function AdminPage() {
             handleLogout={handleLogout}
             mode="editUsers"
           />
-          <button onClick={openEditPostDialog}>Posts Management</button>
           <AdminDialog
             isOpen={editPostDialog}
             closeDialog={closeEditPostDialog}
@@ -122,6 +125,15 @@ export default function AdminPage() {
             userAuth={userAuth}
             handleLogout={handleLogout}
             mode="editPosts"
+          />
+        </div>
+        <div>
+          <AdminEditList
+            data={editPostDialog ? allPosts : allUsers}
+            setAllUsers={setAllUsers}
+            setAllPosts={setAllPosts}
+            userAuth={userAuth}
+            mode={editPostDialog ? "editPosts" : "editUsers"}
           />
         </div>
       </div>

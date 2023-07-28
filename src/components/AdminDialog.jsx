@@ -8,49 +8,84 @@ import Moment from "react-moment";
 
 const api = process.env.REACT_APP_DATABASE_URL;
 
-export default function AdminDialog(props) {
-  const { isOpen, closeDialog, data, mode, userAuth, setAllPosts, setAllUsers, handleLogout } =
-    props;
+const deleteUser = async (id, userAuth) => {
+  try {
+    const response = await fetch(`${api}/users/${id}`, {
+      method: "DELETE",
+      headers: {
+        authorization: `Bearer ${userAuth.jwt}`
+      }
+    });
+    if (!response.ok) {
+      throw new Error("Delete user failed");
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const deletePost = async (id, userAuth) => {
+  try {
+    const response = await fetch(`${api}/posts/${id}`, {
+      method: "DELETE",
+      headers: {
+        authorization: `Bearer ${userAuth.jwt}`
+      }
+    });
+    if (!response.ok) {
+      throw new Error("Delete post failed");
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const ListItem = ({ item, onDelete }) => {
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
 
-  const handleDeleteUser = async (id) => {
-    try {
-      const response = await fetch(`${api}/users/${id}`, {
-        method: "DELETE",
-        headers: {
-          authorization: `Bearer ${userAuth.jwt}`
-        }
-      });
-      if (!response.ok) {
-        throw new Error("Delete user failed");
-      }
+  const handleDeleteClick = () => {
+    setShowDeleteConfirmation(true);
+  };
 
-      setAllUsers((prev) => prev.filter((user) => user._id !== id));
-      alert("User deleted");
-    } catch (error) {
-      console.log(error);
-    }
-    setShowDeleteConfirmation(false);
+  return (
+    <div key={item._id} className="admin-page-edit-list-item">
+      <span>{item.username || item.title}</span>
+      {item.email && <span>{item.email}</span>}
+      {item.createdAt && <Moment format="YYYY-MM-DD hh:mm A">{item.createdAt}</Moment>}
+      <div className="admin-page-edit-list-item-delete">
+        <DeleteIcon onClick={handleDeleteClick} style={{ cursor: "pointer" }} />
+      </div>
+      <DeleteConfirmDialog
+        open={showDeleteConfirmation}
+        onClose={() => setShowDeleteConfirmation(false)}
+        onConfirm={() => {
+          onDelete(item._id);
+          setShowDeleteConfirmation(false);
+        }}
+      />
+    </div>
+  );
+};
+
+export function AdminDialog(props) {
+  const { isOpen, closeDialog, data, mode, userAuth, setAllPosts, setAllUsers, handleLogout } =
+    props;
+  // const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
+
+  const handleDeleteUser = async (id) => {
+    await deleteUser(id, userAuth);
+    setAllUsers((prev) => prev.filter((user) => user._id !== id));
+
+    alert("User deleted");
+    // setShowDeleteConfirmation(false);
   };
 
   const handleDeletePost = async (id) => {
-    try {
-      const response = await fetch(`${api}/posts/${id}`, {
-        method: "DELETE",
-        headers: {
-          authorization: `Bearer ${userAuth.jwt}`
-        }
-      });
-      if (!response.ok) {
-        throw new Error("Delete post failed");
-      }
+    await deletePost(id, userAuth);
+    setAllPosts((prev) => prev.filter((post) => post._id !== id));
 
-      setAllPosts((prev) => prev.filter((post) => post._id !== id));
-      alert("Post deleted");
-    } catch (error) {
-      console.log(error);
-    }
-    setShowDeleteConfirmation(false);
+    alert("Post deleted");
+    // setShowDeleteConfirmation(false);
   };
 
   useEffect(() => {
@@ -71,43 +106,41 @@ export default function AdminDialog(props) {
       </div>
       <div className="admin-page-edit-list">
         {mode === "editUsers"
-          ? data?.map((user) => (
-              <div key={user._id} className="admin-page-edit-list-item">
-                <span>{user.username}</span>
-                <span>{user.email}</span>
-                <div className="admin-page-edit-list-item-delete">
-                  <DeleteIcon
-                    onClick={() => setShowDeleteConfirmation(true)}
-                    style={{ cursor: "pointer" }}
-                  />
-                </div>
-                <DeleteConfirmDialog
-                  open={showDeleteConfirmation}
-                  onClose={() => setShowDeleteConfirmation(false)}
-                  onConfirm={() => handleDeleteUser(user._id)}
-                />
-              </div>
-            ))
+          ? data?.map((user) => <ListItem key={user._id} item={user} onDelete={handleDeleteUser} />)
           : data?.map((post) => (
-              <div key={post._id} className="admin-page-edit-list-item">
-                <span>{post.title}</span>
-                <Moment format="YYYY-MM-DD hh:mm A">{post.createdAt}</Moment>
-                <div className="admin-page-edit-list-item-delete">
-                  <DeleteIcon
-                    onClick={() => setShowDeleteConfirmation(true)}
-                    style={{ cursor: "pointer" }}
-                  />
-                </div>
-                <DeleteConfirmDialog
-                  open={showDeleteConfirmation}
-                  onClose={() => setShowDeleteConfirmation(false)}
-                  onConfirm={() => handleDeletePost(post._id)}
-                />
-              </div>
+              <ListItem key={post._id} item={post} onDelete={handleDeletePost} />
             ))}
       </div>
-      <div className="admin-page-edit-list"></div>
       <Footer />
     </Dialog>
+  );
+}
+
+export function AdminEditList(props) {
+  const { mode, data, setAllUsers, setAllPosts, userAuth } = props;
+  const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
+
+  const handleDeleteUser = async (id) => {
+    await deleteUser(id, userAuth);
+    setAllUsers((prev) => prev.filter((user) => user._id !== id));
+
+    alert("User deleted");
+    setShowDeleteConfirmation(false);
+  };
+
+  const handleDeletePost = async (id) => {
+    await deletePost(id, userAuth);
+    setAllPosts((prev) => prev.filter((post) => post._id !== id));
+
+    alert("Post deleted");
+    setShowDeleteConfirmation(false);
+  };
+
+  return (
+    <div className="admin-page-edit-list">
+      {mode === "editUsers"
+        ? data?.map((user) => <ListItem key={user._id} item={user} onDelete={handleDeleteUser} />)
+        : data?.map((post) => <ListItem key={post._id} item={post} onDelete={handleDeletePost} />)}
+    </div>
   );
 }
