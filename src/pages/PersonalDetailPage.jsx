@@ -120,11 +120,10 @@ export default function PersonalDetailPage() {
         <h1>Your Posts</h1>
         <div className="grid grid-cols-3 gap-3 p-5 xs:gap-0">
           {userPostData &&
-            userPostData.length > 0 &&
             userPostData.map((post) => (
               <div className="image" onClick={() => handleRedirect(post._id)} key={post._id}>
                 <img
-                  src={post.photos[0]}
+                  src={post?.photos[0]}
                   className="w-full aspect-square object-cover"
                   alt="post"
                 />

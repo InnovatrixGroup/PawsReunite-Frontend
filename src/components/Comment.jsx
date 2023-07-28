@@ -5,17 +5,7 @@ import { deepOrange } from "@mui/material/colors";
 const api = process.env.REACT_APP_DATABASE_URL;
 
 function Comment(props) {
-  const postId = props.postId;
-  const [comments, setComments] = useState([]);
-
-  useEffect(() => {
-    const fetchComments = async () => {
-      const response = await fetch(`${api}/comments?postId=${postId}`);
-      const result = await response.json();
-      setComments(result.data);
-    };
-    fetchComments();
-  }, [postId]);
+  const comments = props.comments;
 
   return (
     <div className="comments-container">

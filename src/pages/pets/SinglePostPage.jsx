@@ -22,6 +22,7 @@ export default function SinglePetPage() {
   const [isEdit, setIsEdit] = useState(false);
   const userPostData = useUserPost();
   const [isloading, setIsLoading] = useState(true);
+  const [comments, setComments] = useState([]);
 
   useEffect(() => {
     const fetchPost = async () => {
@@ -31,6 +32,15 @@ export default function SinglePetPage() {
       setIsLoading(false);
     };
     fetchPost();
+  }, [id]);
+
+  useEffect(() => {
+    const fetchComments = async () => {
+      const response = await fetch(`${api}/comments?postId=${id}`);
+      const result = await response.json();
+      setComments(result.data);
+    };
+    fetchComments();
   }, [id]);
 
   const deletePost = async () => {
@@ -86,7 +96,7 @@ export default function SinglePetPage() {
           )}
 
           <div className="comments flex px-3 mb-32">
-            <Comment postId={id} />
+            <Comment comments={comments} />
           </div>
           <div className="single__post_comment w-full fixed bottom-12 flex gap-4 p-3 max-w-7xl bg-white">
             <input
