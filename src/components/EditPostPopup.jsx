@@ -400,8 +400,6 @@ function EditPostPopup({ trigger, close, post, update, mode }) {
       ) : (
         ""
       )}
-      <label htmlFor="">test</label>
-      <input type="text" onChange={(e) => handleSuburbChange(e.target.value)} />
     </div>
   );
 }
