@@ -165,7 +165,6 @@ function EditPostPopup({ trigger, close, post, update, mode }) {
       userPostDispatch({ type: "create", newPost: result.data });
 
       alert("Post has been created.");
-      window.location.reload();
 
       close();
     } catch (error) {
