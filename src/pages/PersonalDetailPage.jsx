@@ -18,6 +18,7 @@ export default function PersonalDetailPage() {
   const userPostDispatch = useUserPostDispatch();
   const userPostData = useUserPost();
   const [selectedPostId, setSelectedPostId] = useState(null);
+  const [isRedirectToLanding, setIsRedirectToLanding] = useState(false);
 
   const handleLogout = () => {
     setUserAuth(null);
@@ -140,6 +141,7 @@ export default function PersonalDetailPage() {
           />
         }
         {redirect && <Navigate to={`/pets/${selectedPostId}`} />}
+        {!userAuth && <Navigate to="/welcome" />}
       </div>
     </div>
   );
