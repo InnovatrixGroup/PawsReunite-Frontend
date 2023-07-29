@@ -19,13 +19,13 @@ function EditPostPopup({ trigger, close, post, update, mode }) {
     formState: { errors }
   } = useForm();
 
-  const colorOptions = ["Yellow", "Black", "White", "Brown", "Grey", "Multi", "Cream"];
+  const colorOptions = ["Yellow", "Black", "White", "Brown", "Grey", "Multi", "Cream", "Other"];
 
   const speciesOptions = ["Dog", "Cat", "Bird", "Rabbit", "Other"];
 
   const breedOptions = [
     {
-      Dog: ["Dachshund", "Poodle", "Labrador", "Pug", "Other"]
+      Dog: ["Dachshund", "Poodle", "Labrador", "Pug", "Samoyed", "Other"]
     },
     {
       Cat: ["Persian", "Siamese", "Bengal", "Ragdoll", "American Bobtail", "Other"]
@@ -259,7 +259,7 @@ function EditPostPopup({ trigger, close, post, update, mode }) {
 
               <div className="filter-container grid grid-cols-2 gap-2">
                 <FilterSelect
-                  label="species"
+                  label="Species"
                   value={selectedSpecies}
                   options={speciesOptions}
                   onChange={handleSpeciesChange}
@@ -267,7 +267,7 @@ function EditPostPopup({ trigger, close, post, update, mode }) {
                 />
                 {breedOptionsList && (
                   <FilterSelect
-                    label="breed"
+                    label="Breed"
                     value={selectedBreed}
                     options={breedOptionsList}
                     onChange={handleBreedChange}
@@ -275,7 +275,7 @@ function EditPostPopup({ trigger, close, post, update, mode }) {
                   />
                 )}
                 <FilterSelect
-                  label="color"
+                  label="Color"
                   value={selectedColor}
                   options={colorOptions}
                   onChange={handleColorChange}
