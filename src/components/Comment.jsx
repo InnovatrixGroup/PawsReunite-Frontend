@@ -23,7 +23,7 @@ function Comment(props) {
             <div className="flex items-center mb-4 mr-5">
               <div className="flex-none flex flex-col items-center space-y-1 mr-4">
                 <Avatar sx={{ bgcolor: deepOrange[500] }}>
-                  {comment.userId.username.charAt(0).toUpperCase()}
+                  {comment.userId?.username?.charAt(0).toUpperCase()}
                 </Avatar>
                 <p className="text-xs">{comment.userId.username}</p>
               </div>

@@ -23,6 +23,7 @@ export default function SinglePetPage() {
   const userPostData = useUserPost();
   const [isloading, setIsLoading] = useState(true);
   const [comments, setComments] = useState([]);
+  const [newComment, setNewComment] = useState("");
 
   useEffect(() => {
     const fetchPost = async () => {
@@ -82,6 +83,29 @@ export default function SinglePetPage() {
     }
   };
 
+  const handleCreateComment = async () => {
+    try {
+      const response = await fetch(`${api}/comments/${id}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          authorization: `Bearer ${userAuth.jwt}`
+        },
+        body: JSON.stringify({
+          content: newComment
+        })
+      });
+      if (response.ok) {
+        const result = await response.json();
+        alert("Comment has been created.");
+        setComments((prev) => [...prev, result.data]);
+        setNewComment("");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div>
       {isloading && (
@@ -120,8 +144,13 @@ export default function SinglePetPage() {
               className="single__post_comment_input flex-1 border rounded-full shadow-inner pl-3"
               type="text"
               placeholder="Leave a comment..."
+              value={newComment}
+              onChange={(e) => setNewComment(e.target.value)}
             />
-            <button className="single__post_comment_btn bg-orange-900 text-white border px-4 py-2 font-light rounded-xl">
+            <button
+              className="single__post_comment_btn bg-orange-900 text-white border px-4 py-2 font-light rounded-xl"
+              onClick={handleCreateComment}
+            >
               Send
             </button>
           </div>
