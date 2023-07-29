@@ -128,6 +128,37 @@ function EditPostPopup({ trigger, close, post, update, mode }) {
     setSelectedImages((prevImages) => prevImages.filter((item) => item !== image));
   };
 
+  const handleComaprePost = async (post) => {
+    const response = await fetch(`${api}/posts`, {
+      method: "GET"
+    });
+    const jsonData = await response.json();
+    const comparePost = jsonData.data.find(
+      (item) =>
+        item.color === post.color &&
+        item.status !== post.status &&
+        item.species === post.species &&
+        item.breed === post.breed
+    );
+    console.log(comparePost);
+    if (comparePost) {
+      const comparePostUserId = comparePost.userId;
+      const newNotification = {
+        userId: comparePostUserId,
+        message: `A new post has been created that matches your ${comparePost.status} pet(${comparePost.title}), please use filter to check it out or contact this number ${post.contactInfo} for more information.`
+      };
+      const response = await fetch(`${api}/notifications`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(newNotification)
+      });
+      const jsonData = await response.json();
+      console.log(jsonData);
+    }
+  };
+
   // for create post
   const handleCreatePost = async (data) => {
     if (!selectedSpecies || !selectedBreed || !selectedColor || !suburb) {
@@ -165,6 +196,7 @@ function EditPostPopup({ trigger, close, post, update, mode }) {
       userPostDispatch({ type: "create", newPost: result.data });
 
       alert("Post has been created.");
+      handleComaprePost(result.data);
 
       close();
     } catch (error) {
