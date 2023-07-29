@@ -90,14 +90,16 @@ function Post(props) {
             <div className="description text-left mb-3">
               {!isSingle ? truncateDescription(postData.description) : postData.description}
               {postData.description.length > 150 && showFullDescription === false && (
-                <span onClick={toggleDescription} className="text-gray-500">
+                <span onClick={toggleDescription} className="text-gray-500 cursor-pointer">
                   {" "}
                   {!isSingle && "...more"}
                 </span>
               )}
             </div>
             <div className="post__comments" onClick={handleRedirectClick}>
-              {!isSingle && numberOfComments !== 0 && <p>View all {numberOfComments} comments</p>}
+              {!isSingle && numberOfComments !== 0 && (
+                <p className="cursor-pointer">View all {numberOfComments} comments</p>
+              )}
             </div>
           </div>
         </div>

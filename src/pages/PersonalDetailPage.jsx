@@ -18,6 +18,8 @@ export default function PersonalDetailPage() {
   const userPostDispatch = useUserPostDispatch();
   const userPostData = useUserPost();
   const [selectedPostId, setSelectedPostId] = useState(null);
+  const [isRedirectToLanding, setIsRedirectToLanding] = useState(false);
+  const [notifications, setNotifications] = useState([]);
 
   const handleLogout = () => {
     setUserAuth(null);
@@ -59,9 +61,25 @@ export default function PersonalDetailPage() {
       }
     };
 
-    fetchUserPosts();
+    const fetchUserNotifications = async () => {
+      try {
+        const response = await fetch(`${api}/notifications`, {
+          method: "GET",
+          headers: {
+            authorization: `Bearer ${userAuth.jwt}`,
+            userId: userAuth.userId
+          }
+        });
+        const jsonData = await response.json();
+        setNotifications(jsonData.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
 
+    fetchUserPosts();
     fetchUserData();
+    fetchUserNotifications();
   }, [userAuth]);
 
   // handle edit profile dialog
@@ -116,6 +134,10 @@ export default function PersonalDetailPage() {
           <button onClick={handleLogout}>Logout</button>
         </div>
       </div>
+      {notifications.length > 0 &&
+        notifications.map((notification) => (
+          <div key={notification._id}>{notification.message}</div>
+        ))}
       <div className="personal-info-post-container">
         <h1>Your Posts</h1>
         <div className="grid grid-cols-3 gap-3 p-5 xs:gap-0">
@@ -140,6 +162,7 @@ export default function PersonalDetailPage() {
           />
         }
         {redirect && <Navigate to={`/pets/${selectedPostId}`} />}
+        {!userAuth && <Navigate to="/welcome" />}
       </div>
     </div>
   );

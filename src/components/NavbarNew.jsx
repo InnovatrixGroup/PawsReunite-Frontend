@@ -54,23 +54,23 @@ export default function NavbarNew() {
 
         <ul className="navbar__icons flex gap-4">
           <ul className="hidden justify-between items-center gap-6 md:flex lg:flex">
-            <li>
+            <li className="hover:underline hover:underline-offset-4">
               <NavLink to="/" onClick={resetFilterData}>
                 Home
               </NavLink>
             </li>
             <li
-              className="pet__menu relative"
+              className="pet__menu relative cursor-pointer"
               onMouseEnter={handleMouseEnter}
               onMouseLeave={handleMouseLeave}
             >
               Pets
               {isSubmenuOpen && <Dropdown />}
             </li>
-            <li>
+            <li className="hover:underline hover:underline-offset-4">
               <NavLink to="/petResource">Pet Resources</NavLink>
             </li>
-            <li>
+            <li className="hover:underline hover:underline-offset-4">
               <NavLink to="/contact">Contact</NavLink>
             </li>
           </ul>

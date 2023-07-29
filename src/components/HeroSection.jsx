@@ -1,5 +1,6 @@
 import React from "react";
 import hero_image from "../pics/hero_image.jpg";
+import { Link } from "react-router-dom";
 
 function HeroSection() {
   return (
@@ -16,9 +17,11 @@ function HeroSection() {
           missing. But fret not, because we're here to lend a helping paw! Click on the link below
           to uncover a treasure trove of recent found pet posts.
         </h3>
-        <button className="border border-white px-16 py-1 rounded-xl font-light lg:flex">
-          Find More
-        </button>
+        <Link to="/pets">
+          <button className="border border-white px-16 py-1 rounded-xl font-light lg:flex hover:bg-gray-200 hover:text-black">
+            Find More
+          </button>
+        </Link>
       </div>
     </div>
   );

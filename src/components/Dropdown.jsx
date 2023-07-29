@@ -20,12 +20,12 @@ function Dropdown() {
   return (
     <div>
       <ul className="submenu absolute  -left-3 flex flex-col items-start px-3 pb-5 pt-5 gap-3 bg-gray-200 w-40">
-        <li>
+        <li className="hover:underline hover:underline-offset-4">
           <NavLink to="/" onClick={resetFilterDataHome}>
             Lost Pets
           </NavLink>
         </li>
-        <li>
+        <li className="hover:underline hover:underline-offset-4">
           <NavLink to="/pets" onClick={resetFilterDataPets}>
             Found Pets
           </NavLink>
