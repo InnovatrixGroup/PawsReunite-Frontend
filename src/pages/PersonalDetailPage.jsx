@@ -6,6 +6,7 @@ import "../styles/PersonalDetailPage.css";
 import EditProfileDialog from "../components/EditProfileDialog";
 import EditPostPopup from "../components/EditPostPopup";
 import { Navigate } from "react-router-dom";
+import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
 import { ValidateUserAuth } from "../services/UserAuth";
 
 const api = process.env.REACT_APP_DATABASE_URL;
@@ -20,12 +21,18 @@ export default function PersonalDetailPage() {
   const [selectedPostId, setSelectedPostId] = useState(null);
   const [isRedirectToLanding, setIsRedirectToLanding] = useState(false);
   const [notifications, setNotifications] = useState([]);
+  const [isNotificationOpen, setIsNotificationOpen] = useState(false);
 
   const handleLogout = () => {
     setUserAuth(null);
     alert("You have logged out.");
     // navigate to landing page automatically after logout
     navigate("/welcome");
+  };
+
+  const handleNotificationIconClick = () => {
+    setIsNotificationOpen((prevIsOpen) => !prevIsOpen);
+    console.log(isNotificationOpen);
   };
 
   // fetch user data and save to state
@@ -110,11 +117,21 @@ export default function PersonalDetailPage() {
     <div>
       <div className="personal-info-container">
         <div className="personal-info-avatar hidden md:block lg:block"></div>
-        <div className="personal-info">
-          <h1>Personal Info</h1>
+
+        <div className="personal-info relative">
+          <div className="flex">
+            <h1 className="mr-3">Personal Info</h1>
+            <div className="relative cursor-pointer" onClick={handleNotificationIconClick}>
+              <NotificationsOutlinedIcon className="notification-icon" />
+              <div className="notification-text bg-white rounded-full text-black text-[8px] w-[14px] h-[14px] flex justify-center items-center absolute top-0 right-0">
+                <p className="">{notifications && notifications.length}</p>
+              </div>
+            </div>
+          </div>
           <h3 className="username">{userDetail && userDetail.username}</h3>
           <h3 className="email">{userDetail && userDetail.email}</h3>
         </div>
+
         <div className="personal-info-btn-container">
           <button onClick={openEditProfileDialog}>Edit profile</button>
           <EditProfileDialog
@@ -128,10 +145,19 @@ export default function PersonalDetailPage() {
           <button onClick={handleLogout}>Logout</button>
         </div>
       </div>
-      {notifications?.length > 0 &&
-        notifications.map((notification) => (
-          <div key={notification._id}>{notification.message}</div>
-        ))}
+      <div
+        className={`notification-container bg-black text-white ${
+          isNotificationOpen ? "notification-open" : ""
+        }`}
+      >
+        {notifications.length > 0 &&
+          notifications.map((notification) => (
+            <div key={notification._id} className="p-3 bg-neutral-900 rounded-xl">
+              {notification.message}
+            </div>
+          ))}
+      </div>
+
       <div className="personal-info-post-container">
         <h1>Your Posts</h1>
         <div className="grid grid-cols-3 gap-3 p-5 xs:gap-0">
@@ -156,7 +182,6 @@ export default function PersonalDetailPage() {
           />
         }
         {redirect && <Navigate to={`/pets/${selectedPostId}`} />}
-        {/* {!userAuth && <Navigate to="/welcome" />} */}
       </div>
     </div>
   );

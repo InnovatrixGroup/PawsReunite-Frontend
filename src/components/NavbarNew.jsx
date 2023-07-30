@@ -79,11 +79,6 @@ export default function NavbarNew() {
               <PersonIcon />
             </NavLink>
           </li>
-          <li>
-            <NavLink className="navbar__icon cursor-pointer">
-              <NotificationsOutlinedIcon />
-            </NavLink>
-          </li>
 
           <li
             className={`navbar__menu-icon ${
