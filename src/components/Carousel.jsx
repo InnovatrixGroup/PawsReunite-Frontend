@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import KeyboardArrowLeftOutlinedIcon from "@mui/icons-material/KeyboardArrowLeftOutlined";
 import KeyboardArrowRightOutlinedIcon from "@mui/icons-material/KeyboardArrowRightOutlined";
+import { Navigate } from "react-router-dom";
 
 function Carousel(props) {
   const images = props.images;
+  const postId = props.postId;
   const [curr, setCurr] = useState(0);
 
   const prevSlide = () => {
