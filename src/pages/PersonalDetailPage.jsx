@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import { useLocalStorage } from "react-use";
-
 import { useUserPostDispatch, useUserPost } from "../contexts/UserPostContext";
 import { useNavigate } from "react-router-dom";
 import "../styles/PersonalDetailPage.css";
 import EditProfileDialog from "../components/EditProfileDialog";
 import EditPostPopup from "../components/EditPostPopup";
 import { Navigate } from "react-router-dom";
+import { ValidateUserAuth } from "../services/UserAuth";
 
 const api = process.env.REACT_APP_DATABASE_URL;
 
@@ -32,13 +32,7 @@ export default function PersonalDetailPage() {
   useEffect(() => {
     async function fetchUserData() {
       try {
-        const response = await fetch(`${api}/users/${userAuth.userId}`, {
-          method: "GET",
-          headers: {
-            authorization: `Bearer ${userAuth.jwt}`
-          }
-        });
-        const jsonData = await response.json();
+        const jsonData = await ValidateUserAuth(userAuth);
         setUserDetail(jsonData);
       } catch (error) {
         console.log(error);
@@ -134,7 +128,7 @@ export default function PersonalDetailPage() {
           <button onClick={handleLogout}>Logout</button>
         </div>
       </div>
-      {notifications.length > 0 &&
+      {notifications?.length > 0 &&
         notifications.map((notification) => (
           <div key={notification._id}>{notification.message}</div>
         ))}
@@ -162,7 +156,7 @@ export default function PersonalDetailPage() {
           />
         }
         {redirect && <Navigate to={`/pets/${selectedPostId}`} />}
-        {!userAuth && <Navigate to="/welcome" />}
+        {/* {!userAuth && <Navigate to="/welcome" />} */}
       </div>
     </div>
   );
