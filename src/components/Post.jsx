@@ -66,7 +66,7 @@ function Post(props) {
           </div>
         </div>
 
-        <Carousel images={postData.photos} />
+        <Carousel images={postData.photos} handleRedirectClick={handleRedirectClick} />
 
         <div className="post__body p-3">
           <div className="post__bodytop flex justify-between">
