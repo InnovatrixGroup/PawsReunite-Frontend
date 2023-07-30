@@ -145,7 +145,8 @@ function EditPostPopup({ trigger, close, post, update, mode }) {
       const comparePostUserId = comparePost.userId;
       const newNotification = {
         userId: comparePostUserId,
-        message: `A new post has been created that matches your ${comparePost.status} pet(${comparePost.title}), please use filter to check it out or contact this number ${post.contactInfo} for more information.`
+        message: `A new post has been created that matches your ${comparePost.status} pet(${comparePost.title}), please click and check this post or contact number ${post.contactInfo} for more information.`,
+        postId: comparePost._id
       };
       const response = await fetch(`${api}/notifications`, {
         method: "POST",

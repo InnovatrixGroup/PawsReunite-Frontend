@@ -22,6 +22,8 @@ export default function PersonalDetailPage() {
   const [isRedirectToLanding, setIsRedirectToLanding] = useState(false);
   const [notifications, setNotifications] = useState([]);
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
+  const [isNotificationRedirect, setIsNotificationRedirect] = useState(false);
+  const [selectedNotificationId, setSelectedNotificationId] = useState(null);
 
   const handleLogout = () => {
     setUserAuth(null);
@@ -113,6 +115,11 @@ export default function PersonalDetailPage() {
     };
   }, [editProfileDialogOpen]);
 
+  const handleNotificationRedirect = (postId) => {
+    setIsNotificationRedirect(true);
+    setSelectedNotificationId(postId);
+  };
+
   return (
     <div>
       <div className="personal-info-container">
@@ -152,7 +159,11 @@ export default function PersonalDetailPage() {
       >
         {notifications.length > 0 &&
           notifications.map((notification) => (
-            <div key={notification._id} className="p-3 bg-neutral-900 rounded-xl">
+            <div
+              key={notification._id}
+              className="p-3 bg-neutral-900 rounded-xl cursor-pointer"
+              onClick={() => handleNotificationRedirect(notification.postId)}
+            >
               {notification.message}
             </div>
           ))}
@@ -182,6 +193,8 @@ export default function PersonalDetailPage() {
           />
         }
         {redirect && <Navigate to={`/pets/${selectedPostId}`} />}
+        {isNotificationRedirect && <Navigate to={`/pets/${selectedNotificationId}`} />}
+        {notifications && console.log(notifications)}
       </div>
     </div>
   );
