@@ -1,0 +1,74 @@
+.signin-page-body {
+  background-image: url(../pics/signin-bg.svg);
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.signup-page-body {
+  background-image: url(../pics/signup-bg.svg);
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.signin-page-body .App,
+.signup-page-body .App {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.signin-form input,
+.signup-form input {
+  width: 60%;
+  max-width: 500px;
+  border: 1px;
+  border-radius: 30px;
+  padding: 12px 20px;
+  margin: 12px;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.signin-btn,
+.signup-btn {
+  width: 60%;
+  max-width: 500px;
+  background-color: #7c2d12;
+  color: white;
+  padding: 10px 20px;
+  margin-top: 15px;
+  margin-bottom: 10px;
+  border: none;
+  border-radius: 15px;
+  cursor: pointer;
+}
+
+.password-container-input {
+  position: relative;
+}
+
+.visibility-icon {
+  top: 35%;
+  position: absolute;
+  cursor: pointer;
+}
+
+.signin-hint,
+.sign-success {
+  width: 70%;
+  max-width: 500px;
+  padding-bottom: 10px;
+  margin: auto;
+}
+
+.signin-hint a {
+  color: #7c2d12;
+  font-weight: 600;
+}
+
+.errorMsg {
+  width: 60%;
+  max-width: 500px;
+  margin: auto;
+  color: #7c2d12;
+}

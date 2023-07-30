@@ -1,0 +1,140 @@
+.welcome-page-body {
+  height: 100vh;
+  /* max-width: 1280px; */
+  height: 100vh;
+  /* max-width: 1280px; */
+}
+
+.welcome-page-container {
+  background-image: url(../pics/landingPic.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: 45% 40%;
+  height: 100vh;
+  max-width: 1280px;
+  background-image: url(../pics/landingPic.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: 45% 40%;
+  height: 100vh;
+  max-width: 1280px;
+}
+
+.welcome-page-topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 30px;
+}
+
+.welcome-page-signin-btn {
+  background-color: #7c2d12;
+  color: white;
+  padding: 8px 30px;
+  border: none;
+  border-radius: 15px;
+  cursor: pointer;
+}
+
+.welcome-page-words-container {
+  margin: 25px 40px;
+  text-align: left;
+  margin: 25px 40px;
+  text-align: left;
+}
+
+.welcome-page-words-container h1 {
+  font-size: 2rem;
+  font-weight: 600;
+  line-height: normal;
+  font-size: 2rem;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.welcome-page-words-container h1 span::before {
+  content: "\a";
+  white-space: pre;
+  content: "\a";
+  white-space: pre;
+}
+
+.welcome-page-words-container h3 {
+  margin-top: 10px;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: normal;
+  margin-top: 10px;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.welcome-page-words-container .signup-container {
+  margin-top: 10px;
+  margin-top: 10px;
+}
+
+.welcome-page-words-container a {
+  color: #7c2d12;
+  font-weight: 600;
+}
+
+/* media query */
+@media only screen and (min-width: 768px) {
+  .welcome-page-topbar {
+    padding: 30px 50px;
+  }
+
+  .welcome-page-words-container {
+    margin: 25px 12%;
+  }
+  .welcome-page-topbar {
+    padding: 30px 50px;
+  }
+
+  .welcome-page-words-container {
+    margin: 25px 12%;
+  }
+
+  .welcome-page-words-container h1 span::before {
+    content: none;
+  }
+  .welcome-page-words-container h1 span::before {
+    content: none;
+  }
+
+  .welcome-page-words-container h1 span::after {
+    content: "\a";
+    white-space: pre;
+  }
+  .welcome-page-words-container h1 span::after {
+    content: "\a";
+    white-space: pre;
+  }
+
+  .welcome-page-words-container h1 {
+    font-size: 3rem;
+  }
+  .welcome-page-words-container h1 {
+    font-size: 3rem;
+  }
+
+  .welcome-page-words-container h3 {
+    font-size: 1.5rem;
+  }
+  .welcome-page-words-container h3 {
+    font-size: 1.5rem;
+  }
+
+  .welcome-page-words-container .signup-container {
+    font-size: 1.2rem;
+  }
+  .welcome-page-words-container .signup-container {
+    font-size: 1.2rem;
+  }
+}

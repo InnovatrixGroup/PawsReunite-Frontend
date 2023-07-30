@@ -1,25 +1,43 @@
-import logo from "./logo.svg";
 import "./App.css";
+import { Routes, Route, Outlet, useLocation } from "react-router-dom";
+import Layout from "./components/Layout";
+import WelcomePage from "./pages/WelcomePage";
+import HomePage from "./pages/HomePage";
+import SigninPage from "./pages/SigninPage";
+import SignupPage from "./pages/SignupPage";
+import PetPostsPage from "./pages/pets/PetPostsPage";
+import SinglePostPage from "./pages/pets/SinglePostPage";
+import ContactPage from "./pages/ContactPage";
+import PetResourcePage from "./pages/PetResourcePage";
+import PersonalDetailPage from "./pages/PersonalDetailPage";
+import AdminPage from "./pages/AdminPage";
 
 function App() {
+  // const location = useLocation();
+  // console.log(location.pathname);
+  // const isSigninOrSignupPage = location.pathname === "/signin" || location.pathname === "/signup";
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="App max-w-7xl mx-auto">
+      {/* {!isSigninOrSignupPage && <NavbarNew />} */}
+      {/* <NavbarNew /> */}
+      <Routes>
+        <Route path="/welcome" element={<WelcomePage />} />
+        <Route path="/signin" element={<SigninPage />} />
+        <Route path="/signup" element={<SignupPage />} />
+        <Route path="/admin" element={<AdminPage />} />
+        <Route element={<Layout />}>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/pets" element={<Outlet />}>
+            <Route index element={<PetPostsPage />} />
+            <Route path=":id" element={<SinglePostPage />} />
+          </Route>
+          <Route path="/petResource" element={<PetResourcePage />} />
+          <Route path="/contact" element={<ContactPage />} />
+          <Route path="/personalDetail" element={<PersonalDetailPage />} />
+        </Route>
+      </Routes>
+      {/* {!isSigninOrSignupPage && <Footer />} */}
     </div>
   );
 }
-
 export default App;

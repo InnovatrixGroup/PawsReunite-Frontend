@@ -1,0 +1,158 @@
+.admin-page-body {
+  padding-top: 100px;
+  background-color: #d9d9d9;
+  height: 100vh;
+}
+
+.admin-page-body h1 {
+  font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.admin-page-btn-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.admin-page-btn-container button {
+  width: 65%;
+  max-width: 300px;
+  padding: 10px 20px;
+  margin: 20px 0;
+  border-radius: 12px;
+  cursor: pointer;
+  background-color: #7c2d12;
+  color: white;
+  align-self: center;
+}
+
+.admin-page-edit-header {
+  display: flex;
+  justify-content: space-between;
+  margin: 20px 15px;
+  margin-bottom: 5px;
+}
+.admin-page-edit-header h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.admin-page-edit-header button {
+  width: 100px;
+  padding: 8px 20px;
+  border-radius: 12px;
+  cursor: pointer;
+  background-color: #7c2d12;
+  color: white;
+  align-self: center;
+}
+
+.admin-page-dialog [role="dialog"] {
+  background-color: #d9d9d9;
+  max-width: 1280px;
+  margin: auto;
+}
+
+.admin-page-edit-list-item {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 3fr 6fr 1fr;
+  padding: 5px 30px;
+  padding-right: 20px;
+  margin: 5px 0;
+  background-color: white;
+}
+
+.admin-page-delete-icon {
+  text-align: end;
+}
+
+.admin-page-divider,
+.admin-page-list-lg {
+  display: none;
+}
+
+@media only screen and (min-width: 768px) {
+  .admin-page-edit-header {
+    margin: 30px 5%;
+  }
+
+  .admin-page-btn-container {
+    flex-direction: row;
+    justify-content: center;
+  }
+
+  .admin-page-btn-container button {
+    margin: 20px 25px;
+    height: 150px;
+    width: 200px;
+    font-size: 1.5rem;
+  }
+
+  .admin-page-edit-list {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .admin-page-edit-list-item {
+    padding: 8px 30px;
+    align-self: center;
+    width: 90%;
+    border-radius: 10px;
+    grid-template-columns: 3fr 3fr 4fr;
+  }
+}
+
+@media only screen and (min-width: 1024px) {
+  /* hide dialog on large screen */
+  .admin-page-dialog {
+    display: none;
+  }
+
+  .admin-page-body {
+    display: flex;
+    padding-top: 0;
+  }
+
+  .admin-page-body h1 {
+    display: none;
+  }
+
+  .admin-page-btn-container {
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+
+  .admin-page-btn-container button {
+    width: 20vw;
+    height: fit-content;
+    padding: 10px 20px;
+    margin: 10px 20px;
+    font-size: 1rem;
+  }
+
+  .admin-page-btn-container button:not(.active) {
+    background-color: #d9d9d9;
+    color: #7c2d12;
+    border: 1px solid #7c2d12;
+  }
+
+  .admin-page-btn-container button:first-child {
+    margin-top: 30px;
+  }
+
+  .admin-page-list-lg {
+    display: block;
+    width: 75vw;
+  }
+
+  .admin-page-edit-list div:first-child {
+    margin-top: 30px;
+  }
+
+  .admin-page-divider {
+    display: block;
+  }
+}
