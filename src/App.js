@@ -11,6 +11,7 @@ import ContactPage from "./pages/ContactPage";
 import PetResourcePage from "./pages/PetResourcePage";
 import PersonalDetailPage from "./pages/PersonalDetailPage";
 import AdminPage from "./pages/AdminPage";
+import { RequireAuth } from "./services/UserAuth";
 
 function App() {
   return (
@@ -19,16 +20,19 @@ function App() {
         <Route path="/welcome" element={<WelcomePage />} />
         <Route path="/signin" element={<SigninPage />} />
         <Route path="/signup" element={<SignupPage />} />
-        <Route path="/admin" element={<AdminPage />} />
-        <Route element={<Layout />}>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/pets" element={<Outlet />}>
-            <Route index element={<PetPostsPage />} />
-            <Route path=":id" element={<SinglePostPage />} />
+        {/* below routes only allow signed-in users to visit */}
+        <Route element={<RequireAuth />}>
+          <Route path="/admin" element={<AdminPage />} />
+          <Route element={<Layout />}>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/pets" element={<Outlet />}>
+              <Route index element={<PetPostsPage />} />
+              <Route path=":id" element={<SinglePostPage />} />
+            </Route>
+            <Route path="/petResource" element={<PetResourcePage />} />
+            <Route path="/contact" element={<ContactPage />} />
+            <Route path="/personalDetail" element={<PersonalDetailPage />} />
           </Route>
-          <Route path="/petResource" element={<PetResourcePage />} />
-          <Route path="/contact" element={<ContactPage />} />
-          <Route path="/personalDetail" element={<PersonalDetailPage />} />
         </Route>
       </Routes>
     </div>

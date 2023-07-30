@@ -6,6 +6,7 @@ import { useState, useEffect } from "react";
 import "../styles/AdminPage.css";
 import AdminNavBar from "../components/AdminNavBar";
 import { Divider } from "@mui/material";
+import { ValidateUserAuth } from "../services/UserAuth";
 
 const api = process.env.REACT_APP_DATABASE_URL;
 
@@ -45,19 +46,14 @@ export default function AdminPage() {
   useEffect(() => {
     async function fetchUserData() {
       try {
-        const response = await fetch(`${api}/users/${userAuth.userId}`, {
-          method: "GET",
-          headers: {
-            authorization: `Bearer ${userAuth.jwt}`
-          }
-        });
-        const jsonData = await response.json();
+        const userData = await ValidateUserAuth(userAuth);
+        console.log(userData);
 
         // redirect to home page if user is not admin
-        if (jsonData.role !== "Admin") {
+        if (userData.role !== "admin") {
           navigate("/");
         } else {
-          setUserDetail(jsonData);
+          setUserDetail(userData);
         }
       } catch (error) {
         console.log(error);
@@ -170,7 +166,6 @@ export default function AdminPage() {
         </div>
       </div>
       <Footer />
-      {!userAuth && <Navigate to="/welcome" />}
     </>
   );
 }
