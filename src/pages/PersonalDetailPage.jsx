@@ -8,6 +8,7 @@ import EditPostPopup from "../components/EditPostPopup";
 import { Navigate } from "react-router-dom";
 import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
 import { ValidateUserAuth } from "../services/UserAuth";
+import { set } from "react-hook-form";
 
 const api = process.env.REACT_APP_DATABASE_URL;
 
@@ -24,6 +25,7 @@ export default function PersonalDetailPage() {
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
   const [isNotificationRedirect, setIsNotificationRedirect] = useState(false);
   const [selectedNotificationId, setSelectedNotificationId] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   const handleLogout = () => {
     setUserAuth(null);
@@ -75,6 +77,7 @@ export default function PersonalDetailPage() {
         });
         const jsonData = await response.json();
         setNotifications(jsonData.data);
+        setIsLoading(false);
       } catch (error) {
         console.log(error);
       }
@@ -121,81 +124,90 @@ export default function PersonalDetailPage() {
   };
 
   return (
-    <div>
-      <div className="personal-info-container">
-        <div className="personal-info-avatar hidden md:block lg:block"></div>
+    <>
+      {isLoading ? (
+        <></>
+      ) : (
+        <div>
+          <div className="personal-info-container">
+            <div className="personal-info-avatar hidden md:block lg:block"></div>
 
-        <div className="personal-info relative">
-          <div className="flex">
-            <h1 className="mr-3">Personal Info</h1>
-            <div className="relative cursor-pointer" onClick={handleNotificationIconClick}>
-              <NotificationsOutlinedIcon className="notification-icon" />
-              <div className="notification-text bg-white rounded-full text-black text-[8px] w-[14px] h-[14px] flex justify-center items-center absolute top-0 right-0">
-                <p className="">{notifications && notifications.length}</p>
+            <div className="personal-info relative">
+              <div className="flex">
+                <h1 className="mr-3">Personal Info</h1>
+                <div className="relative cursor-pointer" onClick={handleNotificationIconClick}>
+                  <NotificationsOutlinedIcon className="notification-icon" />
+                  <div className="notification-text bg-white rounded-full text-black text-[8px] w-[14px] h-[14px] flex justify-center items-center absolute top-0 right-0">
+                    <p className="">{notifications && notifications.length}</p>
+                  </div>
+                </div>
               </div>
+              <h3 className="username">{userDetail && userDetail.username}</h3>
+              <h3 className="email">{userDetail && userDetail.email}</h3>
+            </div>
+
+            <div className="personal-info-btn-container">
+              {userDetail?.role === "admin" && (
+                <button onClick={() => navigate("/admin")}>Admin Page</button>
+              )}
+              <button onClick={openEditProfileDialog}>Edit profile</button>
+              <EditProfileDialog
+                isOpen={editProfileDialogOpen}
+                closeDialog={closeEditProfileDialog}
+                setUserDetail={setUserDetail}
+                userDetail={userDetail}
+                userAuth={userAuth}
+                setUserAuth={setUserAuth}
+              />
+              <button onClick={handleLogout}>Logout</button>
             </div>
           </div>
-          <h3 className="username">{userDetail && userDetail.username}</h3>
-          <h3 className="email">{userDetail && userDetail.email}</h3>
-        </div>
+          <div
+            className={`notification-container bg-black text-white ${
+              isNotificationOpen ? "notification-open" : ""
+            }`}
+          >
+            {notifications.length > 0 &&
+              notifications.map((notification) => (
+                <div
+                  key={notification._id}
+                  className="p-3 bg-neutral-900 rounded-xl cursor-pointer"
+                  onClick={() => handleNotificationRedirect(notification.postId)}
+                >
+                  {notification.message}
+                </div>
+              ))}
+          </div>
 
-        <div className="personal-info-btn-container">
-          <button onClick={openEditProfileDialog}>Edit profile</button>
-          <EditProfileDialog
-            isOpen={editProfileDialogOpen}
-            closeDialog={closeEditProfileDialog}
-            setUserDetail={setUserDetail}
-            userDetail={userDetail}
-            userAuth={userAuth}
-            setUserAuth={setUserAuth}
-          />
-          <button onClick={handleLogout}>Logout</button>
-        </div>
-      </div>
-      <div
-        className={`notification-container bg-black text-white ${
-          isNotificationOpen ? "notification-open" : ""
-        }`}
-      >
-        {notifications.length > 0 &&
-          notifications.map((notification) => (
-            <div
-              key={notification._id}
-              className="p-3 bg-neutral-900 rounded-xl cursor-pointer"
-              onClick={() => handleNotificationRedirect(notification.postId)}
-            >
-              {notification.message}
+          <div className="personal-info-post-container">
+            <h1>Your Posts</h1>
+            <div className="grid grid-cols-3 gap-3 p-5 xs:gap-0">
+              {userPostData &&
+                userPostData.map((post) => (
+                  <div className="image" onClick={() => handleRedirect(post._id)} key={post._id}>
+                    <img
+                      src={post?.photos[0]}
+                      className="w-full aspect-square object-cover"
+                      alt="post"
+                    />
+                  </div>
+                ))}
             </div>
-          ))}
-      </div>
-
-      <div className="personal-info-post-container">
-        <h1>Your Posts</h1>
-        <div className="grid grid-cols-3 gap-3 p-5 xs:gap-0">
-          {userPostData &&
-            userPostData.map((post) => (
-              <div className="image" onClick={() => handleRedirect(post._id)} key={post._id}>
-                <img
-                  src={post?.photos[0]}
-                  className="w-full aspect-square object-cover"
-                  alt="post"
-                />
-              </div>
-            ))}
+            <button onClick={() => setIsCreate(true)}>Create Post</button>
+            {
+              <EditPostPopup
+                trigger={isCreate}
+                close={() => setIsCreate(false)}
+                post={{}}
+                mode="create"
+              />
+            }
+            {redirect && <Navigate to={`/pets/${selectedPostId}`} />}
+            {isNotificationRedirect && <Navigate to={`/pets/${selectedNotificationId}`} />}
+            {notifications && console.log(notifications)}
+          </div>
         </div>
-        <button onClick={() => setIsCreate(true)}>Create Post</button>
-        {
-          <EditPostPopup
-            trigger={isCreate}
-            close={() => setIsCreate(false)}
-            post={{}}
-            mode="create"
-          />
-        }
-        {redirect && <Navigate to={`/pets/${selectedPostId}`} />}
-        {isNotificationRedirect && <Navigate to={`/pets/${selectedNotificationId}`} />}
-        {notifications && console.log(notifications)}
-      </div>
-    </div>
+      )}
+    </>
   );
 }
