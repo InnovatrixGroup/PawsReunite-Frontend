@@ -61,7 +61,9 @@
   opacity: 0;
   overflow: hidden; /* Hide overflowing content when collapsed */
   padding: 20px; /* Set the padding to 20px always */
-  transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out; /* Smooth transition for height and opacity changes */
+  transition:
+    max-height 0.3s ease-in-out,
+    opacity 0.3s ease-in-out; /* Smooth transition for height and opacity changes */
 }
 
 .notification-open {
