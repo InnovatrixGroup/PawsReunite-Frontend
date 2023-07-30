@@ -1,6 +1,6 @@
 import { AdminDialog, AdminEditList } from "../components/AdminDialog";
 import { useLocalStorage } from "react-use";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Navigate } from "react-router-dom";
 import Footer from "../components/Footer";
 import { useState, useEffect } from "react";
 import "../styles/AdminPage.css";
@@ -52,7 +52,13 @@ export default function AdminPage() {
           }
         });
         const jsonData = await response.json();
-        setUserDetail(jsonData);
+
+        // redirect to home page if user is not admin
+        if (jsonData.role !== "Admin") {
+          navigate("/");
+        } else {
+          setUserDetail(jsonData);
+        }
       } catch (error) {
         console.log(error);
       }
@@ -152,7 +158,7 @@ export default function AdminPage() {
         </div>
 
         {/* large screen only*/}
-        <Divider orientation="vertical" lasses={{ root: "admin-page-divider" }} />
+        <Divider orientation="vertical" classes={{ root: "admin-page-divider" }} />
         <div className="admin-page-list-lg">
           <AdminEditList
             data={editPostDialog ? allPosts : allUsers}
@@ -164,6 +170,7 @@ export default function AdminPage() {
         </div>
       </div>
       <Footer />
+      {!userAuth && <Navigate to="/welcome" />}
     </>
   );
 }

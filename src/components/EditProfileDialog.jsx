@@ -70,6 +70,7 @@ export default function EditProfileDialog(props) {
     >
       <div className="edit-profile-header">
         <ClearIcon
+          sx={{ cursor: "pointer" }}
           onClick={() => {
             closeDialog();
             setUpdateSuccess(false);

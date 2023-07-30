@@ -134,7 +134,7 @@ export default function PersonalDetailPage() {
           <button onClick={handleLogout}>Logout</button>
         </div>
       </div>
-      {notifications.length > 0 &&
+      {notifications?.length > 0 &&
         notifications.map((notification) => (
           <div key={notification._id}>{notification.message}</div>
         ))}
