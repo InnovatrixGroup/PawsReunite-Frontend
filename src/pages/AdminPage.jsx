@@ -1,11 +1,12 @@
 import { AdminDialog, AdminEditList } from "../components/AdminDialog";
 import { useLocalStorage } from "react-use";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Navigate } from "react-router-dom";
 import Footer from "../components/Footer";
 import { useState, useEffect } from "react";
 import "../styles/AdminPage.css";
 import AdminNavBar from "../components/AdminNavBar";
 import { Divider } from "@mui/material";
+import { ValidateUserAuth } from "../services/UserAuth";
 
 const api = process.env.REACT_APP_DATABASE_URL;
 
@@ -45,14 +46,15 @@ export default function AdminPage() {
   useEffect(() => {
     async function fetchUserData() {
       try {
-        const response = await fetch(`${api}/users/${userAuth.userId}`, {
-          method: "GET",
-          headers: {
-            authorization: `Bearer ${userAuth.jwt}`
-          }
-        });
-        const jsonData = await response.json();
-        setUserDetail(jsonData);
+        const userData = await ValidateUserAuth(userAuth);
+        console.log(userData);
+
+        // redirect to home page if user is not admin
+        if (userData.role !== "admin") {
+          navigate("/");
+        } else {
+          setUserDetail(userData);
+        }
       } catch (error) {
         console.log(error);
       }
@@ -152,7 +154,7 @@ export default function AdminPage() {
         </div>
 
         {/* large screen only*/}
-        <Divider orientation="vertical" lasses={{ root: "admin-page-divider" }} />
+        <Divider orientation="vertical" classes={{ root: "admin-page-divider" }} />
         <div className="admin-page-list-lg">
           <AdminEditList
             data={editPostDialog ? allPosts : allUsers}

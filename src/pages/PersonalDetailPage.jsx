@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useLocalStorage } from "react-use";
-
 import { useUserPostDispatch, useUserPost } from "../contexts/UserPostContext";
 import { useNavigate } from "react-router-dom";
 import "../styles/PersonalDetailPage.css";
@@ -8,6 +7,7 @@ import EditProfileDialog from "../components/EditProfileDialog";
 import EditPostPopup from "../components/EditPostPopup";
 import { Navigate } from "react-router-dom";
 import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
+import { ValidateUserAuth } from "../services/UserAuth";
 
 const api = process.env.REACT_APP_DATABASE_URL;
 
@@ -39,13 +39,7 @@ export default function PersonalDetailPage() {
   useEffect(() => {
     async function fetchUserData() {
       try {
-        const response = await fetch(`${api}/users/${userAuth.userId}`, {
-          method: "GET",
-          headers: {
-            authorization: `Bearer ${userAuth.jwt}`
-          }
-        });
-        const jsonData = await response.json();
+        const jsonData = await ValidateUserAuth(userAuth);
         setUserDetail(jsonData);
       } catch (error) {
         console.log(error);
@@ -134,10 +128,10 @@ export default function PersonalDetailPage() {
               </div>
             </div>
           </div>
-
           <h3 className="username">{userDetail && userDetail.username}</h3>
           <h3 className="email">{userDetail && userDetail.email}</h3>
         </div>
+
         <div className="personal-info-btn-container">
           <button onClick={openEditProfileDialog}>Edit profile</button>
           <EditProfileDialog
@@ -188,7 +182,6 @@ export default function PersonalDetailPage() {
           />
         }
         {redirect && <Navigate to={`/pets/${selectedPostId}`} />}
-        {!userAuth && <Navigate to="/welcome" />}
       </div>
     </div>
   );
