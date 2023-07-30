@@ -15,7 +15,7 @@ export default function ContactPage() {
             PawsReunite@gmail.com
           </a>
           <a href="tel:0431754195" className="underline">
-            0431 754 195
+            0200 000 000
           </a>
           <p>www.PawsReunite.com</p>
         </address>

@@ -71,4 +71,5 @@
   max-width: 500px;
   margin: auto;
   color: #7c2d12;
+  mix-blend-mode: difference;
 }
