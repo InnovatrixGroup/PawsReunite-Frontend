@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 import KeyboardArrowLeftOutlinedIcon from "@mui/icons-material/KeyboardArrowLeftOutlined";
 import KeyboardArrowRightOutlinedIcon from "@mui/icons-material/KeyboardArrowRightOutlined";
+import { Navigate } from "react-router-dom";
 
 function Carousel(props) {
   const images = props.images;
+  const handleRedirectClick = props.handleRedirectClick;
+  const postId = props.postId;
   const [curr, setCurr] = useState(0);
 
   const prevSlide = () => {
@@ -30,7 +33,10 @@ function Carousel(props) {
         ))}
       </div>
       {/* inset-0 defined by the distance of 0 pixels to the parent DIV element, on all four sides */}
-      <div className="carousel__buttons inset-0 absolute flex items-center justify-between px-3">
+      <div
+        onClick={(e) => e.currentTarget === e.target && handleRedirectClick()}
+        className="carousel__buttons inset-0 absolute flex items-center justify-between px-3 cursor-pointer"
+      >
         <button
           onClick={prevSlide}
           className="carousel__button p-2 rounded-full shadow bg-white/50 text-gray-800 hover:bg-white/80"

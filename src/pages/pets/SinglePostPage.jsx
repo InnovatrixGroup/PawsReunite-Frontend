@@ -1,4 +1,4 @@
-import { useParams, Navigate } from "react-router-dom";
+import { useParams, Navigate, Link } from "react-router-dom";
 import Post from "../../components/Post";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import Comment from "../../components/Comment";
@@ -116,7 +116,9 @@ export default function SinglePetPage() {
       {post && (
         <div className="single__post mb-16">
           <div className="back flex pl-3 py-2">
-            <KeyboardBackspaceIcon style={{ fontSize: "22px" }} />
+            <Link to={-1}>
+              <KeyboardBackspaceIcon style={{ fontSize: "22px" }} />
+            </Link>
           </div>
           <Post postData={post} isSingle={true} />
           {isUserPost && (

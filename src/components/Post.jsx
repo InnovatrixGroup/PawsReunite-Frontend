@@ -59,14 +59,14 @@ function Post(props) {
               className="post__profile-pic"
               style={{ width: "25px" }}
             />
-            <div className="post__title">{postData.title}</div>
+            <div className="post__title underline underline-offset-4">{postData.title}</div>
           </div>
           <div className="post__header__right">
             <div className="post__status">{postData.status}</div>
           </div>
         </div>
 
-        <Carousel images={postData.photos} />
+        <Carousel images={postData.photos} handleRedirectClick={handleRedirectClick} />
 
         <div className="post__body p-3">
           <div className="post__bodytop flex justify-between">
