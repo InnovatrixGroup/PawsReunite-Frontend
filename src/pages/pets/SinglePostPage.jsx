@@ -124,13 +124,13 @@ export default function SinglePetPage() {
           {isUserPost && (
             <div className="single__post_funcation flex justify-end px-3 gap-4 mb-8 xs:justify-between">
               <button
-                className="single__post_funcation_btn bg-orange-900 text-white border px-16 xs:flex-1 xs:px-0 py-2 font-light rounded-xl"
+                className="single__post_funcation_btn bg-orange-900 text-white border px-16 xs:flex-1 xs:px-0 py-2 font-light rounded-xl hover:bg-red-800"
                 onClick={() => setIsEdit(true)}
               >
                 Edit
               </button>
               <button
-                className="single__post_funcation_btn  bg-orange-900 text-white border px-16 xs:flex-1 xs:px-0 py-2 font-light rounded-xl"
+                className="single__post_funcation_btn  bg-orange-900 text-white border px-16 xs:flex-1 xs:px-0 py-2 font-light rounded-xl hover:bg-red-800"
                 onClick={() => setShowDeleteConfirmation(true)}
               >
                 Delete
@@ -150,7 +150,7 @@ export default function SinglePetPage() {
               onChange={(e) => setNewComment(e.target.value)}
             />
             <button
-              className="single__post_comment_btn bg-orange-900 text-white border px-4 py-2 font-light rounded-xl"
+              className="single__post_comment_btn bg-orange-900 text-white border px-4 py-2 font-light rounded-xl hover:bg-red-800"
               onClick={handleCreateComment}
             >
               Send

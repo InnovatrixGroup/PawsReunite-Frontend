@@ -59,7 +59,7 @@ function Post(props) {
               className="post__profile-pic"
               style={{ width: "25px" }}
             />
-            <div className="post__title underline underline-offset-4">{postData.title}</div>
+            <div className="post__title">{postData.title}</div>
           </div>
           <div className="post__header__right">
             <div className="post__status">{postData.status}</div>
