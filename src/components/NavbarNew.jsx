@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./NavbarNew.css";
+import "../styles/NavbarNew.css";
 import PersonIcon from "@mui/icons-material/Person";
 import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
 import logo from "../pics/logo.png";
@@ -8,6 +8,7 @@ import RemoveIcon from "@mui/icons-material/Remove";
 import Dropdown from "./Dropdown";
 import { NavLink } from "react-router-dom";
 import { useFilterData, useFilterDispatch } from "../contexts/FilterContext";
+import { useLocalStorage } from "react-use";
 
 // NavbarNew component represents the main navigation bar of the application.
 export default function NavbarNew() {
@@ -16,6 +17,7 @@ export default function NavbarNew() {
   // set the backgound of the content to dark when the menu is open
   const [isDarkFilterVisible, setIsDarkFilterVisible] = useState(false);
   const filerDispath = useFilterDispatch();
+  const [userAuth, setUserAuth] = useLocalStorage("pawsReuniteUserAuth");
 
   // toggle the menu and the dark filter
   const toggleMenu = () => {
@@ -39,6 +41,10 @@ export default function NavbarNew() {
   const resetFilterData = () => {
     filerDispath({ type: "reset" });
     window.location.href = "/";
+  };
+
+  const handleLogout = () => {
+    setUserAuth(null);
   };
 
   return (
@@ -125,7 +131,7 @@ export default function NavbarNew() {
           <NavLink className="navbar__menu-link" to="/contact" onClick={toggleMenu}>
             Contact
           </NavLink>
-          <NavLink className="navbar__menu-link" to="/" onClick={toggleMenu}>
+          <NavLink className="navbar__menu-link" to="/welcome" onClick={handleLogout}>
             Logout
           </NavLink>
         </div>
