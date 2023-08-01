@@ -1,5 +1,6 @@
 import { createContext, useContext, useReducer } from "react";
 
+// Initial state for the filter list containing filters for species, breed, color, and suburb
 const initialFilterList = [{ species: "" }, { breed: "" }, { color: "" }, { suburb: "" }];
 
 const filterReducer = (previousState, instructions) => {
@@ -20,7 +21,6 @@ const filterReducer = (previousState, instructions) => {
   }
 };
 
-// DataBlueprintWeWantGlobally = createContext(someDefaultData)
 export const FilterDataContext = createContext(null);
 export const FilterDispatchContext = createContext(null);
 
@@ -32,6 +32,7 @@ export function useFilterDispatch() {
   return useContext(FilterDispatchContext);
 }
 
+// FilterProvider component that wraps its children with the filter contexts
 export default function FilterProvider(props) {
   const [userData, userDispatch] = useReducer(filterReducer, initialFilterList);
 

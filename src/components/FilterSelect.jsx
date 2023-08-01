@@ -1,5 +1,6 @@
 import React from "react";
 
+// FilterSelect component represents a select element with options for filtering.
 const FilterSelect = ({ label, value, options, onChange }) => {
   return (
     <select

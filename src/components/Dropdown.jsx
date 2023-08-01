@@ -2,7 +2,10 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import { useFilterDispatch } from "../contexts/FilterContext";
 
+// Dropdown component represents a submenu with two navigation links to filter pages for Lost Pets and Found Pets.
+// It is designed to be used as a dropdown menu triggered by a parent menu item or button.
 function Dropdown() {
+  // Accessing the dispatch function from the FilterContext using the useFilterDispatch hook.
   const filerDispath = useFilterDispatch();
 
   // reset filter data and reload the page so the selection is cleared

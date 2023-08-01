@@ -12,16 +12,20 @@ function Post(props) {
   const postData = props.postData;
   const isSingle = props.isSingle;
 
-  // const [post, setPost] = useState(null);
+  // State variables to manage the post description display
   const [showFullDescription, setShowFullDescription] = useState(false);
+
+  // State variables for loading and redirection
   const [loading, setLoading] = useState(true);
   const [redirect, setRedirect] = useState(false);
   const [numberOfComments, setNumberOfComments] = useState(0);
 
+  // Function to toggle the display of full post description
   const toggleDescription = () => {
     setShowFullDescription(!showFullDescription);
   };
 
+  // Function to truncate the description text if it's too long
   const truncateDescription = (description) => {
     if (description.length > 150 && showFullDescription === false) {
       return description.slice(0, 150);
@@ -30,6 +34,7 @@ function Post(props) {
     }
   };
 
+  // fetch the comments for the post
   useEffect(() => {
     const fetchComments = async () => {
       const response = await fetch(`${api}/comments?postId=${postData._id}`);
@@ -66,6 +71,7 @@ function Post(props) {
           </div>
         </div>
 
+        {/* Carousel component to display the images */}
         <Carousel images={postData.photos} handleRedirectClick={handleRedirectClick} />
 
         <div className="post__body p-3">
@@ -88,6 +94,7 @@ function Post(props) {
               <span className="font-extrabold">Contact Info:</span> {postData.contactInfo}
             </div>
             <div className="description text-left mb-3">
+              {/* If the post is not in the post page, truncate description, otherwise use the full description */}
               {!isSingle ? truncateDescription(postData.description) : postData.description}
               {postData.description.length > 150 && showFullDescription === false && (
                 <span onClick={toggleDescription} className="text-gray-500 cursor-pointer">
@@ -97,6 +104,7 @@ function Post(props) {
               )}
             </div>
             <div className="post__comments" onClick={handleRedirectClick}>
+              {/* if the post is not in the post page, only show the number of the comments instead of real comments*/}
               {!isSingle && numberOfComments !== 0 && (
                 <p className="cursor-pointer">View all {numberOfComments} comments</p>
               )}

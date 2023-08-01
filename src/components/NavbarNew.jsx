@@ -9,13 +9,15 @@ import Dropdown from "./Dropdown";
 import { NavLink } from "react-router-dom";
 import { useFilterData, useFilterDispatch } from "../contexts/FilterContext";
 
+// NavbarNew component represents the main navigation bar of the application.
 export default function NavbarNew() {
   const [isOpen, setIsOpen] = useState(false);
   const [isSubmenuOpen, setIsSubmenuOpen] = useState(false);
+  // set the backgound of the content to dark when the menu is open
   const [isDarkFilterVisible, setIsDarkFilterVisible] = useState(false);
-  const filterData = useFilterData();
   const filerDispath = useFilterDispatch();
 
+  // toggle the menu and the dark filter
   const toggleMenu = () => {
     setIsOpen(!isOpen);
     setIsDarkFilterVisible(!isDarkFilterVisible);
