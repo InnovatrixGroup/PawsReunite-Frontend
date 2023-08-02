@@ -6,12 +6,12 @@ import SignupPage from "../pages/SignupPage";
 import { act } from "react-dom/test-utils";
 import userEvent from "@testing-library/user-event";
 
-const mock_signup_success_response = {
+const mockSignupSuccessResponse = {
   userId: "64c5f6c56c4774d72373ea5b",
   JWTtoken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9"
 };
 
-const mock_signup_fail_response = {
+const mockSignupFailResponse = {
   errors: ["Username already exists", "Email already exists"]
 };
 
@@ -66,7 +66,7 @@ describe("Signup page", () => {
       Promise.resolve({
         ok: false,
         status: 400,
-        json: () => Promise.resolve(mock_signup_fail_response)
+        json: () => Promise.resolve(mockSignupFailResponse)
       })
     );
 
@@ -81,11 +81,11 @@ describe("Signup page", () => {
 
     //type in valid data and click submit button
     await act(async () => {
-      await userEvent.type(usernameInput, "ji");
-      await userEvent.type(emailInput, "ji@gmail.com");
-      await userEvent.type(passwordInput, "123456aB");
-      await userEvent.type(confirmPasswordInput, "123456aB");
-      await userEvent.click(submitBtn);
+      userEvent.type(usernameInput, "ji");
+      userEvent.type(emailInput, "ji@gmail.com");
+      userEvent.type(passwordInput, "123456aB");
+      userEvent.type(confirmPasswordInput, "123456aB");
+      userEvent.click(submitBtn);
     });
 
     // check if error message is rendered
@@ -100,7 +100,7 @@ describe("Signup page", () => {
       Promise.resolve({
         ok: true,
         status: 200,
-        json: () => Promise.resolve(mock_signup_success_response)
+        json: () => Promise.resolve(mockSignupSuccessResponse)
       })
     );
 
@@ -115,11 +115,11 @@ describe("Signup page", () => {
 
     //type in valid data and click submit button
     await act(async () => {
-      await userEvent.type(usernameInput, "ji");
-      await userEvent.type(emailInput, "ji@gmail.com");
-      await userEvent.type(passwordInput, "123456aB");
-      await userEvent.type(confirmPasswordInput, "123456aB");
-      await userEvent.click(submitBtn);
+      userEvent.type(usernameInput, "ji");
+      userEvent.type(emailInput, "ji@gmail.com");
+      userEvent.type(passwordInput, "123456aB");
+      userEvent.type(confirmPasswordInput, "123456aB");
+      userEvent.click(submitBtn);
     });
 
     // check if success message is rendered
