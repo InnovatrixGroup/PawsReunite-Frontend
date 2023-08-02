@@ -55,8 +55,8 @@ export default function PersonalDetailPage() {
         const response = await fetch(`${api}/posts/user`, {
           method: "GET",
           headers: {
-            authorization: `Bearer ${userAuth.jwt}`,
-            userId: userAuth.userId
+            authorization: `Bearer ${userAuth?.jwt}`,
+            userId: userAuth?.userId
           }
         });
         const jsonData = await response.json();
@@ -71,8 +71,8 @@ export default function PersonalDetailPage() {
         const response = await fetch(`${api}/notifications`, {
           method: "GET",
           headers: {
-            authorization: `Bearer ${userAuth.jwt}`,
-            userId: userAuth.userId
+            authorization: `Bearer ${userAuth?.jwt}`,
+            userId: userAuth?.userId
           }
         });
         const jsonData = await response.json();

@@ -5,12 +5,12 @@ import SigninPage from "../pages/SigninPage";
 import { act } from "react-dom/test-utils";
 import userEvent from "@testing-library/user-event";
 
-const mock_login_success_response = {
+const mockLoginSuccessResponse = {
   userId: "64c5f6c56c4774d72373ea5b",
   JWTtoken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9"
 };
 
-const mock_login_fail_response = {
+const mockLoginFailResponse = {
   error: "Password is incorrect"
 };
 
@@ -29,9 +29,9 @@ const testSigninPage = async ({ fetchMockImplementation, success }) => {
   const submitBtn = screen.getByText("Sign In");
 
   // check if user can type in email and password
-  await userEvent.type(email, "ji@gmail.com");
-  await userEvent.type(password, "123456");
-  await userEvent.click(submitBtn);
+  userEvent.type(email, "ji@gmail.com");
+  userEvent.type(password, "123456");
+  userEvent.click(submitBtn);
 
   // check if the appropriate message is rendered
   if (success) {
@@ -50,7 +50,7 @@ describe("Signin page...", () => {
         Promise.resolve({
           ok: true,
           status: 200,
-          json: () => Promise.resolve(mock_login_success_response)
+          json: () => Promise.resolve(mockLoginSuccessResponse)
         }),
       success: true
     });
@@ -62,7 +62,7 @@ describe("Signin page...", () => {
         Promise.resolve({
           ok: false,
           status: 400,
-          json: () => Promise.resolve(mock_login_fail_response)
+          json: () => Promise.resolve(mockLoginFailResponse)
         }),
       success: false
     });
