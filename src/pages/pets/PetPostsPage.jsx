@@ -185,7 +185,6 @@ export default function PetPostsPage() {
       )}
       {/* check filterData has empty string value for prevent first rendering with no posts found display when fetching */}
       {posts.length === 0 && hasNonEmptyStringValue(filterData) && <p>No posts found</p>}
-      {userPostData && console.log(userPostData)}
     </div>
   );
 }

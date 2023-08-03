@@ -150,7 +150,6 @@ function EditPostPopup({ trigger, close, post, update, mode }) {
         item.species === post.species &&
         item.breed === post.breed
     );
-    console.log(comparePost);
     if (comparePost) {
       const comparePostUserId = comparePost.userId;
       const newNotification = {
@@ -166,7 +165,6 @@ function EditPostPopup({ trigger, close, post, update, mode }) {
         body: JSON.stringify(newNotification)
       });
       const jsonData = await response.json();
-      console.log(jsonData);
     }
   };
 
