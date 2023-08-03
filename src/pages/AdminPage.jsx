@@ -47,10 +47,10 @@ export default function AdminPage() {
     async function fetchUserData() {
       try {
         const userData = await ValidateUserAuth(userAuth);
-        console.log(userData);
+        // console.log(userData);
 
         // redirect to home page if user is not admin
-        if (userData.role !== "admin") {
+        if (userData?.role !== "admin") {
           navigate("/");
         } else {
           setUserDetail(userData);
@@ -69,14 +69,14 @@ export default function AdminPage() {
         const response = await fetch(`${api}/users/all`, {
           method: "GET",
           headers: {
-            authorization: `Bearer ${userAuth.jwt}`
+            authorization: `Bearer ${userAuth?.jwt}`
           },
           validateStatus: false
         });
         const jsonData = await response.json();
 
         // exclude current user from allUsers, a user cannot delete itself
-        const allUsers = jsonData.filter((user) => user._id !== userAuth.userId);
+        const allUsers = jsonData.filter((user) => user?._id !== userAuth?.userId);
         setAllUsers(allUsers);
       } catch (error) {
         console.log(error);
@@ -92,7 +92,7 @@ export default function AdminPage() {
         const response = await fetch(`${api}/posts`, {
           method: "GET",
           headers: {
-            authorization: `Bearer ${userAuth.jwt}`
+            authorization: `Bearer ${userAuth?.jwt}`
           },
           validateStatus: false
         });
