@@ -9,6 +9,7 @@ import Dropdown from "./Dropdown";
 import { NavLink } from "react-router-dom";
 import { useFilterData, useFilterDispatch } from "../contexts/FilterContext";
 import { useLocalStorage } from "react-use";
+import { useNavigate } from "react-router-dom";
 
 // NavbarNew component represents the main navigation bar of the application.
 export default function NavbarNew() {
@@ -18,6 +19,7 @@ export default function NavbarNew() {
   const [isDarkFilterVisible, setIsDarkFilterVisible] = useState(false);
   const filerDispath = useFilterDispatch();
   const [userAuth, setUserAuth] = useLocalStorage("pawsReuniteUserAuth");
+  const navigate = useNavigate();
 
   // toggle the menu and the dark filter
   const toggleMenu = () => {
@@ -45,6 +47,9 @@ export default function NavbarNew() {
 
   const handleLogout = () => {
     setUserAuth(null);
+    alert("You have logged out.");
+    // navigate to landing page automatically after logout
+    navigate("/welcome");
   };
 
   return (
