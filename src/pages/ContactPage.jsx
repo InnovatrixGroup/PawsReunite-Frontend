@@ -17,7 +17,7 @@ export default function ContactPage() {
           <a href="tel:0431754195" className="underline">
             0200 000 000
           </a>
-          <p>www.PawsReunite.com</p>
+          <p>Paws-Reunite.netlify.app</p>
         </address>
       </div>
       <div className="lg-right-bg hidden h-full w-5/12 lg:block"></div>
