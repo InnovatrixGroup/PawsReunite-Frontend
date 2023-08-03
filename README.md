@@ -777,6 +777,7 @@ const handleComaprePost = async (post) => {
   }
 };
 ```
+
 # Employ and utilise proper source control methodology
 
 In this project, we prioritize a balanced learning experience for all team members, encompassing both frontend and backend development. To achieve this, we assign tasks based on components rather than segregating tasks solely by frontend or backend responsibilities. This approach ensures that each team member gains exposure to different aspects of the project, fostering a holistic understanding of the system.
@@ -794,5 +795,3 @@ and 13 branches and 93 commits for the backend
 
 ![Frontend-branch](./src/pics/backend-branch.png)
 ![Frontend-commit](./src/pics/backend-commit.png)
-
-
