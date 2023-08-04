@@ -788,10 +788,68 @@ To mitigate these challenges, we have implemented a robust source control method
 
 As you can see those screenshot from Github repository we got 11 branches and 142 commits for the frontend
 
-![Frontend-branch](./src/pics/frontend-branch.png)
-![Frontend-commit](./src/pics/frontend-commit.png)
+![Frontend-branch](./docs/frontend-branch.png)
+![Frontend-commit](./docs/frontend-commit.png)
 
 and 13 branches and 93 commits for the backend
 
-![Frontend-branch](./src/pics/backend-branch.png)
-![Frontend-commit](./src/pics/backend-commit.png)
+![Frontend-branch](./docs/backend-branch.png)
+![Frontend-commit](./docs/backend-commit.png)
+
+# Backend Testing
+
+The testing for backend is conducted using Postman. You can find a portion of the testing details here, while the complete PDF file with all the testing information is available in the "docs" folder for your reference.
+
+## 1. Development Testing
+
+![Backend testing](./docs/BACKEND_dev_test_Page_01.jpg)
+![Backend testing](./docs/BACKEND_dev_test_Page_02.jpg)
+![Backend testing](./docs/BACKEND_dev_test_Page_03.jpg)
+![Backend testing](./docs/BACKEND_dev_test_Page_04.jpg)
+![Backend testing](./docs/BACKEND_dev_test_Page_05.jpg)
+
+\*\* the complete PDF file with all the testing information is available in the "docs" folder for your reference.
+
+## 2. Production Testing
+
+![Backend testing](./docs/BACKEND_prod_test_Page_1.jpg)
+![Backend testing](./docs/BACKEND_prod_test_Page_2.jpg)
+![Backend testing](./docs/BACKEND_prod_test_Page_3.jpg)
+![Backend testing](./docs/BACKEND_prod_test_Page_4.jpg)
+![Backend testing](./docs/BACKEND_prod_test_Page_5.jpg)
+
+\*\* the complete PDF file with all the testing information is available in the "docs" folder for your reference.
+
+# Frontend Manual Testing
+
+The testing for frontend is using excel sheet to list and check each component and their functionality. You can find a portion of the testing details here, while the complete PDF file or Excel sheet with all the testing information is available in the "docs" folder for your reference.
+
+## 1. Development Testing
+
+![React testing](./docs/React_dev_testing_Page_1.jpg)
+![React testing](./docs/React_dev_testing_Page_2.jpg)
+![React testing](./docs/React_dev_testing_Page_3.jpg)
+![React testing](./docs/React_dev_testing_Page_4.jpg)
+![React testing](./docs/React_dev_testing_Page_5.jpg)
+![React testing](./docs/React_dev_testing_Page_6.jpg)
+
+## 2. Production Testing
+
+![React testing](./docs/React_prod_testing_Page_1.jpg)
+![React testing](./docs/React_prod_testing_Page_2.jpg)
+![React testing](./docs/React_prod_testing_Page_3.jpg)
+![React testing](./docs/React_prod_testing_Page_4.jpg)
+![React testing](./docs/React_prod_testing_Page_5.jpg)
+![React testing](./docs/React_prod_testing_Page_6.jpg)
+
+# Employ and utilise project management methodology
+
+This project follows agile methodologies to ensure efficient and collaborative development. With a team of only two members, we believe in distributing tasks evenly to foster a well-rounded experience for each team member. By rotating responsibilities between frontend and backend tasks, we aim to empower all team members with a fair amount of experience in both areas.
+
+Embracing agile principles, we emphasize frequent communication (Zoom meeting), iterative development, and rapid feedback loops (Review others work on Github and give feedback). This allows us to adapt to changing requirements, prioritize features effectively, and deliver incremental improvements continuously. By working in short sprints, we can maintain a steady pace while delivering valuable increments of the project.
+
+The agile approach enables us to remain flexible and respond promptly to challenges, fostering a productive and dynamic work environment. Regular formal or informal meetings help us to synchronize efforts, identify areas for improvement, and celebrate achievements.
+
+Through the integration of agile methodologies, we strive to maximize the project's success, create a collaborative team atmosphere, and ensure that all team members gain valuable experience across both frontend and backend development domains. This not only enhances the project's overall quality but also contributes to the professional growth and satisfaction of each team member.
+
+# Employ and utilise task delegation methodology

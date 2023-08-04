@@ -3,7 +3,7 @@ import resource_2 from "../pics/resource_2.jpg";
 
 export default function PetResourcePage() {
   return (
-    <div className="flex resourece-container bg-orange-900 text-white text-left lg:grid lg:grid-cols-2">
+    <div className="flex resourece-container bg-orange-900 text-white text-left lg:grid lg:grid-cols-2 mb-12">
       <div className="resource-image hidden lg:block h-100%">
         <img src={resource_2} alt="" className="h-full object-cover" />
       </div>
