@@ -796,7 +796,6 @@ and 13 branches and 93 commits for the backend
 ![Frontend-branch](./docs/backend-branch.png)
 ![Frontend-commit](./docs/backend-commit.png)
 
-
 # Backend Testing
 
 The testing for backend is conducted using Postman. You can find a portion of the testing details here, while the complete PDF file with all the testing information is available in the "docs" folder for your reference.
@@ -809,7 +808,7 @@ The testing for backend is conducted using Postman. You can find a portion of th
 ![Backend testing](./docs/BACKEND_dev_test_Page_04.jpg)
 ![Backend testing](./docs/BACKEND_dev_test_Page_05.jpg)
 
-** the complete PDF file with all the testing information is available in the "docs" folder for your reference.
+\*\* the complete PDF file with all the testing information is available in the "docs" folder for your reference.
 
 ## 2. Production Testing
 
@@ -819,7 +818,7 @@ The testing for backend is conducted using Postman. You can find a portion of th
 ![Backend testing](./docs/BACKEND_prod_test_Page_4.jpg)
 ![Backend testing](./docs/BACKEND_prod_test_Page_5.jpg)
 
-** the complete PDF file with all the testing information is available in the "docs" folder for your reference.
+\*\* the complete PDF file with all the testing information is available in the "docs" folder for your reference.
 
 # Frontend Manual Testing
 
@@ -833,7 +832,6 @@ The testing for frontend is using excel sheet to list and check each component a
 ![React testing](./docs/React_dev_testing_Page_4.jpg)
 ![React testing](./docs/React_dev_testing_Page_5.jpg)
 ![React testing](./docs/React_dev_testing_Page_6.jpg)
-
 
 ## 2. Production Testing
 
