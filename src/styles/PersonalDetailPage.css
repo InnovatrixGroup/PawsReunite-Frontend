@@ -52,6 +52,11 @@
   font-size: 1rem;
 }
 
+.personal-info-btn-container button:hover {
+  background-color: #e3e7ec;
+  color: #2d2d2e;
+}
+
 .notification-container {
   display: flex;
   flex-direction: column;
@@ -100,6 +105,11 @@
   color: white;
   margin-bottom: 60px;
   align-self: center;
+}
+
+.personal-info-post-container button:hover {
+  background-color: #981b1b;
+  transform: scale(1.05);
 }
 
 @media only screen and (min-width: 768px) {

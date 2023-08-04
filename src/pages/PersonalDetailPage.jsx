@@ -171,7 +171,7 @@ export default function PersonalDetailPage() {
               notifications.map((notification) => (
                 <div
                   key={notification._id}
-                  className="p-3 bg-neutral-900 rounded-xl cursor-pointer"
+                  className="p-3 bg-neutral-900 rounded-xl cursor-pointer hover:underline"
                   onClick={() => handleNotificationRedirect(notification.postId)}
                 >
                   {notification.message}

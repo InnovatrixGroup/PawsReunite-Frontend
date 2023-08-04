@@ -66,7 +66,7 @@ const mockCommentsResponse = {
 
 describe("Single post page", () => {
   it("can renders all elements correctly received from the backend", async () => {
-    // Mock fetch API responses for posts, notifications and user data
+    // Mock fetch API responses for posts and comments
     jest.spyOn(global, "fetch").mockImplementation((url) => {
       if (url.includes("/posts?postId=")) {
         return Promise.resolve({

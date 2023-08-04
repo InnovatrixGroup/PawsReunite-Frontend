@@ -150,7 +150,7 @@ export default function SinglePetPage() {
               onChange={(e) => setNewComment(e.target.value)}
             />
             <button
-              className="single__post_comment_btn bg-orange-900 text-white border px-4 py-2 font-light rounded-xl hover:bg-red-800"
+              className="single__post_comment_btn bg-orange-900 text-white border px-4 py-2 font-light rounded-xl hover:bg-red-800 hover:scale-105"
               onClick={handleCreateComment}
             >
               Send
