@@ -436,7 +436,7 @@ function EditPostPopup({ trigger, close, post, update, mode }) {
                         />
                         <CancelRoundedIcon
                           onClick={() => handleDeleteOldImage(image)}
-                          className="absolute -top-2 -right-2 bg-white rounded-full"
+                          className="absolute -top-2 -right-2 bg-white rounded-full cursor-pointer"
                         />
                       </div>
                     ))}
@@ -460,10 +460,16 @@ function EditPostPopup({ trigger, close, post, update, mode }) {
                 </div>
               </div>
               <div className="grid grid-cols-2 gap-4">
-                <button type="submit" className="py-2 bg-orange-900 text-white rounded-2xl">
+                <button
+                  type="submit"
+                  className="py-2 bg-orange-900 text-white rounded-2xl hover:bg-red-800 hover:scale-105"
+                >
                   Save
                 </button>
-                <button onClick={close} className="py-2 bg-orange-900 text-white rounded-2xl">
+                <button
+                  onClick={close}
+                  className="py-2 bg-orange-900 text-white rounded-2xl hover:bg-red-800 hover:scale-105"
+                >
                   Close
                 </button>
               </div>

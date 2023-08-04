@@ -56,7 +56,7 @@ export default function NavbarNew() {
       <ul className="navbar flex justify-between items-center bg-gray-200 py-2 px-6 fixed top-0 w-full max-w-7xl">
         <li>
           <NavLink className="navbar__logo" to="/" onClick={resetFilterData}>
-            <img src={logo} alt="logo" className="w-10" />
+            <img src={logo} alt="logo" className="w-10 hover:scale-110" />
           </NavLink>
         </li>
 
@@ -84,7 +84,7 @@ export default function NavbarNew() {
           </ul>
           <li>
             <NavLink className="navbar__icon cursor-pointer" to="/personalDetail">
-              <PersonIcon />
+              <PersonIcon className="hover:scale-110" />
             </NavLink>
           </li>
 

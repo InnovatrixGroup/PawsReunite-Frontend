@@ -136,7 +136,7 @@ export default function PersonalDetailPage() {
               <div className="flex">
                 <h1 className="mr-3">Personal Info</h1>
                 <div className="relative cursor-pointer" onClick={handleNotificationIconClick}>
-                  <NotificationsOutlinedIcon className="notification-icon" />
+                  <NotificationsOutlinedIcon className="notification-icon hover:scale-105" />
                   <div className="notification-text bg-white rounded-full text-black text-[8px] w-[14px] h-[14px] flex justify-center items-center absolute top-0 right-0">
                     <p className="">{notifications && notifications.length}</p>
                   </div>

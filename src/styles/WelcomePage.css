@@ -40,7 +40,7 @@
   cursor: pointer;
 }
 
-.welcome-page-signin-btn:hover{
+.welcome-page-signin-btn:hover {
   background-color: #981b1b;
   transform: scale(1.05);
 }
