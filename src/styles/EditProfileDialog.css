@@ -60,6 +60,10 @@
   font-size: 14px;
 }
 
+.edit-profile-form .edit-profile-btn:hover {
+  background-color: #981b1b;
+}
+
 .edit-profile-form .password-container-input {
   position: relative;
 }

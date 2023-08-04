@@ -8,14 +8,14 @@ export default function AdminNavBar({ handleLogout }) {
       <ul className="navbar admin-navbar flex justify-between items-center bg-orange-900 py-3 px-6 fixed top-0 w-full max-w-7xl">
         <li>
           <NavLink className="navbar__logo" to="/">
-            <img src={logo} alt="logo" className="w-10" />
+            <img src={logo} alt="logo" className="w-10 hover:scale-110" />
           </NavLink>
         </li>
         <li>
           <LogoutIcon
             onClick={handleLogout}
             sx={{ color: "white", fontSize: "25px", cursor: "pointer" }}
-            f
+            className="hover:scale-110"
           />
         </li>
       </ul>

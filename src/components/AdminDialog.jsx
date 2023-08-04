@@ -60,7 +60,11 @@ const ListItem = ({ item, onDelete }) => {
       {/* Displaying the creation date and time using Moment component */}
       {item.createdAt && <Moment format="YYYY-MM-DD hh:mm A">{item.createdAt}</Moment>}
       <div className="admin-page-delete-icon">
-        <DeleteIcon onClick={handleDeleteClick} style={{ cursor: "pointer" }} />
+        <DeleteIcon
+          onClick={handleDeleteClick}
+          style={{ cursor: "pointer" }}
+          className="hover:scale-110"
+        />
       </div>
       <div className="admin-page-delete-confirm">
         <DeleteConfirmDialog
