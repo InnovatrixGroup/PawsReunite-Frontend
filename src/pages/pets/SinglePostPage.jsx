@@ -49,7 +49,7 @@ export default function SinglePetPage() {
       const response = await fetch(`${api}/posts/${id}`, {
         method: "DELETE",
         headers: {
-          authorization: `Bearer ${userAuth.jwt}`
+          authorization: `Bearer ${userAuth?.jwt}`
         }
       });
       if (response.ok) {
@@ -64,14 +64,14 @@ export default function SinglePetPage() {
       console.log(error);
     }
   };
-  const isUserPost = post && post.userId === userAuth.userId;
+  const isUserPost = post && post.userId === userAuth?.userId;
 
   const handleDeleteComment = async (commentId) => {
     try {
       const response = await fetch(`${api}/comments/${commentId}`, {
         method: "DELETE",
         headers: {
-          authorization: `Bearer ${userAuth.jwt}`
+          authorization: `Bearer ${userAuth?.jwt}`
         }
       });
       if (response.ok) {
@@ -89,7 +89,7 @@ export default function SinglePetPage() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          authorization: `Bearer ${userAuth.jwt}`
+          authorization: `Bearer ${userAuth?.jwt}`
         },
         body: JSON.stringify({
           content: newComment
@@ -124,13 +124,13 @@ export default function SinglePetPage() {
           {isUserPost && (
             <div className="single__post_funcation flex justify-end px-3 gap-4 mb-8 xs:justify-between">
               <button
-                className="single__post_funcation_btn bg-orange-900 text-white border px-16 xs:flex-1 xs:px-0 py-2 font-light rounded-xl hover:bg-red-800"
+                className="w-44 single__post_funcation_btn bg-orange-900 text-white border px-16 xs:flex-1 xs:px-0 py-2 font-light rounded-xl hover:bg-red-800 hover:scale-105"
                 onClick={() => setIsEdit(true)}
               >
                 Edit
               </button>
               <button
-                className="single__post_funcation_btn  bg-orange-900 text-white border px-16 xs:flex-1 xs:px-0 py-2 font-light rounded-xl hover:bg-red-800"
+                className="w-44 single__post_funcation_btn  bg-orange-900 text-white border px-16 xs:flex-1 xs:px-0 py-2 font-light rounded-xl hover:bg-red-800 hover:scale-105"
                 onClick={() => setShowDeleteConfirmation(true)}
               >
                 Delete
@@ -150,7 +150,7 @@ export default function SinglePetPage() {
               onChange={(e) => setNewComment(e.target.value)}
             />
             <button
-              className="single__post_comment_btn bg-orange-900 text-white border px-4 py-2 font-light rounded-xl hover:bg-red-800"
+              className="single__post_comment_btn bg-orange-900 text-white border px-4 py-2 font-light rounded-xl hover:bg-red-800 hover:scale-105"
               onClick={handleCreateComment}
             >
               Send

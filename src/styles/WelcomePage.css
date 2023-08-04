@@ -40,6 +40,11 @@
   cursor: pointer;
 }
 
+.welcome-page-signin-btn:hover {
+  background-color: #981b1b;
+  transform: scale(1.05);
+}
+
 .welcome-page-words-container {
   margin: 25px 40px;
   text-align: left;
@@ -82,6 +87,10 @@
 .welcome-page-words-container a {
   color: #7c2d12;
   font-weight: 600;
+}
+
+.welcome-page-words-container a:hover {
+  color: #981b1b;
 }
 
 /* media query */

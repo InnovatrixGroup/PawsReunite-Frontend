@@ -100,7 +100,7 @@ describe("Home page", () => {
     render(<HomePage />);
 
     await waitFor(() => {
-      // Check if filter select options are loaded
+      // Check if filter select options are loaded correctly based on the mock responses
       const speciesFilter = screen.getByText("Species");
       expect(speciesFilter).toBeInTheDocument();
       expect(document.querySelector("option[value='Dog']")).toBeInTheDocument();

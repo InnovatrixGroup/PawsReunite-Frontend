@@ -43,6 +43,11 @@
   cursor: pointer;
 }
 
+.signin-btn:hover,
+.signup-btn:hover {
+  background-color: #981b1b;
+}
+
 .password-container-input {
   position: relative;
 }
@@ -64,6 +69,10 @@
 .signin-hint a {
   color: #7c2d12;
   font-weight: 600;
+}
+
+.signin-hint a:hover {
+  color: #981b1b;
 }
 
 .errorMsg {
