@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./NavbarNew.css";
+import "../styles/NavbarNew.css";
 import PersonIcon from "@mui/icons-material/Person";
 import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
 import logo from "../pics/logo.png";
@@ -8,14 +8,20 @@ import RemoveIcon from "@mui/icons-material/Remove";
 import Dropdown from "./Dropdown";
 import { NavLink } from "react-router-dom";
 import { useFilterData, useFilterDispatch } from "../contexts/FilterContext";
+import { useLocalStorage } from "react-use";
+import { useNavigate } from "react-router-dom";
 
+// NavbarNew component represents the main navigation bar of the application.
 export default function NavbarNew() {
   const [isOpen, setIsOpen] = useState(false);
   const [isSubmenuOpen, setIsSubmenuOpen] = useState(false);
+  // set the backgound of the content to dark when the menu is open
   const [isDarkFilterVisible, setIsDarkFilterVisible] = useState(false);
-  const filterData = useFilterData();
   const filerDispath = useFilterDispatch();
+  const [userAuth, setUserAuth] = useLocalStorage("pawsReuniteUserAuth");
+  const navigate = useNavigate();
 
+  // toggle the menu and the dark filter
   const toggleMenu = () => {
     setIsOpen(!isOpen);
     setIsDarkFilterVisible(!isDarkFilterVisible);
@@ -39,6 +45,13 @@ export default function NavbarNew() {
     window.location.href = "/";
   };
 
+  const handleLogout = () => {
+    setUserAuth(null);
+    alert("You have logged out.");
+    // navigate to landing page automatically after logout
+    navigate("/welcome");
+  };
+
   return (
     <div>
       <div
@@ -48,7 +61,7 @@ export default function NavbarNew() {
       <ul className="navbar flex justify-between items-center bg-gray-200 py-2 px-6 fixed top-0 w-full max-w-7xl">
         <li>
           <NavLink className="navbar__logo" to="/" onClick={resetFilterData}>
-            <img src={logo} alt="logo" className="w-10" />
+            <img src={logo} alt="logo" className="w-10 hover:scale-110" />
           </NavLink>
         </li>
 
@@ -76,7 +89,7 @@ export default function NavbarNew() {
           </ul>
           <li>
             <NavLink className="navbar__icon cursor-pointer" to="/personalDetail">
-              <PersonIcon />
+              <PersonIcon className="hover:scale-110" />
             </NavLink>
           </li>
 
@@ -123,7 +136,7 @@ export default function NavbarNew() {
           <NavLink className="navbar__menu-link" to="/contact" onClick={toggleMenu}>
             Contact
           </NavLink>
-          <NavLink className="navbar__menu-link" to="/" onClick={toggleMenu}>
+          <NavLink className="navbar__menu-link" to="/welcome" onClick={handleLogout}>
             Logout
           </NavLink>
         </div>

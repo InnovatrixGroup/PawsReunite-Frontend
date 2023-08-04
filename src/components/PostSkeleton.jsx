@@ -1,7 +1,9 @@
 import { Skeleton } from "@mui/material";
 import React from "react";
 
+// PostSkeleton component to display skeleton placeholders for loading posts
 function PostSkeleton({ num }) {
+  // Create an array of 'num' elements and map over it to create multiple skeletons
   return Array(num)
     .fill(0)
     .map((item, index) => (
@@ -27,6 +29,7 @@ function PostSkeleton({ num }) {
         <div className="post-skeleton__info">
           <Skeleton width="50%" height={32} />
         </div>
+        {/* Skeleton for multiple lines of post info */}
         <div className="post-skeleton__info">
           {Array.from({ length: 6 }).map((_, index) => (
             <Skeleton key={index} height={32} />

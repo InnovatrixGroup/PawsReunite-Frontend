@@ -23,6 +23,7 @@ function EditPostPopup({ trigger, close, post, update, mode }) {
 
   const speciesOptions = ["Dog", "Cat", "Bird", "Rabbit", "Other"];
 
+  // The breed options are defined as an array of objects with species as keys.
   const breedOptions = [
     {
       Dog: ["Dachshund", "Poodle", "Labrador", "Pug", "Samoyed", "Other"]
@@ -56,6 +57,7 @@ function EditPostPopup({ trigger, close, post, update, mode }) {
   const [titleError, setTitleError] = useState("");
   const [contactInfoError, setContactInfoError] = useState("");
 
+  // make an api call to get the suburb options based on the postcode or suburb name entered
   const handleSuburbChange = async (suburb) => {
     let response = await fetch(`${api}/suburbs/search?postcode=${suburb}`);
     let jsonData = await response.json();
@@ -80,13 +82,16 @@ function EditPostPopup({ trigger, close, post, update, mode }) {
   const handleSpeciesChange = (event) => {
     const speciesValue = event.target.value;
     setSelectedSpecies(speciesValue);
+    // It also resets the selected breed.
     setSelectedBreed("");
   };
 
+  // Retrieve breed options based on selected species
   const breedOptionsForSelectedSpecies = breedOptions.find((option) =>
     option.hasOwnProperty(selectedSpecies)
   );
 
+  // If breed options are available for the selected species, retrieve them.
   const breedOptionsList =
     breedOptionsForSelectedSpecies && breedOptionsForSelectedSpecies[selectedSpecies];
 
@@ -95,6 +100,7 @@ function EditPostPopup({ trigger, close, post, update, mode }) {
     setSelectedBreed(breedValue);
   };
 
+  // for phone number validation using libphonenumber-js
   const validatePhoneNumber = (contactInfoValue) => {
     const phoneNumber = parsePhoneNumberFromString(contactInfoValue, "AU");
     if (phoneNumber && phoneNumber.isValid()) {
@@ -128,19 +134,22 @@ function EditPostPopup({ trigger, close, post, update, mode }) {
     setSelectedImages((prevImages) => prevImages.filter((item) => item !== image));
   };
 
+  // create notification when post is created and compare with other posts in database to see if there is a match
+  // if there is a match, create a notification for the user who created the other post
   const handleComaprePost = async (post) => {
     const response = await fetch(`${api}/posts`, {
       method: "GET"
     });
     const jsonData = await response.json();
+    // compare the new post with other posts in database
     const comparePost = jsonData.data.find(
       (item) =>
         item.color === post.color &&
+        // only compare the status if the status is different from the new post
         item.status !== post.status &&
         item.species === post.species &&
         item.breed === post.breed
     );
-    console.log(comparePost);
     if (comparePost) {
       const comparePostUserId = comparePost.userId;
       const newNotification = {
@@ -156,17 +165,17 @@ function EditPostPopup({ trigger, close, post, update, mode }) {
         body: JSON.stringify(newNotification)
       });
       const jsonData = await response.json();
-      console.log(jsonData);
     }
   };
 
   // for create post
   const handleCreatePost = async (data) => {
+    // validate those required fields are not empty
     if (!selectedSpecies || !selectedBreed || !selectedColor || !suburb) {
       alert("Please select species, breed, color and suburb.");
       return;
     }
-
+    // validate uploaded images are not empty
     if (updatedImages.length === 0) {
       alert("Please upload at least one image.");
       return;
@@ -182,6 +191,7 @@ function EditPostPopup({ trigger, close, post, update, mode }) {
       formData.append("color", selectedColor);
       formData.append("breed", selectedBreed);
       formData.append("species", selectedSpecies);
+      // append uploaded images to formData to send to backend
       updatedImages.forEach((image) => {
         formData.append("photos", image.file);
       });
@@ -194,11 +204,12 @@ function EditPostPopup({ trigger, close, post, update, mode }) {
         body: formData
       });
       const result = await response.json();
+      // update the userPost list in context
       userPostDispatch({ type: "create", newPost: result.data });
-
       alert("Post has been created.");
-      handleComaprePost(result.data);
 
+      // create notification if there is a match
+      handleComaprePost(result.data);
       close();
     } catch (error) {
       console.log(error);
@@ -207,10 +218,12 @@ function EditPostPopup({ trigger, close, post, update, mode }) {
 
   // for update post
   const handleUpdatePost = async (data) => {
+    // validate those required fields are not empty
     if (!selectedSpecies || !selectedBreed || !selectedColor || !suburb) {
       alert("Please select species, breed, color and suburb.");
       return;
     }
+    // validate uploaded images are not empty
     if (selectedImages.length === 0 && updatedImages.length === 0) {
       alert("Please upload at least one image.");
       return;
@@ -218,7 +231,8 @@ function EditPostPopup({ trigger, close, post, update, mode }) {
 
     try {
       const formData = new FormData();
-
+      // append the updated data to formData
+      // if the data is not updated, use the original data
       formData.append("title", data.title || title);
       formData.append("suburb", suburb);
       formData.append("status", selectedStatus);
@@ -239,8 +253,8 @@ function EditPostPopup({ trigger, close, post, update, mode }) {
         body: formData
       });
       const result = await response.json();
+      // update the userPost list in context
       userPostDispatch({ type: "update", newPost: result.data });
-
       alert("Post has been UPDATED.");
       window.location.reload();
 
@@ -260,11 +274,13 @@ function EditPostPopup({ trigger, close, post, update, mode }) {
           <div className="popup-inner xs:w-full xs:h-full h-5/6 p-8 max-w-xl bg-white overflow-y-auto">
             <form
               className="flex flex-col gap-8"
+              // use handleSubmit from react-hook-form to validate the form
               onSubmit={
                 mode === "create" ? handleSubmit(handleCreatePost) : handleSubmit(handleUpdatePost)
               }
             >
               <div className="title-container flex flex-col">
+                {/* use Controller from react-hook-form to control the input */}
                 <Controller
                   name="title"
                   defaultValue={title}
@@ -290,6 +306,7 @@ function EditPostPopup({ trigger, close, post, update, mode }) {
               </div>
 
               <div className="filter-container grid grid-cols-2 gap-2">
+                {/* use filterSelect component to render the filter */}
                 <FilterSelect
                   label="Species"
                   value={selectedSpecies}
@@ -297,6 +314,7 @@ function EditPostPopup({ trigger, close, post, update, mode }) {
                   onChange={handleSpeciesChange}
                   title="species" // Add the title prop for the first filter
                 />
+                {/* if species is selected and breedOptionsList is not null, render the breed filter */}
                 {breedOptionsList && (
                   <FilterSelect
                     label="Breed"
@@ -312,7 +330,7 @@ function EditPostPopup({ trigger, close, post, update, mode }) {
                   options={colorOptions}
                   onChange={handleColorChange}
                 />
-
+                {/* render the status filter */}
                 <AsyncSelect
                   placeholder="Suburb"
                   defaultValue={suburb ? { value: suburb, label: suburb } : null}
@@ -330,6 +348,7 @@ function EditPostPopup({ trigger, close, post, update, mode }) {
                   rows={6}
                 />
               </div>
+              {/* render the contactInfo input and validate the input number */}
               <div className="contactInfo-container flex flex-col">
                 <Controller
                   name="contactInfo"
@@ -352,6 +371,7 @@ function EditPostPopup({ trigger, close, post, update, mode }) {
                 />
               </div>
 
+              {/* render the status "lost or found" */}
               <div className="status flex flex-col text-gray-500">
                 <label className="text-left mb-2">Status</label>
                 <div className="radio-buttons grid grid-cols-2 gap-4">
@@ -403,6 +423,7 @@ function EditPostPopup({ trigger, close, post, update, mode }) {
                 />
 
                 <div className="images grid grid-cols-3 gap-4 text-orange-900 mb-5">
+                  {/* render the images that are selected, this is been used for update the old images */}
                   {selectedImages &&
                     selectedImages.map((image, index) => (
                       <div key={image} className="relative">
@@ -413,10 +434,11 @@ function EditPostPopup({ trigger, close, post, update, mode }) {
                         />
                         <CancelRoundedIcon
                           onClick={() => handleDeleteOldImage(image)}
-                          className="absolute -top-2 -right-2 bg-white rounded-full"
+                          className="absolute -top-2 -right-2 bg-white rounded-full cursor-pointer"
                         />
                       </div>
                     ))}
+                  {/* render the images that are uploaded, this is been used for create the new images */}
                   {updatedImages &&
                     updatedImages.map((image, index) => {
                       return (
@@ -428,7 +450,7 @@ function EditPostPopup({ trigger, close, post, update, mode }) {
                           />
                           <CancelRoundedIcon
                             onClick={() => handleDeleteImage(image.url)}
-                            className="absolute -top-2 -right-2 bg-white rounded-full"
+                            className="absolute -top-2 -right-2 bg-white rounded-full cursor-pointer"
                           />
                         </div>
                       );
@@ -436,12 +458,22 @@ function EditPostPopup({ trigger, close, post, update, mode }) {
                 </div>
               </div>
               <div className="grid grid-cols-2 gap-4">
-                <button type="submit" className="py-2 bg-orange-900 text-white rounded-2xl">
-                  Save
-                </button>
-                <button onClick={close} className="py-2 bg-orange-900 text-white rounded-2xl">
-                  Close
-                </button>
+                <div>
+                  <button
+                    type="submit"
+                    className="w-full py-2 bg-orange-900 text-white rounded-xl hover:bg-red-800 hover:scale-105"
+                  >
+                    Save
+                  </button>
+                </div>
+                <div>
+                  <button
+                    onClick={close}
+                    className="w-full py-2 bg-orange-900 text-white rounded-xl hover:bg-red-800 hover:scale-105"
+                  >
+                    Close
+                  </button>
+                </div>
               </div>
             </form>
           </div>

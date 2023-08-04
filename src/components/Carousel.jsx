@@ -3,22 +3,29 @@ import KeyboardArrowLeftOutlinedIcon from "@mui/icons-material/KeyboardArrowLeft
 import KeyboardArrowRightOutlinedIcon from "@mui/icons-material/KeyboardArrowRightOutlined";
 import { Navigate } from "react-router-dom";
 
+// Carousel component that displays a set of images in a carousel format
 function Carousel(props) {
+  // Destructuring props to access images, handleRedirectClick, and postId
   const images = props.images;
+
   const handleRedirectClick = props.handleRedirectClick;
-  const postId = props.postId;
+
+  // State to keep track of the current image index being displayed
   const [curr, setCurr] = useState(0);
 
+  // Function to move to the previous slide/image in the carousel
   const prevSlide = () => {
     setCurr(curr === 0 ? images.length - 1 : curr - 1);
   };
 
+  // Function to move to the next slide/image in the carousel
   const nextSlide = () => {
     setCurr(curr === images.length - 1 ? 0 : curr + 1);
   };
 
   return (
     <div className="carousel-container relative w-full aspect-square  overflow-hidden sm:max-h-[384px] md:max-h-[448px] lg:max-h-[448px]">
+      {/* Carousel images container with a horizontal translation to show current image */}
       <div
         className="carousel__images flex aspect-square	 transition-transform ease-out duration-500 sm:max-w-sm md:max-w-md  lg:max-w-md justify-start"
         style={{ transform: `translateX(-${curr * 100}%)` }}
@@ -32,6 +39,8 @@ function Carousel(props) {
           />
         ))}
       </div>
+
+      {/* Buttons for navigating between images and triggering redirect on click */}
       {/* inset-0 defined by the distance of 0 pixels to the parent DIV element, on all four sides */}
       <div
         onClick={(e) => e.currentTarget === e.target && handleRedirectClick()}
@@ -50,6 +59,8 @@ function Carousel(props) {
           <KeyboardArrowRightOutlinedIcon />
         </button>
       </div>
+
+      {/* Dots for indicating the current image in the carousel */}
       <div className="carousel__dots absolute bottom-4 right-0 left-0 flex justify-center items-center gap-2">
         {images.map((_, index) => (
           <div

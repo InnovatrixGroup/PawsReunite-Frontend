@@ -28,6 +28,10 @@
   align-self: center;
 }
 
+.admin-page-btn-container button:hover {
+  transform: scale(1.05);
+}
+
 .admin-page-edit-header {
   display: flex;
   justify-content: space-between;

@@ -55,8 +55,8 @@ export default function PersonalDetailPage() {
         const response = await fetch(`${api}/posts/user`, {
           method: "GET",
           headers: {
-            authorization: `Bearer ${userAuth.jwt}`,
-            userId: userAuth.userId
+            authorization: `Bearer ${userAuth?.jwt}`,
+            userId: userAuth?.userId
           }
         });
         const jsonData = await response.json();
@@ -71,8 +71,8 @@ export default function PersonalDetailPage() {
         const response = await fetch(`${api}/notifications`, {
           method: "GET",
           headers: {
-            authorization: `Bearer ${userAuth.jwt}`,
-            userId: userAuth.userId
+            authorization: `Bearer ${userAuth?.jwt}`,
+            userId: userAuth?.userId
           }
         });
         const jsonData = await response.json();
@@ -136,7 +136,7 @@ export default function PersonalDetailPage() {
               <div className="flex">
                 <h1 className="mr-3">Personal Info</h1>
                 <div className="relative cursor-pointer" onClick={handleNotificationIconClick}>
-                  <NotificationsOutlinedIcon className="notification-icon" />
+                  <NotificationsOutlinedIcon className="notification-icon hover:scale-105" />
                   <div className="notification-text bg-white rounded-full text-black text-[8px] w-[14px] h-[14px] flex justify-center items-center absolute top-0 right-0">
                     <p className="">{notifications && notifications.length}</p>
                   </div>
@@ -171,7 +171,7 @@ export default function PersonalDetailPage() {
               notifications.map((notification) => (
                 <div
                   key={notification._id}
-                  className="p-3 bg-neutral-900 rounded-xl cursor-pointer"
+                  className="p-3 bg-neutral-900 rounded-xl cursor-pointer hover:underline"
                   onClick={() => handleNotificationRedirect(notification.postId)}
                 >
                   {notification.message}
@@ -184,7 +184,11 @@ export default function PersonalDetailPage() {
             <div className="grid grid-cols-3 gap-3 p-5 xs:gap-0">
               {userPostData &&
                 userPostData.map((post) => (
-                  <div className="image" onClick={() => handleRedirect(post._id)} key={post._id}>
+                  <div
+                    className="image personal-post-image"
+                    onClick={() => handleRedirect(post._id)}
+                    key={post._id}
+                  >
                     <img
                       src={post?.photos[0]}
                       className="w-full aspect-square object-cover"
@@ -193,7 +197,9 @@ export default function PersonalDetailPage() {
                   </div>
                 ))}
             </div>
-            <button onClick={() => setIsCreate(true)}>Create Post</button>
+            <button onClick={() => setIsCreate(true)} className="create-post-btn">
+              Create Post
+            </button>
             {
               <EditPostPopup
                 trigger={isCreate}

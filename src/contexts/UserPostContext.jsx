@@ -53,28 +53,6 @@ export function useUserPostDispatch() {
 export default function UserPostProvider(props) {
   const [userPostData, userPostDispatch] = useReducer(userPostReducer, initial_state);
 
-  // const [userAuth, setUserAuth] = useLocalStorage("pawsReuniteUserAuth");
-
-  // useEffect(() => {
-  //   const fetchUserPosts = async () => {
-  //     try {
-  //       const response = await fetch(`${api}/posts/user`, {
-  //         method: "GET",
-  //         headers: {
-  //           authorization: `Bearer ${userAuth.jwt}`,
-  //           userId: userAuth.userId
-  //         }
-  //       });
-  //       const jsonData = await response.json();
-  //       userPostDispatch({ type: "loadAll", payload: jsonData.data });
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   };
-
-  //   fetchUserPosts();
-  // }, []);
-
   return (
     <UserPostContext.Provider value={userPostData}>
       <UserPostDispatchContext.Provider value={userPostDispatch}>

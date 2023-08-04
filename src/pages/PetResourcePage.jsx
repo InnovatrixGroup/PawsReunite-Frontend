@@ -3,13 +3,16 @@ import resource_2 from "../pics/resource_2.jpg";
 
 export default function PetResourcePage() {
   return (
-    <div className="flex resourece-container bg-orange-900 text-white p-7 text-left lg:grid lg:grid-cols-2 lg:gap-4 lg:first-line:h-screen">
-      <div className="lg:flex lg:h-full">
+    <div className="flex resourece-container bg-orange-900 text-white text-left lg:grid lg:grid-cols-2">
+      <div className="resource-image hidden lg:block h-100%">
+        <img src={resource_2} alt="" className="h-full object-cover" />
+      </div>
+      <div className="lg:flex lg:h-full overflow-y-auto">
         <section className="flex flex-col gap-5 lg:flex lg:flex-col lg:overflow-y-auto lg:h-screen">
-          <div className="resource-title text-4xl font-semibold">
+          <div className="resource-title text-4xl font-semibold p-7">
             <h1>Keeping Your Furry Friends Safe: Lost Pet Prevention and Pet Care Essentials</h1>
           </div>
-          <div className="resource-content font-light">
+          <div className="resource-content font-light p-7">
             Our furry friends bring immeasurable joy and companionship to our lives, and as
             responsible pet owners, it is our duty to ensure their safety and well-being. Preventing
             lost pets and providing proper care are essential aspects of responsible pet ownership.
@@ -24,13 +27,18 @@ export default function PetResourcePage() {
               Looking to ensure your furry friend's well-being and happiness? Check out these
               comprehensive Pet Care Essentials at ASPCA, where you'll find expert guidance on
               nutrition, grooming, health, and behavior:{" "}
-              <a target="_blank" href="https://www.aspca.org/pet-care" rel="noreferrer">
+              <a
+                target="_blank"
+                href="https://www.aspca.org/pet-care"
+                rel="noreferrer"
+                className="underline underline-offset-4"
+              >
                 https://www.aspca.org/pet-care
               </a>
               .
             </div>
           </div>
-          <div className="resource-content font-light">
+          <div className="resource-content font-light p-7">
             <h2 className="text-2xl font-semibold mb-3">Lost Pet Prevention</h2>
             <div className="article">
               Microchip Identification: Microchipping your pet is highly effective for
@@ -47,7 +55,7 @@ export default function PetResourcePage() {
               alone in a parked car, especially in warm weather, to avoid heatstroke.
             </div>
           </div>
-          <div className="resource-content font-light">
+          <div className="resource-content font-light p-7">
             <h2 className="text-2xl font-semibold mb-3">Pet Care Essentials</h2>
             <div className="article">
               Proper Nutrition: Consult your veterinarian to determine the appropriate diet for your
@@ -65,7 +73,7 @@ export default function PetResourcePage() {
               Cats, in particular, can be curious and may get into trouble if unsupervised.
             </div>
           </div>
-          <div className="resource-content font-light">
+          <div className="resource-content font-light p-7">
             <div className="article">
               As responsible pet owners, we must prioritize the safety and well-being of our furry
               companions. By implementing lost pet prevention measures, such as microchipping and ID
@@ -76,10 +84,6 @@ export default function PetResourcePage() {
             </div>
           </div>
         </section>
-      </div>
-
-      <div className="resource-image hidden lg:block object-cover overflow-hidden">
-        <img src={resource_2} alt="" />
       </div>
     </div>
   );
