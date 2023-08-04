@@ -87,9 +87,9 @@
   cursor: pointer;
 }
 
-.personal-info-post-container div .personal-post-image:hover{
+.personal-info-post-container div .personal-post-image:hover {
   transform: scale(1.02);
-} 
+}
 
 .personal-info-post-container h1 {
   text-align: left;
