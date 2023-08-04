@@ -37,7 +37,7 @@ function Comment(props) {
               </div>
             </div>
             {/* Displaying the delete icon for the user's own comments */}
-            {comment.userId._id === userAuth.userId && (
+            {comment.userId._id === userAuth?.userId && (
               <DeleteOutlineIcon
                 sx={{ fontSize: "30px", marginTop: "12px", cursor: "pointer" }}
                 onClick={() => {

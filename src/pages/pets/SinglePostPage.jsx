@@ -49,7 +49,7 @@ export default function SinglePetPage() {
       const response = await fetch(`${api}/posts/${id}`, {
         method: "DELETE",
         headers: {
-          authorization: `Bearer ${userAuth.jwt}`
+          authorization: `Bearer ${userAuth?.jwt}`
         }
       });
       if (response.ok) {
@@ -64,14 +64,14 @@ export default function SinglePetPage() {
       console.log(error);
     }
   };
-  const isUserPost = post && post.userId === userAuth.userId;
+  const isUserPost = post && post.userId === userAuth?.userId;
 
   const handleDeleteComment = async (commentId) => {
     try {
       const response = await fetch(`${api}/comments/${commentId}`, {
         method: "DELETE",
         headers: {
-          authorization: `Bearer ${userAuth.jwt}`
+          authorization: `Bearer ${userAuth?.jwt}`
         }
       });
       if (response.ok) {
@@ -89,7 +89,7 @@ export default function SinglePetPage() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          authorization: `Bearer ${userAuth.jwt}`
+          authorization: `Bearer ${userAuth?.jwt}`
         },
         body: JSON.stringify({
           content: newComment
