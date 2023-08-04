@@ -124,13 +124,13 @@ export default function SinglePetPage() {
           {isUserPost && (
             <div className="single__post_funcation flex justify-end px-3 gap-4 mb-8 xs:justify-between">
               <button
-                className="single__post_funcation_btn bg-orange-900 text-white border px-16 xs:flex-1 xs:px-0 py-2 font-light rounded-xl hover:bg-red-800 hover:scale-105"
+                className="w-44 single__post_funcation_btn bg-orange-900 text-white border px-16 xs:flex-1 xs:px-0 py-2 font-light rounded-xl hover:bg-red-800 hover:scale-105"
                 onClick={() => setIsEdit(true)}
               >
                 Edit
               </button>
               <button
-                className="single__post_funcation_btn  bg-orange-900 text-white border px-16 xs:flex-1 xs:px-0 py-2 font-light rounded-xl hover:bg-red-800 hover:scale-105"
+                className="w-44 single__post_funcation_btn  bg-orange-900 text-white border px-16 xs:flex-1 xs:px-0 py-2 font-light rounded-xl hover:bg-red-800 hover:scale-105"
                 onClick={() => setShowDeleteConfirmation(true)}
               >
                 Delete

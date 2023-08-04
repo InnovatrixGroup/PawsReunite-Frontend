@@ -184,7 +184,11 @@ export default function PersonalDetailPage() {
             <div className="grid grid-cols-3 gap-3 p-5 xs:gap-0">
               {userPostData &&
                 userPostData.map((post) => (
-                  <div className="image" onClick={() => handleRedirect(post._id)} key={post._id}>
+                  <div
+                    className="image personal-post-image"
+                    onClick={() => handleRedirect(post._id)}
+                    key={post._id}
+                  >
                     <img
                       src={post?.photos[0]}
                       className="w-full aspect-square object-cover"
@@ -193,7 +197,9 @@ export default function PersonalDetailPage() {
                   </div>
                 ))}
             </div>
-            <button onClick={() => setIsCreate(true)}>Create Post</button>
+            <button onClick={() => setIsCreate(true)} className="create-post-btn">
+              Create Post
+            </button>
             {
               <EditPostPopup
                 trigger={isCreate}

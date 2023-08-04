@@ -40,6 +40,7 @@ function Comment(props) {
             {comment.userId._id === userAuth?.userId && (
               <DeleteOutlineIcon
                 sx={{ fontSize: "30px", marginTop: "12px", cursor: "pointer" }}
+                className="hover:scale-105"
                 onClick={() => {
                   setShowDeleteConfirmation(true);
                   setSelectedCommentId(comment._id);

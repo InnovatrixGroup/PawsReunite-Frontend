@@ -46,7 +46,6 @@
 .signin-btn:hover,
 .signup-btn:hover {
   background-color: #981b1b;
-  transform: scale(1.05);
 }
 
 .password-container-input {
