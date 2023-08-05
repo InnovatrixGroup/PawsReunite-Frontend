@@ -6,7 +6,329 @@
 
 [Click here](https://paws-reunite.netlify.app/) to access the Netlify deployed website.
 
-# All libraries used in this app
+## Table of Contents
+
+1. [Part A](#part-a)
+   - [Description](#description)
+   - [Dataflow Diagram](#dataflow-diagram)
+   - [Application Architecture Diagram](#application-architecture-diagram)
+   - [User Stories](#user-stories)
+   - [Wireframes](#wireframes)
+   - [Project Planning and Management](#project-planning-and-management)
+2. [Part B](#part-b)
+   - [All libraries used in this app](#all-libraries-used-in-this-app)
+   - [Code Flow Control](#code-flow-control)
+   - [Apply Object oriented principles/patterns and break pages into small components for maintainability](#apply-object-oriented-principles/patterns-and-break-pages-into-small-components-for-maintainability)
+   - [Functions uses to improve code serviceability and maintenance](#functions-uses-to-improve-code-serviceability-and-maintenance)
+   - [Employ and utilise proper source control methodology](#employ-and-utilise-proper-source-control-methodology)
+   - [Backend Test](#backend-test)
+   - [Frontend Test](#frontend-test)
+   - [Employ and utilise project management methodology](#employ-and-utilise-project-management-methodology)
+
+# Part A
+
+## Description
+
+### Purpose
+
+According to estimates, one out of every three pets will go missing at some point in their lives. Millions of pets are missing every year, and many of them may never return home.
+
+The purpose of PawsReunite is to help pet owners find their lost pets and to help people who have found lost pets find their owners. This is a valuable service because lost pets can be very difficult to find, and even if they are found, it can be difficult to track down their owners. This web application can bridge this gap by providing a central platform where pet owners and people who have found lost pets can connect.
+
+____
+### Functionality/ Feature
+
+#### User Registration and Authentication
+
+To create a lost/found pet post, users must create new accounts first, so they can be contacted when there is any update. 
+
+Comparing to general users, admin users will have the authorisation to remove inappropriate or irrelevant content, such as spam or offensive posts. Admin users can also remove certain users and all related posts.
+
+#### Report lost pet
+
+Pet owners can report their lost pets, providing details such as pet characteristics (including colour, breed and other descriptions), photos, last seen location and contact information.
+
+#### Report found pet
+
+Users who find a lost pet can report it, providing details such as pet description, photos, found location and contact information.
+
+#### Pet Search
+
+Users can search for lost pets based on location, colour, breed, or other characteristics. Based on the provided information, the application will display a list of lost pets that match the search criteria.
+
+#### Communication
+
+To facilitate better communication between the users, users can leave comments under the lost/found pet posts so they can provide helpful information if available.
+
+#### Pet Care Resources
+
+Users are able to find information about pet care on the platform. This information includes articles, tips, and links to other websites.
+
+#### Potential Match and Notification (Nice to have): 
+
+The application runs a matching algorithm to connect lost pets with found pet based on similar characteristics, such as breed, colour, or lost/found location. Users will receive in-app and email notifications when a potential match is found.
+
+____
+### Target Audience
+
+The target audience for PawsReunite is pet owners, people who have found lost pets, and animal shelters or rescue organizations. Pet owners are the primary users of this application, as they are the ones who are most likely to be looking for lost pets. People who have found lost pets are also potential users, as they may be looking for a way to reunite the pet with its owner. Animal shelters and rescue organizations can also use this app to help find homes for lost pets.
+
+____
+### Tech Stack
+
+#### Frontend
+
+- HTML5
+- CSS with [Tailwind](https://tailwindcss.com/)
+- JavaScript
+- [ReactJS](https://react.dev/)
+
+#### Backend
+
+- [NodeJS](https://nodejs.org/en)
+- [ExpressJS](https://expressjs.com/)
+
+#### Database
+
+- [MongoDB](https://www.mongodb.com/)
+- [Mongoose](https://mongoosejs.com/docs/)
+
+#### Deployment
+
+- Frontend: [Netlify](https://www.netlify.com/)
+- Backend: [Heroku](https://www.heroku.com/home)
+
+#### DevOps
+
+- [Visual Studio Code](https://code.visualstudio.com/)
+- [Git](https://git-scm.com/)
+- [Github](https://github.com/)
+- [Notion](https://www.notion.so/product)
+- [Discord](https://discord.com/)
+
+#### Testing
+
+- [Jest](https://jestjs.io/)
+- [Supertest](https://github.com/ladjs/supertest)
+
+#### Other tools
+
+- [Figma](https://www.figma.com/)
+- [Adobe InDesign](https://www.adobe.com/au/products/indesign.html)
+- [Miro](https://miro.com/app/dashboard/)
+- [Adobe PhotoShop](https://www.adobe.com/au/products/photoshop.html)
+
+## Dataflow Diagram
+
+### User
+
+![Dataflow diagram - User Management](./docs/DFD-user%20management.png)
+
+### Lost/Found Pet Posts 
+
+![Dataflow diagram - Lost/Found Pet Post Management](./docs/DFD-pet%20post%20management.png)
+
+### Comments
+
+![Dataflow diagram - Comment Management](./docs/DFD-comment%20management.png)
+
+### Notifications
+
+![Dataflow diagram - User Notifications](./docs/DFD-notification%20management.png)
+
+
+## Application Architecture Diagram
+
+![Application Architecture Diagram](./docs/Application%20Architecture%20disgram.png)
+
+### Client Side
+
+Our web application is built with compatibility in mind, ensuring it can be accessed by a wide range of modern browsers. Whether you prefer Chrome, Firefox, Safari, Edge, or any other popular browser, you can rest assured that our application is designed to work smoothly and efficiently on each of them. 
+___
+### Frontend User Interface Layer
+Frontend Components: This layer includes the user interface components that users interact with, such as web pages, forms, search interfaces.
+
+____
+### Backend Application Layer
+1. Web Server: The web server handles incoming requests from clients and routes them to the appropriate backend components.
+
+2. Application Logic: This layer contains the core logic of the application, including handling lost and found pet postings, search functionality, and interactions with the database.
+
+3. API Gateway: Acts as a single entry point for clients to access backend services and manages API requests and responses.
+
+___
+### Services and Integration Layer
+
+1. Database: Stores and manages data related to lost and found pet postings, user profiles, and other relevant information. The database is a NoSQL database MongoDB.
+
+2. Email Service: Integrates with an email delivery service (e.g., SendGrid, AWS SES) to send email notifications to users, such as when a lost pet is found or when there are matching search results. (Nice to have)
+
+3. SMS Service: If you want to provide SMS notifications, you can integrate with an SMS gateway service (e.g., Twilio, Nexmo) to send text messages to users. (Nice to have)
+
+4. Image Storage: External cloud storage service (e.g., Amazon S3, Google Cloud Storage) to store and retrieve pet images uploaded by users.
+
+5. External APIs: User authentication or mapping services for additional geolocation features. (Maybe)
+
+
+## User Stories
+
+### Personas
+Three personas have been identified at the early stage of the project planning:
+
+- A pet owner who lost their pet and needs a free and easy-to-use web application that allows them to post the lost pet's information and photos so that other users can help them find the pet.
+- A person who has found a lost pet in the neighbourhood wants to post the pet's information and photos online so the owner can be reunited with their pet.
+- An administrator who wants the authorisation to monitor user activities, and manage the registered users and posts.
+
+___
+### Initial User Stories
+
+1. As a pet owner, I want to register an account, so that I can report my lost pet.
+2. As a pet owner/finder, I want to report a lost/found pet by providing detailed information such as pet characteristics, last seen location, and photos, so that others can help in the search and identification process.
+3. As a pet owner/finder, I want to search for lost pets based on specific characteristics such as species, breed, and colour, so that I can identify potential match with my lost/found pet.
+4. As a pet owner, I want to update the status of my post regarding lost pet, so that others know that the search can be closed.
+5. As a pet owner, I want to access pet care resources, so that I can educate myself and provide care for my pet.
+6. As a pet owner/finder, I want to manage my user profile, so that my contact information is up to date.
+7. (*Nice to have*) As a pet owner, I want to receive notifications when a potential match is found between my lost pet and a found pet, so that I can be informed about potential reunions with my pet.
+8. As a pet finder, I want to leave comments on the posts, so that I can provide additional information or updates.
+9. As a admin user, I want to have the ability to remove inappropriate or irrelevant posts or users from the platform, so that I can help maintain a positive and safe environment for users.
+
+___
+### Improvements
+
+After researching the functionalities of similar products on the market, and during the development of wireframes, we found that some of the original user stories were not clearly expressed or logically sound. So some improvements have been made.
+
+#### 1. Improved the feature for users to update the post
+
+Before:
+
+> As a pet owner, I want to update the status of my post regarding lost pet, so that others know that the search can be closed.
+
+After:
+
+> 1. As a pet owner, I want to edit my post regarding lost pet, so that I can update any missing information of my pet.
+> 2. As a pet owner/finder, I want to delete my post regarding lost/found pet, so that my contact information won't be disclosed to unrelated users.
+
+#### 2. Added clearer description of the notification type
+
+Before:
+
+> As a pet owner, I want to receive notifications when a potential match is found between my lost pet and a found pet, so that I can be informed about potential reunions with my pet.
+
+After:
+
+> As a pet owner, I want to receive ***email and in-app*** notifications when a potential match is found between my lost pet report and a found pet, so that I can be informed about potential reunions with my pet.
+
+#### 3. Split the administrator feature into two
+
+Before:
+
+> As an admin user, I want to have the ability to remove inappropriate or irrelevant posts or users from the platform, so that I can help maintain a positive and safe environment for users.
+
+After:
+
+> 1. As an administrator, I want to have the authorisation to remove inappropriate or irrelevant content, such as spam or offensive posts, from the platform, so that I can help maintain a positive and safe environment for users.
+> 2. As an administrator, I want to have the authorisation to remove a registered user from the database if being requested by the user, so that I can fulfill the customer's request.
+
+#### 4. Added another user story to achieve a better customer experience.
+
+>As a pet owner/finder, I want to be able to find the contact information of the application development team, so that I can provide suggestions about the application.
+
+___
+### User Stories After Improvements
+
+1. As a pet owner, I want to register an account, so that I can report my lost pet.
+2. As a pet owner/finder, I want to report a lost/found pet by providing detailed information such as pet characteristics, last seen location, and photos, so that others can help in the search and identification process.
+3. As a pet owner/finder, I want to search for lost pets based on specific characteristics such as species, breed, and colour, so that I can identify potential match with my lost/found pet.
+4. As a pet owner, I want to edit my post regarding lost pet, so that I can update any missing information of my pet.
+5. As a pet owner/finder, I want to delete my post regarding lost/found pet, so that my contact information won't be disclosed to unrelated users.
+6. As a pet owner, I want to access pet care resources, so that I can educate myself and provide better care for my pet.
+7. As a pet owner/user, I want to manage my user profile, so that my contact information is up to date.
+8. (*Nice to have*) As a pet owner, I want to receive email and in-app notifications when a potential match is found between my lost pet report and a found pet, so that I can be informed about potential reunions with my pet.
+9. As a pet finder, I want to leave comments on the posts so that I can provide additional information or updates.
+10. As a pet owner/finder, I want to be able to find the contact information of the application development team, so that I can provide suggestions about the application.
+11. As an administrator, I want to have the authorisation to remove inappropriate or irrelevant content, such as spam or offensive posts, from the platform, so that I can help maintain a positive and safe environment for users.
+12. As an administrator, I want to have the authorisation to remove a registered user from the database if being requested by the user, so that I can fulfill the customer's request.
+
+## Wireframes
+
+![wireframe](./docs/PawsReunite.png)
+Mobile, tablet and desktop version
+
+### Mobile Version
+![mobile wireframe](./docs/PawsReunite2.png)
+mobile pages and features overview
+
+![mobile wireframe](./docs/PawsReunite3.png)
+![mobile wireframe](./docs/PawsReunite4.png)
+![mobile wireframe](./docs/PawsReunite5.png)
+![mobile wireframe](./docs/PawsReunite6.png)
+![mobile wireframe](./docs/PawsReunite7.png)
+![mobile wireframe](./docs/PawsReunite8.png)
+![mobile wireframe](./docs/PawsReunite9.png)
+
+### Table Version
+![Tablet wireframe](./docs/PawsReunite10.png)
+tablet pages and features overview
+
+![Tablet wireframe](./docs/PawsReunite11.png)
+![Tablet wireframe](./docs/PawsReunite12.png)
+![Tablet wireframe](./docs/PawsReunite13.png)
+![Tablet wireframe](./docs/PawsReunite14.png)
+![Tablet wireframe](./docs/PawsReunite15.png)
+![Tablet wireframe](./docs/PawsReunite16.png)
+
+### Desktop Version
+![Desktop wireframe](./docs/PawsReunite17.png)
+desktop pages and features overview
+
+![Desktop wireframe](./docs/PawsReunite18.png)
+![Desktop wireframe](./docs/PawsReunite19.png)
+![Desktop wireframe](./docs/PawsReunite20.png)
+![Desktop wireframe](./docs/PawsReunite21.png)
+![Desktop wireframe](./docs/PawsReunite22.png)
+![Desktop wireframe](./docs/PawsReunite23.png)
+
+## Project Management
+
+The project implements the Agile methodology for software development, which is known for its iterative and collaborative approach. The project management process consists of five essential components: Board, Epics, User Stories, Tasks, and Sprints. Below is a brief introduction to each component, with further details available in the provided reference: [PawsReunite - Project Management](https://probable-attack-887.notion.site/PawsReunite-4c79a39941db4457a8a2876427bdbd5b)
+
+### Board
+
+Board is the visualisation of on-going user stories and tasks in current sprint. It provides an easily accessible overview of the project's status and progress. By glancing at the board, team members can quickly grasp the ongoing activities and gain an understanding of the overall project progress.
+
+![board](docs/Boards.png)
+
+### Sprints
+
+In this project, each sprint lasts for one week. At the start of every sprint, a sprint planning session takes place. During this session, the team members assesses the work to be undertaken in the upcoming sprint and allocates specific tasks and work items to individual team members. This ensures that the team starts each sprint with a clear and well-defined plan, promoting efficiency and productivity throughout the development process.
+
+![sprints](./docs/sprints.png)
+
+### Epics
+
+An epic is a large body of work that fit a single theme and can be broken down into a number of smaller user stories. 6 epics have been developed in this project. 
+
+![epics](./docs/epics.png)
+
+### User Stories
+
+Based on the previously mentioned user stories section, the project has developed and documented a total of 12 user stories. These user stories have been categorized into different epics, as defined earlier. In the following development, the priority of each user story will be determined and allocated accordingly. During the sprint planning session, the user stories will be assigned to respective team members.
+
+![user stories](./docs/user%20stories.png)
+
+### Tasks
+
+In each sprint, every team member is assigned a set of tasks to work on. Once a task is completed, the assignee updates its status and records the hours spent on the task. This enables effective tracking of each team member's time utilization and availability.
+
+In the following development, after the developer gets the assigned user stories, they can create various tasks under the user stories. These tasks can include analysis, development, testing, and code review tasks. By breaking down user stories into specific tasks, the development process becomes more manageable and allows for better collaboration among team members.
+
+![tasks](docs/tasks.png)
+
+![tasks - detail](docs/tasks%20-%20detail.png)
+
+# Part B
+
+## All libraries used in this app
 
 ### Dependencies
 
@@ -48,9 +370,9 @@ Dev Dependencies:
 
 3. `tailwindcss`: A popular utility-first CSS framework that allows you to quickly build custom designs by composing utility classes. It provides a set of pre-defined CSS classes for common styles.
 
-# Code Flow Control
+## Code Flow Control
 
-## 1. Conditional Rendering: Use conditional statements to render different components or content based on certain conditions. For example:
+### 1. Conditional Rendering: Use conditional statements to render different components or content based on certain conditions. For example:
 
 ```javascript
   <div className="description text-left mb-3">
@@ -100,7 +422,7 @@ const isUserPost = post && post.userId === userAuth.userId;
 
 You can tell from above code, Edit and Delete button only render when the post is created by same user.
 
-## 2. Props and State: Use props and state to pass data between parent and child components, allowing you to control the flow of data and actions. For example:
+### 2. Props and State: Use props and state to pass data between parent and child components, allowing you to control the flow of data and actions. For example:
 
 ```javascript
 <div className="posts-container grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3">
@@ -185,7 +507,7 @@ function Post(props) {
 
 Fetching the postData from home page and passing through props to POST component to render the post information.
 
-## 3. Event Handling: Use event handlers to handle user interactions and update state accordingly. For example:
+### 3. Event Handling: Use event handlers to handle user interactions and update state accordingly. For example:
 
 ```javascript
 // function to toggle password visibility
@@ -218,7 +540,7 @@ const handleClickShowPassword = () => {
 
 From the above code, password visibility only changed when user click the icon.
 
-## 4. React Router: Use React Router to control the flow of navigation in app, managing different routes and rendering components accordingly. For example:
+### 4. React Router: Use React Router to control the flow of navigation in app, managing different routes and rendering components accordingly. For example:
 
 ```javascript
 import "./App.css";
@@ -267,7 +589,7 @@ export default App;
 
 Welcome, signin and signup are out of RequireAuth Route, the rest of pages need authentication to render.
 
-## 5. Context: Use Context to create a global state that can be accessed by all components in the application, avoiding prop drilling. It's useful for managing app-wide data that needs to be shared across multiple components. For example:
+### 5. Context: Use Context to create a global state that can be accessed by all components in the application, avoiding prop drilling. It's useful for managing app-wide data that needs to be shared across multiple components. For example:
 
 ```javascript
 import { createContext, useContext, useEffect, useReducer } from "react";
@@ -342,9 +664,9 @@ const userPostDispatch = useUserPostDispatch();
 
 Create userPost context, call this context when user want to access their post data or manipulate the data (create, update, delete, filter ...)
 
-# Apply Object oriented principles/patterns and break pages into small components for maintainability.
+## Apply Object oriented principles/patterns and break pages into small components for maintainability
 
-## 1. Create Post component to render every single post in this app, make it more maintainable whether styling or Post data access
+### 1. Create Post component to render every single post in this app, make it more maintainable whether styling or Post data access
 
 ```javascript
 import React, { useEffect, useState } from "react";
@@ -467,7 +789,7 @@ function Post(props) {
 export default Post;
 ```
 
-## 2. This delete confirm dialog component will be used everytime user want to delete something like user personal post or comments.
+### 2. This delete confirm dialog component will be used everytime user want to delete something like user personal post or comments.
 
 ```javascript
 import React from "react";
@@ -503,7 +825,7 @@ function DeleteConfirmDialog({ open, onClose, onConfirm }) {
 export default DeleteConfirmDialog;
 ```
 
-## 3. This FilterSelect component is used for filtering posts based on different kind of fields, it could be species, breed, color or suburb.
+### 3. This FilterSelect component is used for filtering posts based on different kind of fields, it could be species, breed, color or suburb.
 
 ```javascript
 import React from "react";
@@ -529,7 +851,7 @@ const FilterSelect = ({ label, value, options, onChange }) => {
 export default FilterSelect;
 ```
 
-## 4. This carousel component is used to display a set of images in a carousel format
+### 4. This carousel component is used to display a set of images in a carousel format
 
 ```javascript
 import React, { useState } from "react";
@@ -609,7 +931,7 @@ function Carousel(props) {
 export default Carousel;
 ```
 
-## 5. Skeleton component during loading or fetching data
+### 5. Skeleton component during loading or fetching data
 
 ```javascript
 import { Skeleton } from "@mui/material";
@@ -656,9 +978,9 @@ function PostSkeleton({ num }) {
 export default PostSkeleton;
 ```
 
-# Functions uses to improve code serviceability and maintenance
+## Functions uses to improve code serviceability and maintenance
 
-## 1. Use ValidateUserAuth and RequireAuth to validate the accessiable route
+### 1. Use ValidateUserAuth and RequireAuth to validate the accessiable route
 
 ```javascript
 import { useLocalStorage } from "react-use";
@@ -719,7 +1041,7 @@ const RequireAuth = () => {
 export { ValidateUserAuth, RequireAuth };
 ```
 
-## 2. validate input field based on functions and API calls
+### 2. validate input field based on functions and API calls
 
 ```javascript
 // make an api call to get the suburb options based on the postcode or suburb name entered
@@ -740,7 +1062,7 @@ const validatePhoneNumber = (contactInfoValue) => {
 };
 ```
 
-## 3. Using the compare function every time user create an post
+### 3. Using the compare function every time user create an post
 
 ```javascript
 // create notification when post is created and compare with other posts in database to see if there is a match
@@ -778,7 +1100,7 @@ const handleComaprePost = async (post) => {
 };
 ```
 
-# Employ and utilise proper source control methodology
+## Employ and utilise proper source control methodology
 
 In this project, we prioritize a balanced learning experience for all team members, encompassing both frontend and backend development. To achieve this, we assign tasks based on components rather than segregating tasks solely by frontend or backend responsibilities. This approach ensures that each team member gains exposure to different aspects of the project, fostering a holistic understanding of the system.
 
@@ -788,10 +1110,94 @@ To mitigate these challenges, we have implemented a robust source control method
 
 As you can see those screenshot from Github repository we got 11 branches and 142 commits for the frontend
 
-![Frontend-branch](./src/pics/frontend-branch.png)
-![Frontend-commit](./src/pics/frontend-commit.png)
+![Frontend-branch](./docs/frontend-branch.png)
+![Frontend-commit](./docs/frontend-commit.png)
 
 and 13 branches and 93 commits for the backend
 
-![Frontend-branch](./src/pics/backend-branch.png)
-![Frontend-commit](./src/pics/backend-commit.png)
+![Frontend-branch](./docs/backend-branch.png)
+![Frontend-commit](./docs/backend-commit.png)
+
+## Backend Test
+
+### Code Test
+
+The code testing for our backend was done with the implementation of jest and supertest. Different routes have been tested to make sure the backend functionalities met initial expectations. For codes please refer to the `src/testing`` folder.
+
+### Manual Test
+
+The testing for backend is conducted using Postman. You can find a portion of the testing details here, while the complete PDF file with all the testing information is available in the "docs" folder for your reference.
+
+#### 1. Development Testing
+
+![Backend testing](./docs/BACKEND_dev_test_Page_01.jpg)
+![Backend testing](./docs/BACKEND_dev_test_Page_02.jpg)
+![Backend testing](./docs/BACKEND_dev_test_Page_03.jpg)
+![Backend testing](./docs/BACKEND_dev_test_Page_04.jpg)
+![Backend testing](./docs/BACKEND_dev_test_Page_05.jpg)
+
+\*\* the complete PDF file with all the testing information is available in the "docs" folder for your reference.
+
+#### 2. Production Testing
+
+![Backend testing](./docs/BACKEND_prod_test_Page_1.jpg)
+![Backend testing](./docs/BACKEND_prod_test_Page_2.jpg)
+![Backend testing](./docs/BACKEND_prod_test_Page_3.jpg)
+![Backend testing](./docs/BACKEND_prod_test_Page_4.jpg)
+![Backend testing](./docs/BACKEND_prod_test_Page_5.jpg)
+
+\*\* the complete PDF file with all the testing information is available in the "docs" folder for your reference.
+
+## Frontend Test
+
+### Code Test
+
+The code test for the frontend utilised multiple tools provided by the React Testing Library. Functions such as `render`, `userEvent`, and `spyOn` allow us to mock the response from the server and test the functionality of the frontend properly. For detailed codes please refer to the `src/tests` folder.
+
+### Manual Test
+The manual testing for frontend is using excel sheet to list and check each component and their functionality. You can find a portion of the testing details here, while the complete PDF file or Excel sheet with all the testing information is available in the "docs" folder for your reference.
+
+#### 1. Development Testing
+
+![React testing](./docs/React_dev_testing_Page_1.jpg)
+![React testing](./docs/React_dev_testing_Page_2.jpg)
+![React testing](./docs/React_dev_testing_Page_3.jpg)
+![React testing](./docs/React_dev_testing_Page_4.jpg)
+![React testing](./docs/React_dev_testing_Page_5.jpg)
+![React testing](./docs/React_dev_testing_Page_6.jpg)
+
+#### 2. Production Testing
+
+![React testing](./docs/React_prod_testing_Page_1.jpg)
+![React testing](./docs/React_prod_testing_Page_2.jpg)
+![React testing](./docs/React_prod_testing_Page_3.jpg)
+![React testing](./docs/React_prod_testing_Page_4.jpg)
+![React testing](./docs/React_prod_testing_Page_5.jpg)
+![React testing](./docs/React_prod_testing_Page_6.jpg)
+
+## Employ and utilise project management methodology
+
+This project follows agile methodologies to ensure efficient and collaborative development. With a team of only two members, we believe in distributing tasks evenly to foster a well-rounded experience for each team member. By rotating responsibilities between frontend and backend tasks, we aim to empower all team members with a fair amount of experience in both areas.
+
+Embracing agile principles, we emphasize frequent communication (Zoom meeting), iterative development, and rapid feedback loops (Review others work on Github and give feedback). This allows us to adapt to changing requirements, prioritize features effectively, and deliver incremental improvements continuously. By working in short sprints, we can maintain a steady pace while delivering valuable increments of the project.
+
+The agile approach enables us to remain flexible and respond promptly to challenges, fostering a productive and dynamic work environment. Regular formal or informal meetings help us to synchronize efforts, identify areas for improvement, and celebrate achievements.
+
+Through the integration of agile methodologies, we strive to maximize the project's success, create a collaborative team atmosphere, and ensure that all team members gain valuable experience across both frontend and backend development domains. This not only enhances the project's overall quality but also contributes to the professional growth and satisfaction of each team member.
+
+### Employ and utilise task delegation methodology
+
+The project implements the Agile methodology for software development, which is known for its iterative and collaborative approach. The project management process consists of five essential components: Board, Epics, User Stories, Tasks, and Sprints. Below is a brief introduction to each component, with further details available in the provided reference: [PawsReunite - Project Management](https://probable-attack-887.notion.site/PawsReunite-4c79a39941db4457a8a2876427bdbd5b)
+
+![Notion task](./docs/notion_tasks_Page_1.jpg)
+![Notion task](./docs/notion_tasks_Page_2.jpg)
+![Notion task](./docs/notion_tasks_Page_3.jpg)
+
+
+### Tasks
+
+In this project, we employ a task delegation methodology utilizing Notion, a powerful collaboration tool. We place significant emphasis on effective task delegation, as evidenced by our well-structured sprint planning sessions and clear Git commits. By leveraging Notion's features, we streamline task allocation, ensuring each team member receives assignments that align with their strengths and expertise.
+
+Throughout the project, we demonstrate a keen understanding of our team members' capabilities and the project's specific requirements. For instance, Jie, with his exceptional skills in UI and UX design, takes on responsibilities related to interface development, creating visually appealing and user-friendly elements. On the other hand, Ji's proficiency in logical thinking and expertise in testing and complex data flow allows him to handle intricate aspects of the project with precision.
+
+This thoughtful distribution of tasks not only optimizes the utilization of our team's talents but also ensures that each member is actively engaged and motivated. As a result, we consistently produce high-quality work that reflects a comprehensive consideration of both our strengths and the overall conditions of the project. The task delegation methodology, combined with our collaborative efforts and skillful use of Notion, plays a pivotal role in achieving successful project outcomes and fostering a cohesive and productive team environment.
