@@ -853,3 +853,20 @@ The agile approach enables us to remain flexible and respond promptly to challen
 Through the integration of agile methodologies, we strive to maximize the project's success, create a collaborative team atmosphere, and ensure that all team members gain valuable experience across both frontend and backend development domains. This not only enhances the project's overall quality but also contributes to the professional growth and satisfaction of each team member.
 
 # Employ and utilise task delegation methodology
+
+The project implements the Agile methodology for software development, which is known for its iterative and collaborative approach. The project management process consists of five essential components: Board, Epics, User Stories, Tasks, and Sprints. Below is a brief introduction to each component, with further details available in the provided reference: [PawsReunite - Project Management](https://probable-attack-887.notion.site/PawsReunite-4c79a39941db4457a8a2876427bdbd5b)
+
+![Notion task](./docs/notion_tasks_Page_1.jpg)
+![Notion task](./docs/notion_tasks_Page_2.jpg)
+![Notion task](./docs/notion_tasks_Page_3.jpg)
+
+
+### Tasks
+
+In this project, we employ a task delegation methodology utilizing Notion, a powerful collaboration tool. We place significant emphasis on effective task delegation, as evidenced by our well-structured sprint planning sessions and clear Git commits. By leveraging Notion's features, we streamline task allocation, ensuring each team member receives assignments that align with their strengths and expertise.
+
+Throughout the project, we demonstrate a keen understanding of our team members' capabilities and the project's specific requirements. For instance, Jie, with his exceptional skills in UI and UX design, takes on responsibilities related to interface development, creating visually appealing and user-friendly elements. On the other hand, Ji's proficiency in logical thinking and expertise in testing and complex data flow allows him to handle intricate aspects of the project with precision.
+
+This thoughtful distribution of tasks not only optimizes the utilization of our team's talents but also ensures that each member is actively engaged and motivated. As a result, we consistently produce high-quality work that reflects a comprehensive consideration of both our strengths and the overall conditions of the project. The task delegation methodology, combined with our collaborative efforts and skillful use of Notion, plays a pivotal role in achieving successful project outcomes and fostering a cohesive and productive team environment.
+
+
